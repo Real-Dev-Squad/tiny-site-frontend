@@ -9,8 +9,8 @@
         "start": "next start",
         "format:check": "prettier --check .",
         "format:fix": "prettier --write .",
-        "lint:check": "eslint . --ext js,jsx,ts,tsx",
-        "lint:fix": "eslint . --fix --ext js,jsx,ts,tsx",
+        "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx, src/",
+        "lint:fix": "eslint . --fix --ext js,jsx,ts,tsx, src/",
         "prepare": "husky install"
     },
     "dependencies": {
@@ -30,6 +30,8 @@
         "@typescript-eslint/eslint-plugin": "^6.6.0",
         "@typescript-eslint/parser": "^6.0.0",
         "eslint": "^8.48.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.0",
         "husky": "^8.0.3",
         "prettier": "^3.0.3"
     },
