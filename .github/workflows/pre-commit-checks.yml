@@ -5,7 +5,7 @@ on:
         branches: ['*']
 
 jobs:
-    check:
+    Lint_Check:
         runs-on: ubuntu-latest
 
         steps:
