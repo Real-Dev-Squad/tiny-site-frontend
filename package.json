@@ -12,6 +12,7 @@
         "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx, src/",
         "lint:fix": "eslint . --fix --ext js,jsx,ts,tsx, src/",
         "check:all": "yarn format:check && yarn lint:check",
+        "fix:all": "yarn format:fix && yarn lint:fix",
         "prepare": "husky install"
     },
     "dependencies": {
