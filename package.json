@@ -11,6 +11,7 @@
         "format:fix": "prettier --write .",
         "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx, src/",
         "lint:fix": "eslint . --fix --ext js,jsx,ts,tsx, src/",
+        "check:all": "yarn format:check && yarn lint:check",
         "prepare": "husky install"
     },
     "dependencies": {
