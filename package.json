@@ -1,0 +1,44 @@
+{
+    "name": "tiny-site",
+    "version": "1.0.0",
+    "description": "This is a tiny site built with Next.js and Tailwind CSS",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "format:check": "prettier --check .",
+        "format:fix": "prettier --write .",
+        "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx, src/",
+        "lint:fix": "eslint . --fix --ext js,jsx,ts,tsx, src/",
+        "check:all": "yarn format:check && yarn lint:check",
+        "fix:all": "yarn format:fix && yarn lint:fix",
+        "prepare": "husky install"
+    },
+    "dependencies": {
+        "autoprefixer": "10.4.15",
+        "next": "13.4.19",
+        "postcss": "8.4.29",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "tailwindcss": "3.3.3",
+        "typescript": "5.2.2"
+    },
+    "devDependencies": {
+        "@types/eslint": "^8",
+        "@types/node": "20.5.9",
+        "@types/react": "18.2.21",
+        "@types/react-dom": "18.2.7",
+        "@typescript-eslint/eslint-plugin": "^6.6.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "eslint": "^8.48.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "husky": "^8.0.3",
+        "prettier": "^3.0.3"
+    },
+    "volta": {
+        "node": "18.14.0",
+        "yarn": "1.21.1"
+    }
+}

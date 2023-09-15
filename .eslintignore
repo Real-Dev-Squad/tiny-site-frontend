@@ -1,0 +1,7 @@
+.yarn
+node_modules
+.next
+dist
+next-env.d.ts
+yarn.lock
+README.md
