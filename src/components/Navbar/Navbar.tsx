@@ -2,17 +2,28 @@ import React from 'react';
 
 const Navbar: React.FC = () => {
     return (
-        <nav className="bg-gray-800">
-            <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-                <div className="relative flex items-center justify-between h-16">
-                    <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                        <div className="flex-shrink-0 flex items-center">
-                            <a href="#" className="text-white text-2xl font-bold">
-                                URL Shortener
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <nav className="bg-gray-800 p-4 h-[8vh]">
+            <div className="flex items-center  justify-between">
+                <a href="#" className="text-white text-2xl font-bold">
+                    URL Shortener
+                </a>
+                <ul className="flex space-x-4">
+                    <li>
+                        <a href="#" className="text-white">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="text-white">
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="text-white">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
             </div>
         </nav>
     );
