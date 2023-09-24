@@ -8,8 +8,13 @@ import AddIcon from './../../public/assets/icons/add';
 import ReloadIcon from './../../public/assets/icons/reload';
 
 export default function Home() {
-    const [url, setUrl] = React.useState('');
+    const [url, getUrl] = React.useState('');
+    const [shortUrl, setUrl] = React.useState('');
 
+    function generateRandomString() {
+        const randomString = Math.random().toString(36).substring(2, 7);
+        return randomString;
+    }
     return (
         <div>
             <Navbar />
@@ -21,14 +26,16 @@ export default function Home() {
                             type="text"
                             placeholder="Enter the URL"
                             className="w-[80%] bg-gray-200 rounded-l-2xl p-4"
+                            value={url}
                             onChange={(e) => {
-                                setUrl(e.target.value);
+                                getUrl(e.target.value);
                             }}
                         />
                         <button
                             className="bg-gray-200 rounded-r-2xl px-8 py-4 hover:bg-gray-300"
                             onClick={() => {
-                                console.log('Button clicked');
+                                const randomString = generateRandomString();
+                                setUrl(`https://rds.li/${randomString}`);
                             }}
                         >
                             Generate
@@ -39,15 +46,15 @@ export default function Home() {
                             type="text"
                             placeholder="Copy the URL"
                             className="bg-gray-200 rounded-l-2xl p-4 w-[77%]"
-                            onChange={(e) => {
-                                setUrl(e.target.value);
-                            }}
+                            disabled
+                            value={shortUrl}
                         />
                         <div className="flex flex-row justify-center items-center space-x-1">
                             <button
                                 className="bg-gray-200 p-3 hover:bg-gray-300"
                                 onClick={() => {
-                                    console.log('Button clicked');
+                                    const randomString = generateRandomString();
+                                    setUrl(`https://rds.li/${randomString}`);
                                 }}
                             >
                                 <ReloadIcon />
@@ -55,7 +62,7 @@ export default function Home() {
                             <button
                                 className="bg-gray-200 p-3 hover:bg-gray-300"
                                 onClick={() => {
-                                    console.log('Button clicked');
+                                    setUrl('');
                                 }}
                             >
                                 <AddIcon />
@@ -63,7 +70,7 @@ export default function Home() {
                             <button
                                 className="bg-gray-200 rounded-r-2xl p-3 hover:bg-gray-300"
                                 onClick={() => {
-                                    console.log('Button clicked');
+                                    navigator.clipboard.writeText(shortUrl);
                                 }}
                             >
                                 <CopyIcon />
