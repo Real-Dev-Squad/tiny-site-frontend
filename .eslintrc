@@ -17,6 +17,7 @@
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
         "react/react-in-jsx-scope": "off",
-        "no-mixed-spaces-and-tabs": "off"
+        "no-mixed-spaces-and-tabs": "off",
+        "@typescript-eslint/no-var-requires": 0
     }
 }
