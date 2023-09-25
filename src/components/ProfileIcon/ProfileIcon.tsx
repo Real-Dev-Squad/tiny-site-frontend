@@ -1,4 +1,3 @@
-// components/ProfileIcon.tsx
 import React from 'react';
 
 interface ProfileIconProps {
