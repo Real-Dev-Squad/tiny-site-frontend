@@ -33,3 +33,6 @@ jobs:
 
             - name: Prettier check
               run: yarn format:check
+
+            - name: Test check
+              run: yarn test -u
