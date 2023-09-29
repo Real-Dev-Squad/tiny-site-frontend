@@ -4,7 +4,7 @@ const LoginPage = () => {
     const [isValid, setIsValid] = useState(null);
     const handleChange = (event) => {
         const inputValue = event.target.value;
-        const regex = /^[a-zA-Z0-9_]+$/; // Alphanumeric characters and underscores
+        const regex = /^[a-zA-Z0-9_]+$/;
 
         if (regex.test(inputValue)) {
             setIsValid(true);

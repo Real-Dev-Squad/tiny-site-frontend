@@ -32,7 +32,6 @@ describe('LoginPage', () => {
         fireEvent.change(input, { target: { value: 'valid_username' } });
         expect(input).toHaveStyle('border-color: `#65a30d');
 
-        // Invalid input
         fireEvent.change(input, { target: { value: 'invalid-username' } });
         expect(input).toHaveStyle('border-color: `#ef4444`');
     });
