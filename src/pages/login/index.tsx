@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, SetStateAction, useState } from 'react';
+import InputBox from '@/components/InputBox';
 
 const LoginPage = () => {
-    const [isValid, setIsValid] = useState(null);
-    const handleChange = (event) => {
-        const inputValue = event.target.value;
-        const regex = /^[a-zA-Z0-9_]+$/;
+    const [usernameBorder, setUsernameBorder] = useState<SetStateAction<string>>('');
 
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const inputValue = (event.target as HTMLInputElement).value;
+        const regex = /^[a-zA-Z0-9_]+$/;
         if (regex.test(inputValue)) {
-            setIsValid(true);
+            setUsernameBorder(' border-2 border-green-500');
         } else {
-            setIsValid(false);
+            setUsernameBorder(' border-2 border-red-500');
         }
     };
     return (
@@ -21,36 +22,20 @@ const LoginPage = () => {
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-4">
                     <form className="space-y-4 md:space-y-6" action="#">
                         <div>
-                            <label
-                                htmlFor="username"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Username
-                            </label>
-                            <input
+                            <InputBox
                                 type="text"
-                                name="username"
-                                id="username"
+                                name="Username"
                                 onChange={handleChange}
-                                className={`bg-gray-50  text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
-                                    isValid && 'border-2 border-green-500'
-                                }
-                                ${isValid !== null && !isValid && 'border-2 border-red-500'}`}
-                                placeholder="John_doe"
+                                placeholder="John_Doe"
+                                className={`bg-gray-50  text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${usernameBorder}`}
                                 required={true}
                             />
                         </div>
                         <div>
-                            <label
-                                htmlFor="password"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Password
-                            </label>
-                            <input
+                            <InputBox
                                 type="password"
-                                name="password"
-                                id="password"
+                                name="Password"
+                                onChange={(e) => e}
                                 placeholder="••••••••"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required={true}
@@ -64,7 +49,6 @@ const LoginPage = () => {
                                         aria-describedby="remember"
                                         type="checkbox"
                                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                                        required=""
                                     />
                                 </div>
                                 <div className="ml-3 text-sm">

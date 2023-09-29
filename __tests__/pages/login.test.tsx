@@ -22,7 +22,7 @@ describe('LoginPage', () => {
     });
     it('should accept valid username that takes only alphanumeric characters and underscore', () => {
         const { getByLabelText } = render(<LoginPage />);
-        const usernameInput = getByLabelText('Username');
+        const usernameInput = getByLabelText('Username') as HTMLInputElement;
         usernameInput.value = 'John_doe';
         expect(usernameInput.value).toBe('John_doe');
     });
