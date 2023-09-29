@@ -11,6 +11,11 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "globals": {
+        "describe": "readonly",
+        "it": "readonly",
+        "expect": "readonly"
+    },
     "plugins": ["@typescript-eslint", "prettier"],
     "rules": {
         "linebreak-style": ["error", "unix"],
