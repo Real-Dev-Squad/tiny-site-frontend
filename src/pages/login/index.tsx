@@ -1,5 +1,5 @@
-import React, { ChangeEvent, SetStateAction, useState } from 'react';
 import InputBox from '@/components/InputBox';
+import { ChangeEvent, SetStateAction, useState } from 'react';
 
 const LoginPage = () => {
     const [usernameBorder, setUsernameBorder] = useState<SetStateAction<string>>('');
@@ -33,7 +33,7 @@ const LoginPage = () => {
                         </div>
                         <div>
                             <InputBox
-                                type="password"
+                                type={'password'}
                                 name="Password"
                                 onChange={(e) => e}
                                 placeholder="••••••••"

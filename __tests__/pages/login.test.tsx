@@ -2,37 +2,49 @@ import LoginPage from '../../src/pages/login';
 import { render, fireEvent } from '@testing-library/react';
 
 describe('LoginPage', () => {
-    it('should render without throwing an error', function () {
+    it('should render without throwing an error', () => {
         const { container } = render(<LoginPage />);
         expect(container).toMatchSnapshot();
     });
+
     it('should render username input', () => {
         const { getByLabelText } = render(<LoginPage />);
-        expect(getByLabelText('Username')).toBeInTheDocument();
-        expect(getByLabelText('Username')).toHaveAttribute('type', 'text');
+        const usernameInput = getByLabelText('Username') as HTMLInputElement;
+        expect(usernameInput).toBeInTheDocument();
+        expect(usernameInput).toHaveAttribute('type', 'text');
     });
+
     it('should render password input', () => {
         const { getByLabelText } = render(<LoginPage />);
-        expect(getByLabelText('Password')).toBeInTheDocument();
-        expect(getByLabelText('Password')).toHaveAttribute('type', 'password');
+        const passwordInput = getByLabelText('Password') as HTMLInputElement;
+        expect(passwordInput).toBeInTheDocument();
+        expect(passwordInput).toHaveAttribute('type', 'password');
     });
-    it('should render the `Login` button', () => {
+
+    it('should handle "Remember me" checkbox', () => {
+        const { getByLabelText } = render(<LoginPage />);
+        const rememberMeCheckbox = getByLabelText('Remember me') as HTMLInputElement;
+        fireEvent.click(rememberMeCheckbox);
+        expect(rememberMeCheckbox).toBeChecked();
+    });
+
+    it('should render "Forgot password?" link', () => {
         const { getByText } = render(<LoginPage />);
-        expect(getByText('Log in')).toBeInTheDocument();
+        const forgotPasswordLink = getByText('Forgot password?');
+        expect(forgotPasswordLink).toBeInTheDocument();
     });
-    it('should accept valid username that takes only alphanumeric characters and underscore', () => {
+
+    it('should apply border styling for valid username', () => {
         const { getByLabelText } = render(<LoginPage />);
         const usernameInput = getByLabelText('Username') as HTMLInputElement;
-        usernameInput.value = 'John_doe';
-        expect(usernameInput.value).toBe('John_doe');
+        fireEvent.change(usernameInput, { target: { value: 'John_doe' } });
+        expect(usernameInput).toHaveClass('border-green-500');
     });
-    it('should not accept invalid username that doesnt take only alphanumeric characters and underscore', () => {
-        const { getByLabelText } = render(<LoginPage />);
-        const input = getByLabelText('Username');
-        fireEvent.change(input, { target: { value: 'valid_username' } });
-        expect(input).toHaveStyle('border-color: `#65a30d');
 
-        fireEvent.change(input, { target: { value: 'invalid-username' } });
-        expect(input).toHaveStyle('border-color: `#ef4444`');
+    it('should apply border styling for invalid username', () => {
+        const { getByLabelText } = render(<LoginPage />);
+        const usernameInput = getByLabelText('Username') as HTMLInputElement;
+        fireEvent.change(usernameInput, { target: { value: 'invalid-username' } });
+        expect(usernameInput).toHaveClass('border-red-500');
     });
 });
