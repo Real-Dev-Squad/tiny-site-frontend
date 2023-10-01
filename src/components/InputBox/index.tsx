@@ -1,5 +1,5 @@
 import React, { SetStateAction, useState } from 'react';
-import EyeIcon from '../../../public/assets/eye';
+import EyeIcon from '../../../public/assets/icons/eye';
 import EyeCloseIcon from '../../../public/assets/icons/eyeClose';
 
 type Props = {
