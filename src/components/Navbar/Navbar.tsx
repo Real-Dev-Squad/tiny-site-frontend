@@ -18,8 +18,8 @@ const Navbar: React.FC = () => {
                     URL Shortener
                 </a>
 
-                <ul className={'lg:flex space-x-4 '}>
-                    <li className="relative group">
+                <ul className={'lg:x-4 '}>
+                    <li className="relative groflex space-up">
                         <button onClick={toggleDropdown} className="text-white focus:outline-none">
                             <div className="flex items-center space-x-2">
                                 <ProfileIcon firstName={firstName} lastName={lastName} size={50} />

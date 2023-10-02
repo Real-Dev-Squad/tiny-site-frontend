@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CopyIcon from '../../../public/assets/icons/copy';
 import AddIcon from '../../../public/assets/icons/add';
 import ReloadIcon from '../../../public/assets/icons/reload';
+import { Button } from '@/components/Button/index';
 
 const Dashboard = () => {
     const [url, getUrl] = useState('');
@@ -25,7 +26,16 @@ const Dashboard = () => {
                         getUrl(e.target.value);
                     }}
                 />
-                <button
+                {/* <button
+                    className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-4 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
+                    onClick={() => {
+                        const randomString = generateRandomString();
+                        setUrl(`https://rds.li/${randomString}`);
+                    }}
+                >
+                    
+                </button> */}
+                <Button
                     className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-4 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                     onClick={() => {
                         const randomString = generateRandomString();
@@ -33,7 +43,7 @@ const Dashboard = () => {
                     }}
                 >
                     Generate
-                </button>
+                </Button>
             </div>
             <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-1 m-4 w-[98%]">
                 <input
@@ -44,7 +54,7 @@ const Dashboard = () => {
                     value={shortUrl}
                 />
                 <div className="flex flex-row justify-center items-center space-x-1">
-                    <button
+                    {/* <button
                         className="w-full md:w-auto bg-gray-200  px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                         onClick={() => {
                             const randomString = generateRandomString();
@@ -52,8 +62,33 @@ const Dashboard = () => {
                         }}
                     >
                         <ReloadIcon />
-                    </button>
-                    <button
+                    </button> */}
+                    <Button
+                        className="w-full md:w-auto bg-gray-200  px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
+                        onClick={() => {
+                            const randomString = generateRandomString();
+                            setUrl(`https://rds.li/${randomString}`);
+                        }}
+                    >
+                        <ReloadIcon />
+                    </Button>
+                    <Button
+                        className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
+                        onClick={() => {
+                            setUrl('');
+                        }}
+                    >
+                        <AddIcon />
+                    </Button>
+                    <Button
+                        className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
+                        onClick={() => {
+                            navigator.clipboard.writeText(shortUrl);
+                        }}
+                    >
+                        <CopyIcon />
+                    </Button>
+                    {/* <button
                         className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                         onClick={() => {
                             setUrl('');
@@ -67,8 +102,8 @@ const Dashboard = () => {
                             navigator.clipboard.writeText(shortUrl);
                         }}
                     >
-                        <CopyIcon />
-                    </button>
+                        
+                    </button> */}
                 </div>
             </div>
         </div>
