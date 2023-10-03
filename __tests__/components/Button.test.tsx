@@ -14,7 +14,7 @@ describe('Button', () => {
                 children="generate"
             />
         );
-        // expect(container).toMatchSnapshot();
+        expect(container).toMatchSnapshot();
         expect(container).toHaveTextContent('generate');
     });
 
