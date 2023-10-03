@@ -81,12 +81,6 @@ const LoginPage = () => {
                                 Forgot password?
                             </a>
                         </div>
-                        {/* <button
-                            type="submit"
-                            className="w-full bg-gray-200 hover:bg-gray-300 text-dark focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                        >
-                            Log in
-                        </button> */}
                         <Button
                             type="submit"
                             className="w-full bg-gray-200 hover:bg-gray-300 text-dark focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

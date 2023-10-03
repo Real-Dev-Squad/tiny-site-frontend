@@ -17,7 +17,7 @@ describe('Navbar', () => {
         expect(container.querySelector('ul')).toHaveTextContent('Settings');
     });
 
-    it.skip('should toggle menu', () => {
+    it('should toggle menu', () => {
         const { container } = render(<Navbar />);
         const button = container.querySelector('button');
         expect(button).toHaveTextContent('Sunny');

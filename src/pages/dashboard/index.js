@@ -26,15 +26,7 @@ const Dashboard = () => {
                         getUrl(e.target.value);
                     }}
                 />
-                {/* <button
-                    className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-4 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
-                    onClick={() => {
-                        const randomString = generateRandomString();
-                        setUrl(`https://rds.li/${randomString}`);
-                    }}
-                >
-                    
-                </button> */}
+
                 <Button
                     className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-4 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                     onClick={() => {
@@ -54,15 +46,6 @@ const Dashboard = () => {
                     value={shortUrl}
                 />
                 <div className="flex flex-row justify-center items-center space-x-1">
-                    {/* <button
-                        className="w-full md:w-auto bg-gray-200  px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
-                        onClick={() => {
-                            const randomString = generateRandomString();
-                            setUrl(`https://rds.li/${randomString}`);
-                        }}
-                    >
-                        <ReloadIcon />
-                    </button> */}
                     <Button
                         className="w-full md:w-auto bg-gray-200  px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                         onClick={() => {
@@ -88,22 +71,6 @@ const Dashboard = () => {
                     >
                         <CopyIcon />
                     </Button>
-                    {/* <button
-                        className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
-                        onClick={() => {
-                            setUrl('');
-                        }}
-                    >
-                        <AddIcon />
-                    </button>
-                    <button
-                        className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
-                        onClick={() => {
-                            navigator.clipboard.writeText(shortUrl);
-                        }}
-                    >
-                        
-                    </button> */}
                 </div>
             </div>
         </div>
