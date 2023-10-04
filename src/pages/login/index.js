@@ -85,7 +85,7 @@ const LoginPage = () => {
                             type="submit"
                             className="w-full bg-gray-200 hover:bg-gray-300 text-dark focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         >
-                            Log in{' '}
+                            Log in
                         </Button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                             Don’t have an account yet?{' '}

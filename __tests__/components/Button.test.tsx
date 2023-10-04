@@ -4,18 +4,20 @@ import { Button } from '@/components/Button';
 Button;
 
 describe('Button', () => {
-    it('should render', () => {
+    it('should render Button', () => {
         const handleOnClickMock = jest.fn();
-        const { container } = render(
+        const { getByRole } = render(
             <Button
                 type="button"
                 className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                 onClick={handleOnClickMock}
-                children="generate"
-            />
+            >
+                Generate
+            </Button>
         );
-        expect(container).toMatchSnapshot();
-        expect(container).toHaveTextContent('generate');
+        const buttonElement = getByRole('button');
+        expect(buttonElement).toHaveAttribute('type', 'button');
+        expect(buttonElement).toHaveTextContent('Generate');
     });
 
     test('should render button with the type submit', () => {
@@ -25,8 +27,9 @@ describe('Button', () => {
                 type="submit"
                 className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                 onClick={handleOnClickMock}
-                children="Log in"
-            ></Button>
+            >
+                Log in
+            </Button>
         );
 
         const buttonElement = getByRole('button');
