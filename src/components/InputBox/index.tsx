@@ -5,24 +5,39 @@ import EyeCloseIcon from '../../../public/assets/icons/eyeClose';
 type Props = {
     type: string;
     name: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
-    required: boolean;
+    required?: boolean;
     className?: string;
+    disabled?: boolean;
+    value?: string | number | undefined;
+    hideLabel?: boolean;
 };
 
 const InputBox = (props: Props) => {
-    const [showPassword, setshowPassword] = useState<SetStateAction<boolean>>(false);
-    const { type, name, onChange, placeholder, required, className } = props;
-
+    const [showPassword, setShowPassword] = useState<SetStateAction<boolean>>(false);
+    const {
+        type = 'text',
+        name,
+        onChange = (e) => e,
+        placeholder,
+        required = false,
+        className,
+        disabled = false,
+        hideLabel = false,
+        value = '',
+    } = props;
+    const inputType = showPassword ? 'text' : type;
     return (
         <>
             <label htmlFor={name} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                {name}
+                {!hideLabel && name}
             </label>
             <div className="relative container mx-auto">
                 <input
-                    type={type == 'password' ? (showPassword ? 'text' : 'password') : 'text'}
+                    value={value}
+                    disabled={disabled}
+                    type={inputType}
                     name={name}
                     id={name}
                     onChange={onChange}
@@ -30,12 +45,12 @@ const InputBox = (props: Props) => {
                     placeholder={placeholder || ''}
                     required={required}
                 />
-                {name == 'Password' && (
+                {type == 'password' && (
                     <button
                         data-testid="password-toggle"
                         onClick={(e) => {
                             e.preventDefault();
-                            setshowPassword(!showPassword);
+                            setShowPassword(!showPassword);
                         }}
                         className="absolute inset-y-0 right-0 flex items-center justify-items-center h-inherit px-4"
                     >

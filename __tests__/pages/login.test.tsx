@@ -10,13 +10,10 @@ describe('LoginPage', () => {
     it('should render username input', () => {
         const { getByLabelText } = render(<LoginPage />);
         const usernameInput = getByLabelText('Username') as HTMLInputElement;
+        const passwordInput = getByLabelText('Password') as HTMLInputElement;
+
         expect(usernameInput).toBeInTheDocument();
         expect(usernameInput).toHaveAttribute('type', 'text');
-    });
-
-    it('should render password input', () => {
-        const { getByLabelText } = render(<LoginPage />);
-        const passwordInput = getByLabelText('Password') as HTMLInputElement;
         expect(passwordInput).toBeInTheDocument();
         expect(passwordInput).toHaveAttribute('type', 'password');
     });
@@ -34,7 +31,7 @@ describe('LoginPage', () => {
         expect(forgotPasswordLink).toBeInTheDocument();
     });
 
-    it('should apply border styling for valid username', () => {
+    it('should apply border styling for valid usernamep', () => {
         const { getByLabelText } = render(<LoginPage />);
         const usernameInput = getByLabelText('Username') as HTMLInputElement;
         fireEvent.change(usernameInput, { target: { value: 'John_doe' } });

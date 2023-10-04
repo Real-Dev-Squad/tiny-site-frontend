@@ -2,7 +2,7 @@ import InputBox from '@/components/InputBox';
 import { fireEvent, render } from '@testing-library/react';
 
 describe('InputBox', () => {
-    it('should render', () => {
+    it('should render InputBox', () => {
         const { container } = render(
             <InputBox
                 type="text"
