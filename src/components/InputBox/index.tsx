@@ -1,6 +1,7 @@
 import React, { SetStateAction, useState } from 'react';
 import EyeIcon from '../../../public/assets/icons/eye';
 import EyeCloseIcon from '../../../public/assets/icons/eyeClose';
+import { Button } from '../Button';
 
 type Props = {
     type: string;
@@ -50,14 +51,14 @@ const InputBox = (props: Props) => {
                     required={required}
                 />
                 {type === 'password' && (
-                    <button
+                    <Button
                         type="button"
-                        data-testid="password-toggle"
+                        testId="password-toggle"
                         onClick={(e) => handlePasswordToggle(e)}
                         className="absolute inset-y-0 right-0 flex items-center justify-items-center h-inherit px-4"
                     >
-                        {showPassword ? <EyeIcon /> : <EyeCloseIcon />}
-                    </button>
+                        {!showPassword ? <EyeIcon /> : <EyeCloseIcon />}
+                    </Button>
                 )}
             </div>
         </>

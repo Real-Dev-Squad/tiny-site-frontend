@@ -4,6 +4,7 @@ import Layout from '@/components/Layout';
 import AddIcon from '../../../public/assets/icons/add';
 import CopyIcon from '../../../public/assets/icons/copy';
 import ReloadIcon from '../../../public/assets/icons/reload';
+import { Button } from '@/components/Button';
 
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
@@ -35,12 +36,12 @@ const Dashboard = () => {
                                 placeholder="Enter the URL"
                                 name="URL"
                             />
-                            <button
+                            <Button
                                 className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl  px-4 md:px-8 py-4 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                                 onClick={() => handleUniqueUrl()}
                             >
                                 Generate
-                            </button>
+                            </Button>
                         </div>
                         <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-1">
                             <InputBox
@@ -53,14 +54,14 @@ const Dashboard = () => {
                                 placeholder="Copy the URL"
                             />
                             <div className="flex flex-row justify-center items-center space-x-1">
-                                <button
+                                <Button
                                     type="button"
                                     className="w-full h-100 md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                                     onClick={() => handleUniqueUrl()}
                                 >
                                     <ReloadIcon />
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                     type="button"
                                     className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                                     onClick={() => {
@@ -68,8 +69,8 @@ const Dashboard = () => {
                                     }}
                                 >
                                     <AddIcon />
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                     type="button"
                                     className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                                     onClick={() => {
@@ -77,7 +78,7 @@ const Dashboard = () => {
                                     }}
                                 >
                                     <CopyIcon />
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </div>

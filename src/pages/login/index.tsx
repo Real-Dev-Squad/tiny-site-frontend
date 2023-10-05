@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
 import { ChangeEvent, SetStateAction, useState } from 'react';
@@ -12,12 +13,14 @@ const LoginPage = () => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const inputValue = (event.target as HTMLInputElement).value;
         const alphanumicUnderscore = /^[a-zA-Z0-9_]+$/;
-
-        if (alphanumicUnderscore.test(inputValue)) {
-            setUsernameBorder(' border-2 border-green-500');
-        } else {
-            setUsernameBorder(' border-2 border-red-500');
+        if (event.target.name === 'username') {
+            if (alphanumicUnderscore.test(inputValue)) {
+                setUsernameBorder(' border-2 border-green-500');
+            } else {
+                setUsernameBorder(' border-2 border-red-500');
+            }
         }
+
         setCredential({
             ...credential,
             [event.target.name]: inputValue,
@@ -74,12 +77,13 @@ const LoginPage = () => {
                                     Forgot password?
                                 </span>
                             </div>
-                            <button
+                            <Button
+                                onClick={(e) => e.preventDefault()}
                                 type="submit"
                                 className="w-full bg-gray-200 hover:bg-gray-300 text-dark focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                             >
                                 Log in
-                            </button>
+                            </Button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet?{' '}
                                 <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
