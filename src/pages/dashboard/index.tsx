@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
 import AddIcon from '../../../public/assets/icons/add';
 import CopyIcon from '../../../public/assets/icons/copy';
 import ReloadIcon from '../../../public/assets/icons/reload';
-import { Button } from '@/components/Button';
 
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');

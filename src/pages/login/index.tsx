@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button';
+import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
 import { ChangeEvent, SetStateAction, useState } from 'react';

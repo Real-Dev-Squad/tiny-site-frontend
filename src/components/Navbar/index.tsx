@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import Button from '@/components/Button';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
-import { Button } from '../Button';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);

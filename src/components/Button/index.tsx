@@ -22,4 +22,4 @@ Button.defaultProps = {
     className: 'w-full bg-gray-200 hover:bg-gray-300 ',
 };
 
-export { Button };
+export default Button;
