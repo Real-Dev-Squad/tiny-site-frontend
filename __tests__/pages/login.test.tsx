@@ -9,8 +9,8 @@ describe('LoginPage', () => {
 
     it('should render username input', () => {
         const { getByLabelText } = render(<LoginPage />);
-        const usernameInput = getByLabelText('Username') as HTMLInputElement;
-        const passwordInput = getByLabelText('Password') as HTMLInputElement;
+        const usernameInput = getByLabelText('username') as HTMLInputElement;
+        const passwordInput = getByLabelText('password') as HTMLInputElement;
 
         expect(usernameInput).toBeInTheDocument();
         expect(usernameInput).toHaveAttribute('type', 'text');
@@ -31,16 +31,16 @@ describe('LoginPage', () => {
         expect(forgotPasswordLink).toBeInTheDocument();
     });
 
-    it('should apply border styling for valid usernamep', () => {
+    it('should apply border styling for valid username', () => {
         const { getByLabelText } = render(<LoginPage />);
-        const usernameInput = getByLabelText('Username') as HTMLInputElement;
+        const usernameInput = getByLabelText('username') as HTMLInputElement;
         fireEvent.change(usernameInput, { target: { value: 'John_doe' } });
         expect(usernameInput).toHaveClass('border-green-500');
     });
 
     it('should apply border styling for invalid username', () => {
         const { getByLabelText } = render(<LoginPage />);
-        const usernameInput = getByLabelText('Username') as HTMLInputElement;
+        const usernameInput = getByLabelText('username') as HTMLInputElement;
         fireEvent.change(usernameInput, { target: { value: 'invalid-username' } });
         expect(usernameInput).toHaveClass('border-red-500');
     });

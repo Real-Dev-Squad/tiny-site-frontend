@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 
                 <ul className={'lg:flex space-x-4 '}>
                     <li className="relative group">
-                        <button onClick={toggleDropdown} className="text-white focus:outline-none">
+                        <button type="button" onClick={toggleDropdown} className="text-white focus:outline-none">
                             <div className="flex items-center space-x-2">
                                 <ProfileIcon firstName={firstName} lastName={lastName} size={50} />
 

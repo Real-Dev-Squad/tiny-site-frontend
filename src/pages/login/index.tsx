@@ -4,17 +4,24 @@ import { ChangeEvent, SetStateAction, useState } from 'react';
 
 const LoginPage = () => {
     const [usernameBorder, setUsernameBorder] = useState<SetStateAction<string>>('');
-    const [usernameText, setUsernameText] = useState<string | number>('');
+    const [credential, setCredential] = useState<{ username: string; password: string }>({
+        username: '',
+        password: '',
+    });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const inputValue = (event.target as HTMLInputElement).value;
-        setUsernameText(inputValue);
-        const regex = /^[a-zA-Z0-9_]+$/;
-        if (regex.test(inputValue)) {
+        const alphanumicUnderscore = /^[a-zA-Z0-9_]+$/;
+
+        if (alphanumicUnderscore.test(inputValue)) {
             setUsernameBorder(' border-2 border-green-500');
         } else {
             setUsernameBorder(' border-2 border-red-500');
         }
+        setCredential({
+            ...credential,
+            [event.target.name]: inputValue,
+        });
     };
     return (
         <Layout title="Login | URL Shortener">
@@ -24,13 +31,13 @@ const LoginPage = () => {
                 </div>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-4">
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-4 md:space-y-6">
                             <div>
                                 <InputBox
                                     type="text"
-                                    name="Username"
-                                    onChange={handleChange}
-                                    value={usernameText}
+                                    name="username"
+                                    onChange={(e) => handleChange(e)}
+                                    value={credential.username}
                                     placeholder="John_Doe"
                                     className={`bg-gray-50  text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${usernameBorder}`}
                                     required={true}
@@ -39,8 +46,9 @@ const LoginPage = () => {
                             <div>
                                 <InputBox
                                     type={'password'}
-                                    name="Password"
-                                    onChange={(e) => e}
+                                    name="password"
+                                    onChange={(e) => handleChange(e)}
+                                    value={credential.password}
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required={true}
@@ -62,9 +70,9 @@ const LoginPage = () => {
                                         </label>
                                     </div>
                                 </div>
-                                <a className="text-sm font-medium text-gray-500 hover:underline dark:text-primary-500">
+                                <span className="text-sm font-medium text-gray-500 hover:underline dark:text-primary-500">
                                     Forgot password?
-                                </a>
+                                </span>
                             </div>
                             <button
                                 type="submit"
@@ -74,12 +82,9 @@ const LoginPage = () => {
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet?{' '}
-                                <a
-                                    href="#"
-                                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                                >
+                                <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                                     Sign up
-                                </a>
+                                </span>
                             </p>
                         </form>
                     </div>

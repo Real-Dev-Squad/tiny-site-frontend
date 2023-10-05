@@ -28,9 +28,13 @@ const InputBox = (props: Props) => {
         value = '',
     } = props;
     const inputType = showPassword ? 'text' : type;
+    const handlePasswordToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setShowPassword(!showPassword);
+    };
     return (
         <>
-            <label htmlFor={name} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label htmlFor={name} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize">
                 {!hideLabel && name}
             </label>
             <div className="relative container mx-auto">
@@ -45,13 +49,11 @@ const InputBox = (props: Props) => {
                     placeholder={placeholder || ''}
                     required={required}
                 />
-                {type == 'password' && (
+                {type === 'password' && (
                     <button
+                        type="button"
                         data-testid="password-toggle"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setShowPassword(!showPassword);
-                        }}
+                        onClick={(e) => handlePasswordToggle(e)}
                         className="absolute inset-y-0 right-0 flex items-center justify-items-center h-inherit px-4"
                     >
                         {showPassword ? <EyeIcon /> : <EyeCloseIcon />}
