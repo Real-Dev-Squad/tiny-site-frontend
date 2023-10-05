@@ -1,0 +1,243 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage should render without throwing an error 1`] = `
+<div>
+  <nav
+    class="bg-gray-800 p-4"
+  >
+    <div
+      class="flex items-center justify-between"
+    >
+      <a
+        class="text-white text-2xl font-bold"
+        href="#"
+      >
+        URL Shortener
+      </a>
+      <ul
+        class="lg:flex space-x-4"
+      >
+        <li
+          class="relative group"
+        >
+          <button
+            class="text-white focus:outline-none"
+            type="button"
+          >
+            <div
+              class="flex items-center space-x-2"
+            >
+              <div
+                style="width: 50px; height: 50px; border-radius: 50%; background-color: rgb(88, 121, 231); display: flex; align-items: center; justify-content: center; color: white; font-size: 25px;"
+              >
+                SS
+              </div>
+              <span>
+                 
+                Sunny
+              </span>
+              <svg
+                class="h-5 w-5 inline-block ml-1 transform group-hover:rotate-180 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </button>
+        </li>
+        <ul
+          class="hidden absolute top-[8vh] right-0 bg-gray-800 p-2 z-10"
+        >
+          <li>
+            <a
+              class="text-white hover:bg-gray-700 block px-4 py-2"
+              href="#"
+            >
+              Profile
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-white hover:bg-gray-700 block px-4 py-2"
+              href="#"
+            >
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-white hover:bg-gray-700 block px-4 py-2"
+              href="#"
+            >
+              Settings
+            </a>
+          </li>
+        </ul>
+      </ul>
+    </div>
+  </nav>
+  <main
+    class="bg-gray-900 flex flex-col justify-center items-center h-container"
+  >
+    <div
+      class="flex flex-col w-screen items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0"
+    >
+      <div
+        class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+      >
+        URL Shortener
+      </div>
+      <div
+        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+      >
+        <div
+          class="p-6 space-y-4 md:space-y-6 sm:p-4"
+        >
+          <form
+            class="space-y-4 md:space-y-6"
+          >
+            <div>
+              <label
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize"
+                for="username"
+              >
+                username
+              </label>
+              <div
+                class="relative container mx-auto"
+              >
+                <input
+                  class="bg-gray-50  text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+                  id="username"
+                  name="username"
+                  placeholder="John_Doe"
+                  required=""
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize"
+                for="password"
+              >
+                password
+              </label>
+              <div
+                class="relative container mx-auto"
+              >
+                <input
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  id="password"
+                  name="password"
+                  placeholder="••••••••"
+                  required=""
+                  type="password"
+                  value=""
+                />
+                <button
+                  class="absolute inset-y-0 right-0 flex items-center justify-items-center h-inherit px-4"
+                  data-testid="password-toggle"
+                  type="button"
+                >
+                  <svg
+                    fill="#fff"
+                    height="20"
+                    viewBox="0 0 256 256"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>
+                      Show password
+                    </title>
+                    <path
+                      d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between"
+            >
+              <div
+                class="flex items-start"
+              >
+                <div
+                  class="flex items-center h-5"
+                >
+                  <input
+                    aria-describedby="remember"
+                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                    id="remember"
+                    type="checkbox"
+                  />
+                </div>
+                <div
+                  class="ml-3 text-sm"
+                >
+                  <label
+                    class="text-gray-500 dark:text-gray-300"
+                    for="remember"
+                  >
+                    Remember me
+                  </label>
+                </div>
+              </div>
+              <span
+                class="text-sm font-medium text-gray-500 hover:underline dark:text-primary-500"
+              >
+                Forgot password?
+              </span>
+            </div>
+            <button
+              class="w-full bg-gray-200 hover:bg-gray-300 text-dark focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+              type="submit"
+            >
+              Log in
+            </button>
+            <p
+              class="text-sm font-light text-gray-500 dark:text-gray-400"
+            >
+              Don’t have an account yet?
+               
+              <span
+                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >
+                Sign up
+              </span>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div
+    class="bg-gray-200 flex justify-center items-center h-[6vh]"
+  >
+    <p
+      class="text-gray-600 text-sm text-center"
+    >
+      The contents of this website are deployed from this
+       
+      <a
+        class="text-blue-500"
+        href="https://github.com/Real-Dev-Squad/tiny-site-frontend"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        open sourced repo
+      </a>
+    </p>
+  </div>
+</div>
+`;

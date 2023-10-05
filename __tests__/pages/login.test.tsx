@@ -1,5 +1,5 @@
 import LoginPage from '../../src/pages/login';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 describe('LoginPage', () => {
     it('should render without throwing an error', () => {
@@ -23,6 +23,7 @@ describe('LoginPage', () => {
         const rememberMeCheckbox = getByLabelText('Remember me') as HTMLInputElement;
         fireEvent.click(rememberMeCheckbox);
         expect(rememberMeCheckbox).toBeChecked();
+        expect(rememberMeCheckbox).toHaveAttribute('type', 'checkbox');
     });
 
     it('should render "Forgot password?" link', () => {
