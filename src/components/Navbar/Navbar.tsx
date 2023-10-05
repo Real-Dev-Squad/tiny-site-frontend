@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
                     URL Shortener
                 </a>
 
-                <ul className={'lg:flex space-x-4 '}>
+                <ul className={'lg:flex space-x-4'}>
                     <li className="relative group">
                         <button onClick={toggleDropdown} className="text-white focus:outline-none">
                             <div className="flex items-center space-x-2">
