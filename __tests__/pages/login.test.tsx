@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react';
 import LoginPage from '../../src/pages/login';
-import { render, fireEvent, screen } from '@testing-library/react';
 
 describe('LoginPage', () => {
     it('should render without throwing an error', () => {
