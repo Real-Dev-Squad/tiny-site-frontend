@@ -14,7 +14,9 @@
         "check:all": "yarn format:check && yarn lint:check",
         "fix:all": "yarn format:fix && yarn lint:fix",
         "prepare": "husky install",
-        "test": "jest --coverage"
+        "test": "jest --coverage",
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix"
     },
     "dependencies": {
         "autoprefixer": "10.4.15",

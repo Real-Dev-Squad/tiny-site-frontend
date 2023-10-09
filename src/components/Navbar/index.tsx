@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from '@/components/Button';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
@@ -20,7 +21,7 @@ const Navbar: React.FC = () => {
 
                 <ul className={'lg:flex space-x-4'}>
                     <li className="relative group">
-                        <button onClick={toggleDropdown} className="text-white focus:outline-none">
+                        <Button type="button" onClick={toggleDropdown} className="text-white focus:outline-none">
                             <div className="flex items-center space-x-2">
                                 <ProfileIcon firstName={firstName} lastName={lastName} size={50} />
 
@@ -40,7 +41,7 @@ const Navbar: React.FC = () => {
                                     />
                                 </svg>
                             </div>
-                        </button>
+                        </Button>
                     </li>
                     <ul className={`${menuOpen ? 'block' : 'hidden'} absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}>
                         <li>
@@ -65,4 +66,4 @@ const Navbar: React.FC = () => {
     );
 };
 
-export { Navbar };
+export default Navbar;

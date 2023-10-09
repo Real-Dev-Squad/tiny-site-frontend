@@ -6,11 +6,12 @@ interface ButtonProps {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     children: React.ReactNode;
     disabled?: boolean;
+    testId?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ type, className, onClick, children, disabled }) => {
+const Button: React.FC<ButtonProps> = ({ type, className, onClick, children, disabled, testId }) => {
     return (
-        <button type={type} className={className} onClick={onClick} disabled={disabled}>
+        <button data-testid={testId} type={type} className={className} onClick={onClick} disabled={disabled}>
             {children}
         </button>
     );
@@ -21,4 +22,4 @@ Button.defaultProps = {
     className: 'w-full bg-gray-200 hover:bg-gray-300 ',
 };
 
-export { Button };
+export default Button;
