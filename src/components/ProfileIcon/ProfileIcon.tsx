@@ -1,10 +1,5 @@
+import { ProfileIconProps } from '@/types/profileIcon.types';
 import React from 'react';
-
-interface ProfileIconProps {
-    firstName: string;
-    lastName: string;
-    size: number;
-}
 
 const ProfileIcon: React.FC<ProfileIconProps> = ({ firstName, lastName, size }) => {
     const initials = (firstName[0] + lastName[0]).toUpperCase();
