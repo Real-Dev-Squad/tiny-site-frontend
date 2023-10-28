@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
+import { randomString } from '@/utils/constants';
+import { useState } from 'react';
 import AddIcon from '../../../public/assets/icons/add';
 import CopyIcon from '../../../public/assets/icons/copy';
 import ReloadIcon from '../../../public/assets/icons/reload';
@@ -10,12 +11,7 @@ const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
     const [shortUrl, setUrl] = useState<string>('');
 
-    function generateRandomString() {
-        const randomString = Math.random().toString(36).substring(2, 7);
-        return randomString;
-    }
     const handleUniqueUrl = () => {
-        const randomString = generateRandomString();
         setUrl(`https://rds.li/${randomString}`);
     };
     return (
