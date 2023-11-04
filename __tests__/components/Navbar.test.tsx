@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '@/components/Navbar/';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 describe('Navbar', () => {
@@ -12,16 +12,40 @@ describe('Navbar', () => {
 
     it('should have dropdown menu', () => {
         const { container } = render(<Navbar />);
-        expect(container.querySelector('ul')).toHaveTextContent('Profile');
-        expect(container.querySelector('ul')).toHaveTextContent('Dashboard');
-        expect(container.querySelector('ul')).toHaveTextContent('Settings');
+        expect(container.querySelector('ul')).toBeInTheDocument();
+        expect(container.querySelector('ul')).toContainHTML('Profile');
+        expect(container.querySelector('ul')).toContainHTML('Dashboard');
+        expect(container.querySelector('ul')).toContainHTML('Settings');
+        expect(container.querySelector('ul')).toContainHTML('Sign Out');
     });
 
-    it('should toggle menu', () => {
-        const { container } = render(<Navbar />);
-        const button = container.querySelector('button');
-        expect(button).toHaveTextContent('Sunny');
-        button?.click();
-        expect(container.querySelector('ul')).toHaveClass('lg:flex space-x-4');
+    it('should have google login button', () => {
+        render(<Navbar />);
+        const googleLoginButton = screen.getByTestId('google-login');
+        expect(googleLoginButton).toBeInTheDocument();
+        expect(googleLoginButton).toHaveTextContent('Sign In');
+        expect(googleLoginButton).toHaveAttribute('href', 'http://localhost:8000/v1/auth/google/login');
+    });
+
+    it('should display "Sign In" when not logged in', () => {
+        render(<Navbar />);
+        const signInButton = screen.getByText('Sign In');
+        expect(signInButton).toBeInTheDocument();
+    });
+
+    it('should handle "Sign Out" button click', () => {
+        render(<Navbar />);
+        const signOutButton = screen.getByText('Sign Out');
+        expect(signOutButton).toBeInTheDocument();
+
+        const originalIsLoggedIn = screen.getByText('Sign In');
+        fireEvent.click(originalIsLoggedIn);
+
+        expect(signOutButton).toBeInTheDocument();
+
+        fireEvent.click(signOutButton);
+
+        const signInButton = screen.getByText('Sign In');
+        expect(signInButton).toBeInTheDocument();
     });
 });
