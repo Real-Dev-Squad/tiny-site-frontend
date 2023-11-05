@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import GoogleIcon from '../../../public/assets/icons/google';
+import DownArrowIcon from '../../../public/assets/icons/downArrow';
 import IsAuthenticated from '@/hooks/isAuthenticated';
 import { TINY_API_GOOGLE_LOGIN, TINY_API_LOGOUT } from '@/constants/url';
 
@@ -40,20 +41,7 @@ const Navbar: React.FC = () => {
                                 <div className="flex items-center space-x-2">
                                     <ProfileIcon firstName={firstName} lastName={lastName} size={50} />
                                     <span> {firstName}</span>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 inline-block ml-1 transform group-hover:rotate-180 transition-transform"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M19 9l-7 7-7-7"
-                                        />
-                                    </svg>
+                                    <DownArrowIcon />
                                 </div>
                             </Button>
                         ) : (

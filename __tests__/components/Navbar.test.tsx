@@ -24,10 +24,7 @@ describe('Navbar', () => {
         const googleLoginButton = screen.getByTestId('google-login');
         expect(googleLoginButton).toBeInTheDocument();
         expect(googleLoginButton).toHaveTextContent('Sign In');
-        expect(googleLoginButton).toHaveAttribute(
-            'href',
-            'https://tiny-site-backend.onrender.com/v1/auth/google/login'
-        );
+        expect(googleLoginButton).toHaveAttribute('href', 'https://api-tinysite.onrender.com/v1/auth/google/login');
     });
 
     it('should display "Sign In" when not logged in', () => {
