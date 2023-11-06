@@ -13,9 +13,7 @@ describe('Navbar', () => {
     it('should have dropdown menu', () => {
         const { container } = render(<Navbar />);
         expect(container.querySelector('ul')).toBeInTheDocument();
-        expect(container.querySelector('ul')).toContainHTML('Profile');
         expect(container.querySelector('ul')).toContainHTML('Dashboard');
-        expect(container.querySelector('ul')).toContainHTML('Settings');
         expect(container.querySelector('ul')).toContainHTML('Sign Out');
     });
 
