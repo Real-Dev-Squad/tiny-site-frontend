@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
+import { alphanumicUnderscore } from '@/utils/constants';
 import { ChangeEvent, SetStateAction, useState } from 'react';
 
 const LoginPage = () => {
@@ -12,7 +13,7 @@ const LoginPage = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const inputValue = (event.target as HTMLInputElement).value;
-        const alphanumicUnderscore = /^[a-zA-Z0-9_]+$/;
+
         if (event.target.name === 'username') {
             if (alphanumicUnderscore.test(inputValue)) {
                 setUsernameBorder(' border-2 border-green-500');
