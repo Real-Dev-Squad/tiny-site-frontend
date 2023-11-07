@@ -14,7 +14,7 @@
         "check:all": "yarn format:check && yarn lint:check",
         "fix:all": "yarn format:fix && yarn lint:fix",
         "prepare": "husky install",
-        "test": "jest --coverage -u",
+        "test": "jest --coverage",
         "lint": "eslint .",
         "lint-fix": "eslint . --fix"
     },
