@@ -59,17 +59,7 @@ const Navbar: React.FC = () => {
                     <ul className={`${menuOpen ? 'block' : 'hidden'} absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}>
                         <li>
                             <a href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
-                                Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
                                 Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
-                                Settings
                             </a>
                         </li>
                         <li>
