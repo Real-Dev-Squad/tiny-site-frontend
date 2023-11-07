@@ -5,46 +5,18 @@ import { useState } from 'react';
 import AddIcon from '../../../public/assets/icons/add';
 import CopyIcon from '../../../public/assets/icons/copy';
 import ReloadIcon from '../../../public/assets/icons/reload';
+import { shortenUrl } from '../../utils/api';
 
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
-    const [shortUrl, setUrl] = useState<string>('');
+    const [shortUrl, setShortUrl] = useState('');
 
-    async function shortenUrl(originalUrl: unknown) {
-        try {
-            const response = await fetch('http://localhost:8000/v1/tinyurl', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    OriginalUrl: originalUrl,
-                    Comment: 'your',
-                    CreatedBy: 'vinit',
-                    UserId: 1,
-                }),
-            });
-
-            if (response.status === 200) {
-                const data = await response.json();
-                return data.shortUrl;
-            } else {
-                console.error('Error shortening URL:', response.statusText);
-                return null;
-            }
-        } catch (error) {
-            console.error('Error shortening URL:', error);
-            return null;
-        }
-    }
-
-    const handleUniqueUrl = async () => {
+    const handleUrl = async () => {
         const shortenedUrl = await shortenUrl(url);
         if (shortenedUrl) {
-            setUrl(shortenedUrl);
+            setShortUrl(shortenedUrl);
         }
     };
-
     return (
         <Layout title="Home | URL Shortener">
             <div className="w-screen">
@@ -65,7 +37,7 @@ const Dashboard = () => {
                             />
                             <Button
                                 className="w-full md:w-auto bg-gray-200 md:rounded-r-2xl  px-4 md:px-8 py-4 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
-                                onClick={() => handleUniqueUrl()}
+                                onClick={() => handleUrl()}
                             >
                                 Generate
                             </Button>
@@ -84,7 +56,7 @@ const Dashboard = () => {
                                 <Button
                                     type="button"
                                     className="w-full h-100 md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
-                                    onClick={() => handleUniqueUrl()}
+                                    onClick={() => handleUrl()}
                                 >
                                     <ReloadIcon />
                                 </Button>
@@ -92,7 +64,7 @@ const Dashboard = () => {
                                     type="button"
                                     className="w-full md:w-auto bg-gray-200 px-4 md:px-8 py-3 hover:bg-gray-300 mt-2 md:mt-0 md:rounded-none"
                                     onClick={() => {
-                                        setUrl('');
+                                        setShortUrl('');
                                     }}
                                 >
                                     <AddIcon />
