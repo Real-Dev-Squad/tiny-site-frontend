@@ -1,7 +1,6 @@
 import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
-import { randomString } from '@/utils/constants';
 import { useState } from 'react';
 import AddIcon from '../../../public/assets/icons/add';
 import CopyIcon from '../../../public/assets/icons/copy';
@@ -11,9 +10,41 @@ const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
     const [shortUrl, setUrl] = useState<string>('');
 
-    const handleUniqueUrl = () => {
-        setUrl(`https://rds.li/${randomString}`);
+    async function shortenUrl(originalUrl: unknown) {
+        try {
+            const response = await fetch('http://localhost:8000/v1/tinyurl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    OriginalUrl: originalUrl,
+                    Comment: 'your',
+                    CreatedBy: 'vinit',
+                    UserId: 1,
+                }),
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                return data.shortUrl;
+            } else {
+                console.error('Error shortening URL:', response.statusText);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error shortening URL:', error);
+            return null;
+        }
+    }
+
+    const handleUniqueUrl = async () => {
+        const shortenedUrl = await shortenUrl(url);
+        if (shortenedUrl) {
+            setUrl(shortenedUrl);
+        }
     };
+
     return (
         <Layout title="Home | URL Shortener">
             <div className="w-screen">
