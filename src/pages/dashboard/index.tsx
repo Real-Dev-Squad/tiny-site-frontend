@@ -5,16 +5,24 @@ import { useState } from 'react';
 import AddIcon from '../../../public/assets/icons/add';
 import CopyIcon from '../../../public/assets/icons/copy';
 import ReloadIcon from '../../../public/assets/icons/reload';
-import { shortenUrl } from '../../utils/api';
+import { shortenUrl } from '../../utils/ShortenUrl';
+import IsAuthenticated from '@/hooks/isAuthenticated';
 
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState('');
 
+    const { isLoggedIn, userData } = IsAuthenticated();
+
     const handleUrl = async () => {
-        const shortenedUrl = await shortenUrl(url);
-        if (shortenedUrl) {
-            setShortUrl(shortenedUrl);
+        if (isLoggedIn) {
+            const shortUrl = await shortenUrl(url, userData);
+            console.log(shortUrl);
+            if (shortUrl) {
+                setShortUrl(shortUrl);
+            }
+        } else {
+            // User is not authenticated
         }
     };
     return (
