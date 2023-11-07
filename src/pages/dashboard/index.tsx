@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
+import Toast from '@/components/Toast';
 import { randomString } from '@/utils/constants';
 import { useState } from 'react';
 import CopyIcon from '../../../public/assets/icons/copy';
@@ -8,10 +9,19 @@ import CopyIcon from '../../../public/assets/icons/copy';
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
     const [shortUrl, setUrl] = useState<string>('');
+    const [toastMessage, setToastMessage] = useState<string>('');
+    const [showToast, setShowToast] = useState(false);
 
     const handleUniqueUrl = () => {
         setUrl(`https://rds.li/${randomString}`);
     };
+
+    const handleCopyUrl = () => {
+        shortUrl ? setToastMessage('Copied to clipboard') : setToastMessage('No URL to copy');
+        navigator.clipboard.writeText(shortUrl);
+        setShowToast(true);
+    };
+
     return (
         <Layout title="Home | URL Shortener">
             <div className="w-screen">
@@ -47,13 +57,22 @@ const Dashboard = () => {
                             <Button
                                 type="button"
                                 className="bg-gray-200 rounded-r-2xl p-4 hover:bg-gray-400"
-                                onClick={() => navigator.clipboard.writeText(shortUrl)}
+                                testId="copy-button"
+                                onClick={handleCopyUrl}
                             >
                                 <CopyIcon />
                             </Button>
                         </div>
                     </div>
                 </div>
+                {showToast && (
+                    <Toast
+                        message={toastMessage}
+                        isVisible={showToast}
+                        timeToShow={3000}
+                        onDismiss={() => setShowToast(false)}
+                    />
+                )}
             </div>
         </Layout>
     );
