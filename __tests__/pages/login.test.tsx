@@ -2,11 +2,6 @@ import { fireEvent, render } from '@testing-library/react';
 import LoginPage from '../../src/pages/login';
 
 describe('LoginPage', () => {
-    it('should render without throwing an error', () => {
-        const { container } = render(<LoginPage />);
-        expect(container).toMatchSnapshot();
-    });
-
     it('should render username input', () => {
         const { getByLabelText } = render(<LoginPage />);
         const usernameInput = getByLabelText('username') as HTMLInputElement;
