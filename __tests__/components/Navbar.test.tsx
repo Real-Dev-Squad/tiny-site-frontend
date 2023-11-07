@@ -46,4 +46,13 @@ describe('Navbar', () => {
         const signInButton = screen.getByText('Sign In');
         expect(signInButton).toBeInTheDocument();
     });
+
+    it('should display "Sign Out" when logged in', () => {
+        render(<Navbar />);
+        const originalIsLoggedIn = screen.getByText('Sign In');
+        fireEvent.click(originalIsLoggedIn);
+
+        const signOutButton = screen.getByText('Sign Out');
+        expect(signOutButton).toBeInTheDocument();
+    });
 });
