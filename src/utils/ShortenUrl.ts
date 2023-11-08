@@ -1,13 +1,14 @@
 import { TINY_API_URL } from '@/constants/url';
 import { UserTypes } from '@/types/user.types';
 
-interface shortenUrlRequest {
+interface ShortenUrlRequest {
     OriginalUrl: string;
     Comment: string;
     CreatedBy: string;
     UserId: number;
 }
-interface shortenUrlResponse {
+
+interface ShortenUrlResponse {
     short_url: string;
 }
 
@@ -15,7 +16,6 @@ export default async function shortenUrl(originalUrl: string, userData: UserType
     try {
         const createdBy = userData?.Username;
         const userId = userData?.Id;
-        console.log(userData);
 
         const response = await fetch(`${TINY_API_URL}/tinyurl`, {
             method: 'POST',
@@ -27,19 +27,18 @@ export default async function shortenUrl(originalUrl: string, userData: UserType
                 Comment: '',
                 CreatedBy: createdBy,
                 UserId: userId,
-            } as shortenUrlRequest),
+            } as ShortenUrlRequest),
         });
 
-        if (response.status === 200) {
-            const data: shortenUrlResponse = await response.json();
-            console.log('data in shirten url', data);
-            return data.short_url;
-        } else {
-            console.error('Error shortening URL:', response.statusText);
-            return null;
+        if (!response.ok) {
+            const errorMessage = `Error shortening URL: ${response.statusText}`;
+            throw new Error(errorMessage);
         }
+
+        const data: ShortenUrlResponse = await response.json();
+        return data.short_url;
     } catch (error) {
-        console.error('Error shortening URL:', error);
+        // console.error('Error shortening URL:', error);
         return null;
     }
 }
