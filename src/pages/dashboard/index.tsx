@@ -5,7 +5,7 @@ import Toast from '@/components/Toast';
 import { useState } from 'react';
 import CopyIcon from '../../../public/assets/icons/copy';
 import IsAuthenticated from '@/hooks/isAuthenticated';
-import shortenUrl from '@/utils/shortenUrl';
+import shortenUrl from '@/utils/ShortenUrl';
 
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');

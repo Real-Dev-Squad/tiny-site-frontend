@@ -1,7 +1,7 @@
-import shortenUrl from '@/utils/ShortenUrl';
 import { UserTypes } from '@/types/user.types';
 import { userData } from '../../fixtures/users';
 import { TINY_API_URL } from '@/constants/url';
+import shortenUrl from '@/utils/ShortenUrl';
 
 describe('shortenUrl', () => {
     beforeEach(() => {
