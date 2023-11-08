@@ -4,8 +4,8 @@ import Layout from '@/components/Layout';
 import Toast from '@/components/Toast';
 import { useState } from 'react';
 import CopyIcon from '../../../public/assets/icons/copy';
-import { shortenUrl } from '../../utils/ShortenUrl';
 import IsAuthenticated from '@/hooks/isAuthenticated';
+import shortenUrl from '@/utils/shortenUrl';
 
 const Dashboard = () => {
     const [url, getUrl] = useState<string>('');
@@ -17,12 +17,11 @@ const Dashboard = () => {
     const handleUrl = async () => {
         if (isLoggedIn) {
             const shortUrl = await shortenUrl(url, userData);
-            console.log(shortUrl);
             if (shortUrl) {
                 setShortUrl(shortUrl);
             }
         } else {
-            // User is not authenticated
+            setToastMessage('Not loggend in');
         }
     };
 

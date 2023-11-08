@@ -1,17 +1,17 @@
 import { TINY_API_URL } from '@/constants/url';
 import { UserTypes } from '@/types/user.types';
 
-interface ShortenUrlRequest {
+interface shortenUrlRequest {
     OriginalUrl: string;
     Comment: string;
     CreatedBy: string;
     UserId: number;
 }
-interface ShortenUrlResponse {
+interface shortenUrlResponse {
     short_url: string;
 }
 
-export async function shortenUrl(originalUrl: string, userData: UserTypes | null) {
+export default async function shortenUrl(originalUrl: string, userData: UserTypes | null) {
     try {
         const createdBy = userData?.Username;
         const userId = userData?.Id;
@@ -27,11 +27,11 @@ export async function shortenUrl(originalUrl: string, userData: UserTypes | null
                 Comment: '',
                 CreatedBy: createdBy,
                 UserId: userId,
-            } as ShortenUrlRequest),
+            } as shortenUrlRequest),
         });
 
         if (response.status === 200) {
-            const data: ShortenUrlResponse = await response.json();
+            const data: shortenUrlResponse = await response.json();
             console.log('data in shirten url', data);
             return data.short_url;
         } else {
