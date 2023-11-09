@@ -15,9 +15,7 @@ const Redirect = () => {
 
     useEffect(() => {
         setIsPremiumUser(false);
-    }, []);
 
-    useEffect(() => {
         if (shortUrlCode) {
             fetchOriginalUrl(shortUrlCode)
                 .then((url) => {
@@ -32,16 +30,14 @@ const Redirect = () => {
                     console.error('Error fetching original URL:', error);
                 });
         }
-    }, [shortUrlCode]);
 
-    useEffect(() => {
         if (timer > 0) {
             const countdown = setTimeout(() => setTimer(timer - 1), 1000);
             return () => clearTimeout(countdown);
         } else if (timer === 0) {
             router.push(originalUrl);
         }
-    }, [timer, originalUrl]);
+    }, [shortUrlCode, timer, originalUrl]);
 
     const handleGoButtonClick = () => {
         if (isPremiumUser) {
