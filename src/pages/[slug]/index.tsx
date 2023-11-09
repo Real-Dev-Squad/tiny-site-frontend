@@ -9,7 +9,7 @@ const Redirect = () => {
     const router = useRouter();
     const { slug: shortUrlCode } = router.query as { slug: string };
     const [originalUrl, setOriginalUrl] = useState('');
-    const [timer, setTimer] = useState(55555);
+    const [timer, setTimer] = useState(5);
     const [isPremiumUser, setIsPremiumUser] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
 
