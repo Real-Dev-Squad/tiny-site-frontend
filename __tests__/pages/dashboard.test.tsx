@@ -1,11 +1,11 @@
 import Dashboard from '../../src/pages/dashboard';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
-describe('Dashboard Component', () => {
+describe.only('Dashboard Component', () => {
     const mockWriteText = jest.fn();
     global.navigator.clipboard = { writeText: mockWriteText };
 
-    test('renders the Dashboard component', () => {
+    test('renders the Dashboard component with input box and button', () => {
         render(<Dashboard />);
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         const generateButton = screen.getByText('Generate');
@@ -14,75 +14,91 @@ describe('Dashboard Component', () => {
         expect(generateButton).toBeInTheDocument();
     });
 
-    test('should have one input box and one button', () => {
-        render(<Dashboard />);
-
-        const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
-        expect(urlInput).toBeInTheDocument();
-
-        const generateButton = screen.getByText('Generate');
-        expect(generateButton).toBeInTheDocument();
-    });
-
-    it('should get the value from the input box', () => {
+    test('updates input box value when text is entered', () => {
         render(<Dashboard />);
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
         expect(urlInput.value).toBe('https://www.google.com');
     });
 
-    test.skip('should copy the short URL when clicking the Copy button', async () => {
+    test.skip('generates and displays short URL on button click', async () => {
+        jest.mock('../../src/hooks/isAuthenticated', () => ({
+            useIsAuthenticated: () => ({
+                isLoggedIn: true,
+                userData: { username: 'testUser', Id: 1 },
+            }),
+        }));
+
         render(<Dashboard />);
+
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
-        expect(urlInput.value).toBe('https://www.google.com');
 
         const generateButton = screen.getByText('Generate');
-        fireEvent.click(generateButton);
 
         await act(async () => {
-            const copyButton = screen.getByTestId('copy-button');
-            fireEvent.click(copyButton);
+            fireEvent.click(generateButton);
+
+            await new Promise((resolve) => setTimeout(resolve, 500));
+
+            const shortUrlInput = screen.queryByPlaceholderText('Copy the URL');
+            expect(shortUrlInput).toBeTruthy();
         });
 
-        expect(mockWriteText).toHaveBeenCalled();
-    });
-
-    test.skip('should show toast message when clicking the Copy button', async () => {
-        render(<Dashboard />);
-        const generateButton = screen.getByText('Generate');
-        fireEvent.click(generateButton);
-
-        await act(async () => {
-            const copyButton = screen.getByTestId('copy-button');
-            fireEvent.click(copyButton);
-        });
-
-        const toast = screen.getByTestId('toast');
-        expect(toast).toBeInTheDocument();
-    });
-
-    test('should not show toast message when not clicking the Copy button', () => {
-        render(<Dashboard />);
         const toast = screen.queryByTestId('toast');
-        expect(toast).not.toBeInTheDocument();
+        expect(toast).toBeNull();
     });
 
-    test.skip('should not show toast message after 3 seconds', () => {
-        jest.useFakeTimers();
+    test.skip('copies short URL to clipboard on Copy button click', async () => {
+        jest.mock('../../src/hooks/isAuthenticated', () => ({
+            useIsAuthenticated: () => ({
+                isLoggedIn: false,
+                userData: null,
+            }),
+        }));
         render(<Dashboard />);
+        const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
+        fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
+
         const generateButton = screen.getByText('Generate');
         fireEvent.click(generateButton);
 
         const copyButton = screen.getByTestId('copy-button');
         fireEvent.click(copyButton);
 
+        expect(mockWriteText).toHaveBeenCalledWith(expect.any(String));
+    });
+
+    test('shows toast message when Copy button is clicked', async () => {
+        jest.mock('../../src/hooks/isAuthenticated', () => ({
+            useIsAuthenticated: () => ({
+                isLoggedIn: false,
+                userData: null,
+            }),
+        }));
+        render(<Dashboard />);
+        const generateButton = screen.getByText('Generate');
+        fireEvent.click(generateButton);
+
+        // Wait for the toast to be visible
+        await screen.findByTestId('toast');
+
+        // Assert that the toast is present
         const toast = screen.getByTestId('toast');
         expect(toast).toBeInTheDocument();
+    });
 
-        jest.advanceTimersByTime(3000);
+    test('does not show toast message when Copy button is not clicked', () => {
+        render(<Dashboard />);
+        const toast = screen.queryByTestId('toast');
+        expect(toast).not.toBeInTheDocument();
+    });
 
-        const updatedToast = screen.queryByTestId('toast');
-        expect(updatedToast).toBeInTheDocument();
+    test('shows error message when not logged in', () => {
+        render(<Dashboard />);
+        const generateButton = screen.getByText('Generate');
+        fireEvent.click(generateButton);
+        const toast = screen.getByTestId('toast');
+        expect(toast).toHaveTextContent('Not logged in');
     });
 });

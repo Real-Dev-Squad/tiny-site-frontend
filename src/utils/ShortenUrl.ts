@@ -38,7 +38,7 @@ export default async function shortenUrl(originalUrl: string, userData: UserType
         const data: ShortenUrlResponse = await response.json();
         return data.short_url;
     } catch (error) {
-        // console.error('Error shortening URL:', error);
+        console.error('Error shortening URL:', error);
         return null;
     }
 }
