@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import CopyIcon from '../../../public/assets/icons/copy';
 import Toast from '@/components/Toast';
 import shortenUrl from '@/utils/shortenUrl';
+import { BASE_SHORT_URL } from '@/constants/url';
 
 interface InputSectionProps {
     url: string;
@@ -85,7 +86,8 @@ const Dashboard = () => {
     const generateShortUrl = async () => {
         const newShortUrl = await shortenUrl(url, userData);
         if (newShortUrl) {
-            setShortUrl(newShortUrl);
+            const fullShortUrl = `${BASE_SHORT_URL}/${newShortUrl}`;
+            setShortUrl(fullShortUrl);
             setShowInputBox(true);
         }
     };
