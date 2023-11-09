@@ -1,7 +1,7 @@
 import Dashboard from '../../src/pages/dashboard';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 
-describe.only('Dashboard Component', () => {
+describe('Dashboard Component', () => {
     const mockWriteText = jest.fn();
     global.navigator.clipboard = { writeText: mockWriteText };
 
