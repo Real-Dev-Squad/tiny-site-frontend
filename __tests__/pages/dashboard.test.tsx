@@ -79,11 +79,7 @@ describe.only('Dashboard Component', () => {
         render(<Dashboard />);
         const generateButton = screen.getByText('Generate');
         fireEvent.click(generateButton);
-
-        // Wait for the toast to be visible
         await screen.findByTestId('toast');
-
-        // Assert that the toast is present
         const toast = screen.getByTestId('toast');
         expect(toast).toBeInTheDocument();
     });
