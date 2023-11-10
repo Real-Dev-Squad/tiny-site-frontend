@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+
 import Button from '@/components/Button';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
-import GoogleIcon from '../../../public/assets/icons/google';
-import DownArrowIcon from '../../../public/assets/icons/downArrow';
-import IsAuthenticated from '@/hooks/isAuthenticated';
 import { TINY_API_GOOGLE_LOGIN, TINY_API_LOGOUT } from '@/constants/url';
+import IsAuthenticated from '@/hooks/isAuthenticated';
+
+import DownArrowIcon from '../../../public/assets/icons/downArrow';
+import GoogleIcon from '../../../public/assets/icons/google';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);

@@ -1,8 +1,9 @@
+import { ChangeEvent, SetStateAction, useState } from 'react';
+
 import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
 import { alphanumicUnderscore } from '@/utils/constants';
-import { ChangeEvent, SetStateAction, useState } from 'react';
 
 const LoginPage = () => {
     const [usernameBorder, setUsernameBorder] = useState<SetStateAction<string>>('');
