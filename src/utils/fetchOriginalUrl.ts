@@ -9,11 +9,11 @@ async function fetchOriginalUrl(shortUrlCode: string): Promise<string | null> {
             const data = (await response.json()) as UrlResponseTypes;
             return data.url.OriginalUrl;
         } else {
-            return null; // Return null if the response is not ok
+            return null;
         }
     } catch (error) {
         console.error('Error fetching original URL:', error);
-        return null; // Return null in case of an error
+        return null;
     }
 }
 

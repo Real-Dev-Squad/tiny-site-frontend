@@ -1,4 +1,4 @@
-import fetchOriginalUrl from '@/utils/fetchOriginalUrl ';
+import fetchOriginalUrl from '@/utils/fetchOriginalUrl';
 import RedirectIcon from '../../../public/assets/icons/redirect';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -7,7 +7,7 @@ import { TINY_SITE } from '@/constants/url';
 
 const Redirect = () => {
     const router = useRouter();
-    const { slug: shortUrlCode } = router.query as { slug: string };
+    const { redirect: shortUrlCode } = router.query as { redirect: string };
     const [originalUrl, setOriginalUrl] = useState('');
     const [timer, setTimer] = useState(5);
     const [isPremiumUser, setIsPremiumUser] = useState(false);
