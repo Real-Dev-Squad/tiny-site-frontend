@@ -16,5 +16,5 @@ export interface UrlResponseTypes {
 
 export interface UrlListResponseTypes {
     message: string;
-    urls?: UrlType[];
+    urls: UrlType[];
 }
