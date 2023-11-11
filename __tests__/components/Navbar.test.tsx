@@ -9,7 +9,7 @@ describe('Navbar', () => {
     it('should render', () => {
         const { container } = render(<Navbar />);
         expect(container).toHaveTextContent('URL Shortener');
-        expect(container.querySelector('a')).toHaveAttribute('href', '#');
+        expect(container.querySelector('a')).toHaveAttribute('href', '/');
     });
 
     it('should have dropdown menu', () => {

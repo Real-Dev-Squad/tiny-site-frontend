@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
@@ -32,9 +33,9 @@ const Navbar: React.FC = () => {
     return (
         <nav className="bg-gray-800 p-4">
             <div className="flex items-center justify-between">
-                <a href="#" className="text-white text-2xl font-bold">
+                <Link href="/" className="text-white text-2xl font-bold">
                     URL Shortener
-                </a>
+                </Link>
 
                 <ul className={'lg:flex space-x-4'}>
                     <li className="relative group">
@@ -47,7 +48,7 @@ const Navbar: React.FC = () => {
                                 </div>
                             </Button>
                         ) : (
-                            <a
+                            <Link
                                 className="flex items-center space-x-2 bg-white text-black px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer"
                                 href={TINY_API_GOOGLE_LOGIN}
                                 data-testid="google-login"
@@ -55,19 +56,19 @@ const Navbar: React.FC = () => {
                                 <GoogleIcon />
 
                                 <span>Sign In</span>
-                            </a>
+                            </Link>
                         )}
                     </li>
                     <ul className={`${menuOpen ? 'block' : 'hidden'} absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}>
                         <li>
-                            <a href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
+                            <Link href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
                                 Dashboard
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href={TINY_API_LOGOUT} className="text-white hover:bg-gray-700 block px-4 py-2">
+                            <Link href={TINY_API_LOGOUT} className="text-white hover:bg-gray-700 block px-4 py-2">
                                 Sign Out
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </ul>
