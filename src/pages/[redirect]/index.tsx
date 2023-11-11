@@ -52,12 +52,10 @@ const Redirect = () => {
     const { redirect: shortUrlCode } = router.query as { redirect: string };
     const [originalUrl, setOriginalUrl] = useState('');
     const [timer, setTimer] = useState(5);
-    const [isPremiumUser, setIsPremiumUser] = useState(false);
+    const [isPremiumUser] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
 
     useEffect(() => {
-        setIsPremiumUser(false);
-
         if (shortUrlCode) {
             const fetchOriginalUrlAsync = async () => {
                 try {
