@@ -13,3 +13,8 @@ export interface UrlResponseTypes {
     message: string;
     url: UrlType;
 }
+
+export interface UrlListResponseTypes {
+    message: string;
+    urls?: UrlType[];
+}

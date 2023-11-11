@@ -1,9 +1,10 @@
-import fetchOriginalUrl from '@/utils/fetchOriginalUrl';
-import RedirectIcon from '../../../public/assets/icons/redirect';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
 import Head from 'next/head';
+import RedirectIcon from '../../../public/assets/icons/redirect';
 import { TINY_SITE } from '@/constants/url';
+import fetchOriginalUrl from '@/utils/fetchOriginalUrl';
+import { useRouter } from 'next/router';
 
 const Redirect = () => {
     const router = useRouter();
@@ -73,7 +74,7 @@ const Redirect = () => {
                 )}
 
                 {showTooltip && !isPremiumUser && (
-                    <div className="mt-2 p-2 bg-yellow-100 text-yellow-800 rounded-md">
+                    <div className="mt-2 p-2 bg-yellow-100 text-yellow-800 rounded-md text-center">
                         The skip feature is exclusively available to Premium users.
                     </div>
                 )}

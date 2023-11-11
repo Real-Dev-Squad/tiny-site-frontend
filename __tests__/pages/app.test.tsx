@@ -1,4 +1,4 @@
-import Dashboard from '../../src/pages/dashboard';
+import Dashboard from '../../src/pages/app';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 
 describe('Dashboard Component', () => {

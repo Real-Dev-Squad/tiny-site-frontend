@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@/components/Button';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
-import GoogleIcon from '../../../public/assets/icons/google';
-import DownArrowIcon from '../../../public/assets/icons/downArrow';
-import IsAuthenticated from '@/hooks/isAuthenticated';
 import { TINY_API_GOOGLE_LOGIN, TINY_API_LOGOUT } from '@/constants/url';
+
+import Button from '@/components/Button';
+import DownArrowIcon from '../../../public/assets/icons/downArrow';
+import GoogleIcon from '../../../public/assets/icons/google';
+import IsAuthenticated from '@/hooks/isAuthenticated';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -28,7 +29,7 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <nav className="bg-gray-800 p-4">
+        <nav className="bg-gray-900 p-4 h-[8vh]">
             <div className="flex items-center justify-between">
                 <a href="#" className="text-white text-2xl font-bold">
                     URL Shortener
@@ -58,7 +59,7 @@ const Navbar: React.FC = () => {
                     </li>
                     <ul className={`${menuOpen ? 'block' : 'hidden'} absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}>
                         <li>
-                            <a href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
+                            <a href="/dashboard" className="text-white hover:bg-gray-700 block px-4 py-2">
                                 Dashboard
                             </a>
                         </li>

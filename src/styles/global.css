@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .h-container {
-    height: calc(100vh - (82px + 6vh));
+    height: calc(100vh - 14vh);
 }

@@ -1,128 +1,106 @@
-import React, { useState, ChangeEvent } from 'react';
-import Layout from '@/components/Layout';
-import IsAuthenticated from '@/hooks/isAuthenticated';
-import { urlRegex } from '@/utils/constants';
-import InputBox from '@/components/InputBox';
-import Button from '@/components/Button';
+import React, { useEffect, useState } from 'react';
+
 import CopyIcon from '../../../public/assets/icons/copy';
-import ShareIcon from '../../../public/assets/icons/share';
-import Toast from '@/components/Toast';
-import shortenUrl from '@/utils/shortenUrl';
+import IsAuthenticated from '@/hooks/isAuthenticated';
+import Layout from '@/components/Layout';
 import { TINY_SITE } from '@/constants/url';
+import Toast from '@/components/Toast';
+import { UrlListResponseTypes } from '@/types/url.types';
+import fetchUrls from '@/utils/fetchUrls';
 
-interface InputSectionProps {
-    url: string;
-    setUrl: (url: string) => void;
-    handleUrl: () => void;
+interface TableRowProps {
+    url: UrlListResponseTypes['urls'][0];
+    index: number;
+    copyButtonHandler: (url: string) => void;
 }
 
-interface OutputSectionProps {
-    shortUrl: string;
-    handleCopyUrl: () => void;
+interface TableBodyProps {
+    urls: UrlListResponseTypes;
+    copyButtonHandler: (url: string) => void;
 }
 
-const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
-    <div className="bg-gray-200 flex flex-row justify-center items-center space-y-0 space-x-0 rounded-2xl mt-5 sm:mt-10">
-        <InputBox
-            type="text"
-            hideLabel={true}
-            className="bg-gray-200 w-full outline-none p-4 rounded-l-2xl"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-            value={url}
-            placeholder="🔗 Enter the URL"
-            name="URL"
-        />
-        <Button className="bg-gray-300 rounded-r-2xl p-4 hover:bg-gray-400" onClick={handleUrl}>
-            Generate
-        </Button>
-    </div>
+const TableHeader = () => (
+    <thead>
+        <tr>
+            <th className="border-2 p-2">S.No.</th>
+            <th className="border-2 p-2">Original URL</th>
+            <th className="border-2 p-2">Short URL</th>
+            <th className="border-2 p-2">Created At</th>
+        </tr>
+    </thead>
 );
 
-const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }) => (
-    <div className="bg-gray-200 flex flex-row justify-center items-center space-y-0 space-x-0 rounded-2xl mt-2">
-        <InputBox
-            type="text"
-            name="URL"
-            hideLabel={true}
-            className="bg-gray-200 w-full outline-none p-4 rounded-l-2xl"
-            value={shortUrl}
-            placeholder="Copy the URL"
-        />
-        <a
-            type="button"
-            className="bg-gray-200  px-2 py-4 hover:bg-gray-400"
-            href={shortUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <ShareIcon />
-        </a>
-        <Button
-            type="button"
-            className="bg-gray-200 rounded-r-2xl px-2 py-4 hover:bg-gray-400"
-            testId="copy-button"
-            onClick={handleCopyUrl}
-        >
-            <CopyIcon />
-        </Button>
-    </div>
+const TableRow = ({ url, index, copyButtonHandler }: TableRowProps) => (
+    <tr key={index} className="hover:bg-gray-700 w-full">
+        <td className="border-2 p-2">{index + 1}</td>
+        <td className="border-2 p-2 max-w-[300px] overflow-hidden overflow-ellipsis truncate">{url.OriginalUrl}</td>
+        <td className="border-2 p-2 max-w-[150px]  overflow-hidden overflow-ellipsis truncate">
+            <div className="flex justify-around items-center">
+                <a href={`${TINY_SITE}/${url.ShortUrl}`} target="_blank" rel="noreferrer" className="text-blue-500">
+                    {' '}
+                    {TINY_SITE}/{url.ShortUrl}
+                </a>
+                <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                        copyButtonHandler(`${TINY_SITE}/${url.ShortUrl}`);
+                    }}
+                >
+                    <CopyIcon backgroundColor="white" />
+                </div>
+            </div>
+        </td>
+        <td className="border-2 p-2 max-w-[100px] ">{new Date(url.CreatedAt).toLocaleString()}</td>
+    </tr>
+);
+
+const TableBody = ({ urls, copyButtonHandler }: TableBodyProps) => (
+    <tbody className=" text-white text-center">
+        {urls.urls?.map((url, index) => (
+            <TableRow key={index} url={url} index={index} copyButtonHandler={copyButtonHandler} />
+        ))}
+    </tbody>
 );
 
 const Dashboard = () => {
-    const [url, setUrl] = useState<string>('');
-    const [shortUrl, setShortUrl] = useState<string>('');
     const [toastMessage, setToastMessage] = useState<string>('');
     const [showToast, setShowToast] = useState<boolean>(false);
-    const [showInputBox, setShowInputBox] = useState<boolean>(false);
-
     const { isLoggedIn, userData } = IsAuthenticated();
+    const [urls, setUrls] = useState<UrlListResponseTypes>({ message: '', urls: [] });
 
-    const handleCopyUrl = () => {
-        if (shortUrl) {
-            setToastMessage('Copied to clipboard');
-            navigator.clipboard.writeText(shortUrl);
-            setShowToast(true);
-        } else {
-            setToastMessage('No URL to copy');
-        }
-    };
-
-    const displayErrorMessage = (message: string) => {
-        setToastMessage(message);
+    const copyButtonHandler = (url: string) => {
+        navigator.clipboard.writeText(url);
+        setToastMessage('Copied to clipboard');
         setShowToast(true);
-        setShowInputBox(false);
     };
 
-    const generateShortUrl = async () => {
-        const newShortUrl = await shortenUrl(url, userData);
-        if (newShortUrl) {
-            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
-            setShortUrl(fullShortUrl);
-            setShowInputBox(true);
-        }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (isLoggedIn && userData) {
+                    const data = await fetchUrls(userData);
+                    if (data) {
+                        setUrls(data);
+                    } else {
+                        console.log('No URLs found');
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching URLs:', error);
+            }
+        };
 
-    const handleUrl = () => {
-        if (!isLoggedIn) {
-            displayErrorMessage('Not logged in');
-        } else if (!url) {
-            displayErrorMessage('Enter the URL');
-        } else if (!urlRegex.test(url)) {
-            displayErrorMessage('Enter a valid URL');
-        } else {
-            generateShortUrl();
-        }
-    };
+        fetchData();
+    }, [isLoggedIn, userData]);
 
     return (
-        <Layout title="Home | URL Shortener">
-            <div className="w-screen">
-                <div className="flex flex-col justify-center items-center m-4">
-                    <div className="w-full lg:w-[42rem] md:w-[32rem] sm:w-[22rem]">
-                        <h1 className="text-4xl text-center text-white font-semibold">URL Shortener</h1>
-                        <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
-                        {showInputBox && <OutputSection shortUrl={shortUrl} handleCopyUrl={handleCopyUrl} />}
-                    </div>
+        <Layout title="Dashboard | URL Shortener">
+            <div className="w-full flex flex-col justify-center items-center p-8 text-white bg-gray-900">
+                <div className="flex justify-center items-center w-full">
+                    <table className="w-full">
+                        <TableHeader />
+                        <TableBody urls={urls} copyButtonHandler={copyButtonHandler} />
+                    </table>
                 </div>
                 {showToast && (
                     <Toast
