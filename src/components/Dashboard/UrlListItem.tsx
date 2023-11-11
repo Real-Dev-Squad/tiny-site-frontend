@@ -1,3 +1,4 @@
+import Button from '../Button';
 import CopyIcon from '../../../public/assets/icons/copy';
 import InternetIcon from '../../../public/assets/icons/internet';
 import Link from 'next/link';
@@ -28,13 +29,14 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                             >
                                 {TINY_SITE}/{url.ShortUrl}
                             </Link>
-                            <button
+                            <Button
                                 className="group rounded-full bg-gray-100 p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
                                 onClick={() => copyButtonHandler(url.OriginalUrl)}
+                                testId="copy-button"
                             >
                                 <span className="sr-only">Copy</span>
                                 <CopyIcon width={15} height={15} />
-                            </button>
+                            </Button>
                         </div>
                         <div className="flex max-w-fit items-center space-x-1">
                             <Link

@@ -60,6 +60,11 @@ const Navbar: React.FC = () => {
                     </li>
                     <ul className={`${menuOpen ? 'block' : 'hidden'} absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}>
                         <li>
+                            <Link href="/app" className="text-white hover:bg-gray-700 block px-4 py-2">
+                                Create
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/dashboard" className="text-white hover:bg-gray-700 block px-4 py-2">
                                 Dashboard
                             </Link>
