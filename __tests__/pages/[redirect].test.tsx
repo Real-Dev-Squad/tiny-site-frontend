@@ -1,4 +1,5 @@
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+
 import Redirect from '../../src/pages/[redirect]/index';
 import { useRouter } from 'next/router';
 
@@ -19,22 +20,6 @@ describe('Redirect Component', () => {
         (useRouter as jest.Mock).mockReturnValue(mockRouter);
     });
 
-    test('renders the Redirect component with countdown and Go button', () => {
-        render(<Redirect />);
-        const goButton = screen.getByText('Go');
-
-        expect(goButton).toBeInTheDocument();
-    });
-
-    test('redirects to original URL on Go button click', async () => {
-        render(<Redirect />);
-        const goButton = screen.getByText('Go');
-        await act(async () => {
-            fireEvent.click(goButton);
-        });
-        expect(mockRouterPush).toHaveBeenCalled();
-    });
-
     test('redirects to original URL on Go button click', async () => {
         render(<Redirect />);
         const goButton = screen.getByText('Go');
@@ -51,12 +36,14 @@ describe('Redirect Component', () => {
             fireEvent.click(goButton);
         });
         expect(mockRouterPush).toHaveBeenCalled();
+        const tooltip = screen.getByText('The skip feature is exclusively available to Premium users.');
+        expect(tooltip).toBeInTheDocument();
     });
 
-    test('fetchOriginalUrl function returns original URL', async () => {
-        const mockFetchOriginalUrl = jest.fn();
-        mockFetchOriginalUrl.mockReturnValue('https://www.google.com');
-        const originalUrl = await mockFetchOriginalUrl();
-        expect(originalUrl).toBe('https://www.google.com');
+    test('redirects when timer reaches zero', async () => {
+        jest.useFakeTimers();
+        render(<Redirect />);
+        act(() => jest.advanceTimersByTime(5000));
+        waitFor(() => expect(mockRouterPush).toHaveBeenCalled());
     });
 });
