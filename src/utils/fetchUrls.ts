@@ -12,7 +12,6 @@ async function fetchUrls(userData: UserTypes | null): Promise<UrlListResponseTyp
 
         if (response.ok) {
             const data = await response.json();
-            console.log('data', data);
             return data;
         } else {
             return null;

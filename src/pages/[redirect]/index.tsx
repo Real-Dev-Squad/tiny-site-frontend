@@ -23,7 +23,6 @@ const Redirect = () => {
                     if (url) {
                         setOriginalUrl(url);
                     } else {
-                        console.log('Short URL code not found');
                         router.push('/');
                     }
                 })
