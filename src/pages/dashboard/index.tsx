@@ -1,13 +1,16 @@
-import React, { useState, ChangeEvent } from 'react';
-import Layout from '@/components/Layout';
-import IsAuthenticated from '@/hooks/isAuthenticated';
-import { urlRegex } from '@/utils/constants';
-import InputBox from '@/components/InputBox';
+import React, { ChangeEvent, useState } from 'react';
+
 import Button from '@/components/Button';
 import CopyIcon from '../../../public/assets/icons/copy';
+import InputBox from '@/components/InputBox';
+import IsAuthenticated from '@/hooks/isAuthenticated';
+import Layout from '@/components/Layout';
+import Link from 'next/link';
+import ShareIcon from '../../../public/assets/icons/share';
+import { TINY_SITE } from '@/constants/url';
 import Toast from '@/components/Toast';
 import shortenUrl from '@/utils/shortenUrl';
-import { BASE_SHORT_URL } from '@/constants/url';
+import { urlRegex } from '@/utils/constants';
 
 interface InputSectionProps {
     url: string;
@@ -31,7 +34,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             placeholder="🔗 Enter the URL"
             name="URL"
         />
-        <Button className="bg-gray-300 rounded-r-2xl p-4 hover-bg-gray-400" onClick={handleUrl}>
+        <Button className="bg-gray-300 rounded-r-2xl p-4 hover:bg-gray-400" onClick={handleUrl}>
             Generate
         </Button>
     </div>
@@ -47,9 +50,18 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }
             value={shortUrl}
             placeholder="Copy the URL"
         />
+        <Link
+            type="button"
+            className="bg-gray-200  px-2 py-4 hover:bg-gray-400"
+            href={shortUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <ShareIcon />
+        </Link>
         <Button
             type="button"
-            className="bg-gray-200 rounded-r-2xl p-4 hover-bg-gray-400"
+            className="bg-gray-200 rounded-r-2xl px-2 py-4 hover:bg-gray-400"
             testId="copy-button"
             onClick={handleCopyUrl}
         >
@@ -86,7 +98,7 @@ const Dashboard = () => {
     const generateShortUrl = async () => {
         const newShortUrl = await shortenUrl(url, userData);
         if (newShortUrl) {
-            const fullShortUrl = `${BASE_SHORT_URL}/${newShortUrl}`;
+            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
             setShortUrl(fullShortUrl);
             setShowInputBox(true);
         }
