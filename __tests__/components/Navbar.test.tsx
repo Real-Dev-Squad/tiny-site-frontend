@@ -1,13 +1,15 @@
-import React from 'react';
-import Navbar from '@/components/Navbar/';
-import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import Navbar from '@/components/Navbar/';
+import React from 'react';
 
 describe('Navbar', () => {
     it('should render', () => {
         const { container } = render(<Navbar />);
         expect(container).toHaveTextContent('URL Shortener');
-        expect(container.querySelector('a')).toHaveAttribute('href', '#');
+        expect(container.querySelector('a')).toHaveAttribute('href', '/');
     });
 
     it('should have dropdown menu', () => {
