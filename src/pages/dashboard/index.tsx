@@ -1,14 +1,16 @@
-import React, { useState, ChangeEvent } from 'react';
-import Layout from '@/components/Layout';
-import IsAuthenticated from '@/hooks/isAuthenticated';
-import { urlRegex } from '@/utils/constants';
-import InputBox from '@/components/InputBox';
+import React, { ChangeEvent, useState } from 'react';
+
 import Button from '@/components/Button';
 import CopyIcon from '../../../public/assets/icons/copy';
+import InputBox from '@/components/InputBox';
+import IsAuthenticated from '@/hooks/isAuthenticated';
+import Layout from '@/components/Layout';
+import Link from 'next/link';
 import ShareIcon from '../../../public/assets/icons/share';
+import { TINY_SITE } from '@/constants/url';
 import Toast from '@/components/Toast';
 import shortenUrl from '@/utils/shortenUrl';
-import { TINY_SITE } from '@/constants/url';
+import { urlRegex } from '@/utils/constants';
 
 interface InputSectionProps {
     url: string;
@@ -48,7 +50,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }
             value={shortUrl}
             placeholder="Copy the URL"
         />
-        <a
+        <Link
             type="button"
             className="bg-gray-200  px-2 py-4 hover:bg-gray-400"
             href={shortUrl}
@@ -56,7 +58,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }
             rel="noopener noreferrer"
         >
             <ShareIcon />
-        </a>
+        </Link>
         <Button
             type="button"
             className="bg-gray-200 rounded-r-2xl px-2 py-4 hover:bg-gray-400"

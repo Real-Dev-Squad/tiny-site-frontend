@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Head from 'next/head';
+import Link from 'next/link';
 import RedirectIcon from '../../../public/assets/icons/redirect';
 import { TINY_SITE } from '@/constants/url';
 import fetchOriginalUrl from '@/utils/fetchOriginalUrl';
@@ -35,14 +36,14 @@ const LoaderTimer = ({ timer, goButtonClickHandler }: LoaderTimerProps) => {
 
 const RedirectFooter = () => (
     <div className="absolute bottom-0 right-0 p-2 text-gray-500 w-screen flex justify-center items-center">
-        <a
+        <Link
             className="text-sm text-gray-400 font-bold cursor-pointer hover:underline"
             href={TINY_SITE}
             target="_blank"
             rel="noopener noreferrer"
         >
             By <span className="font-bold">Real Dev Squad</span>
-        </a>
+        </Link>
     </div>
 );
 
