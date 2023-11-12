@@ -1,10 +1,12 @@
-import Button from '../Button';
-import CopyIcon from '../../../public/assets/icons/copy';
-import InternetIcon from '../../../public/assets/icons/internet';
 import Link from 'next/link';
+
 import { TINY_SITE } from '@/constants/url';
 import { UrlType } from '@/types/url.types';
 import formatDate from '@/utils/formatDate';
+
+import CopyIcon from '../../../public/assets/icons/copy';
+import InternetIcon from '../../../public/assets/icons/internet';
+import Button from '../Button';
 
 interface UrlListItemProps {
     url: UrlType;

@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-
 import Head from 'next/head';
 import Link from 'next/link';
-import RedirectIcon from '../../../public/assets/icons/redirect';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
 import { TINY_SITE } from '@/constants/url';
 import fetchOriginalUrl from '@/utils/fetchOriginalUrl';
-import { useRouter } from 'next/router';
+
+import RedirectIcon from '../../../public/assets/icons/redirect';
 
 interface LoaderTimerProps {
     timer: number;

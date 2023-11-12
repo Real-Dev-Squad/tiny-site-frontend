@@ -1,6 +1,7 @@
 import fetchMock from 'jest-fetch-mock';
-import fetchUrls from '../../src/utils/fetchUrls';
+
 import { userData } from '../../fixtures/users';
+import fetchUrls from '../../src/utils/fetchUrls';
 
 fetchMock.enableMocks();
 

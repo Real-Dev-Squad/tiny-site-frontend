@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useRouter } from 'next/router';
 
 import Redirect from '../../src/pages/[redirect]/index';
-import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
     useRouter: jest.fn(),

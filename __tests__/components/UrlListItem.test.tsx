@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import UrlListItem from '@/components/Dashboard/UrlListItem';
+
 import urlsData from '../../fixtures/urls';
 
 describe('UrlListItem', () => {

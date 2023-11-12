@@ -1,15 +1,17 @@
+import Link from 'next/link';
 import React, { ChangeEvent, useState } from 'react';
 
 import Button from '@/components/Button';
-import CopyIcon from '../../../public/assets/icons/copy';
 import InputBox from '@/components/InputBox';
-import IsAuthenticated from '@/hooks/isAuthenticated';
 import Layout from '@/components/Layout';
-import ShareIcon from '../../../public/assets/icons/share';
-import { TINY_SITE } from '@/constants/url';
 import Toast from '@/components/Toast';
-import shortenUrl from '@/utils/shortenUrl';
+import { TINY_SITE } from '@/constants/url';
+import IsAuthenticated from '@/hooks/isAuthenticated';
 import { urlRegex } from '@/utils/constants';
+import shortenUrl from '@/utils/shortenUrl';
+
+import CopyIcon from '../../../public/assets/icons/copy';
+import ShareIcon from '../../../public/assets/icons/share';
 
 interface InputSectionProps {
     url: string;

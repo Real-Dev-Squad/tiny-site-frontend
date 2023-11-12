@@ -1,8 +1,8 @@
+import Head from 'next/head';
 import { FC, ReactNode } from 'react';
 
-import Head from 'next/head';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 
 type LayoutProps = {
     title: string;
