@@ -2,7 +2,13 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import App from '../../src/pages/app';
 
-describe('App Component', () => {
+jest.mock('../../src/hooks/isAuthenticated', () => ({
+    useIsAuthenticated: () => ({
+        isLoggedIn: true,
+        userData: { username: 'testUser', Id: 1 },
+    }),
+}));
+describe('App', () => {
     const mockWriteText = jest.fn();
     global.navigator.clipboard = { writeText: mockWriteText };
 
@@ -22,7 +28,7 @@ describe('App Component', () => {
         expect(urlInput.value).toBe('https://www.google.com');
     });
 
-    test.skip('generates and displays short URL on button click', async () => {
+    test('generates and displays short URL on button click', async () => {
         jest.mock('../../src/hooks/isAuthenticated', () => ({
             useIsAuthenticated: () => ({
                 isLoggedIn: true,
