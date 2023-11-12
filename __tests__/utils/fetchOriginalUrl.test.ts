@@ -1,6 +1,7 @@
 import fetchMock from 'jest-fetch-mock';
-import fetchOriginalUrl from '../../src/utils/fetchOriginalUrl';
 import { act } from 'react-dom/test-utils';
+
+import fetchOriginalUrl from '../../src/utils/fetchOriginalUrl';
 
 fetchMock.enableMocks();
 

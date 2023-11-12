@@ -1,6 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks';
 import fetchMock from 'jest-fetch-mock';
+
 import IsAuthenticated from '@/hooks/isAuthenticated';
+
 import { userData } from '../../fixtures/users';
 
 beforeAll(() => {

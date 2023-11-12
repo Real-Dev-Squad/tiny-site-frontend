@@ -1,5 +1,6 @@
-import InputBox from '@/components/InputBox';
 import { fireEvent, render } from '@testing-library/react';
+
+import InputBox from '@/components/InputBox';
 
 describe('InputBox', () => {
     it('should render InputBox', () => {

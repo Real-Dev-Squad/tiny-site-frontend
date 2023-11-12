@@ -1,5 +1,6 @@
+import { act, fireEvent, render, screen } from '@testing-library/react';
+
 import Dashboard from '../../src/pages/dashboard';
-import { render, screen, fireEvent, act } from '@testing-library/react';
 
 describe('Dashboard Component', () => {
     const mockWriteText = jest.fn();
