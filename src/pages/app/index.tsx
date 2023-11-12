@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React, { ChangeEvent, useState } from 'react';
 
 import Button from '@/components/Button';
@@ -10,8 +9,8 @@ import IsAuthenticated from '@/hooks/isAuthenticated';
 import { urlRegex } from '@/utils/constants';
 import shortenUrl from '@/utils/shortenUrl';
 
-import CopyIcon from '../../../public/assets/icons/copy';
-import ShareIcon from '../../../public/assets/icons/share';
+import CopyIcon from '../../components/icons/copy';
+import ShareIcon from '../../components/icons/share';
 
 interface InputSectionProps {
     url: string;

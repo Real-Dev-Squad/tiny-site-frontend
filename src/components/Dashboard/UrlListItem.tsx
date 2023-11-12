@@ -4,9 +4,9 @@ import { TINY_SITE } from '@/constants/url';
 import { UrlType } from '@/types/url.types';
 import formatDate from '@/utils/formatDate';
 
-import CopyIcon from '../../../public/assets/icons/copy';
-import InternetIcon from '../../../public/assets/icons/internet';
 import Button from '../Button';
+import CopyIcon from '../icons/copy';
+import InternetIcon from '../icons/internet';
 
 interface UrlListItemProps {
     url: UrlType;
@@ -15,7 +15,7 @@ interface UrlListItemProps {
 
 const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
     return (
-        <li className="flex  m-2 border-gray-50 rounded-lg border-2 bg-white px-4 py-2 w-full">
+        <li className="flex m-2 border-gray-50 rounded-lg border-2 bg-white px-4 py-2 w-full">
             <div className="flex items-center justify-center  ">
                 <InternetIcon width={50} height={50} />
             </div>
@@ -45,7 +45,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                                 href={url.OriginalUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="xs:block  max-w-[200px] truncate text-sm font-medium text-gray-700 underline-offset-2 hover:underline sm:max-w-[300px] md:max-w-[400px] xl:max-w-[440px]"
+                                className="xs:block max-w-[200px] truncate text-sm font-medium text-gray-700 underline-offset-2 hover:underline sm:max-w-[300px] md:max-w-[400px] xl:max-w-[440px]"
                             >
                                 {url.OriginalUrl}
                             </Link>

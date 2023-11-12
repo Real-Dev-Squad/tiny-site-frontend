@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { TINY_SITE } from '@/constants/url';
 import fetchOriginalUrl from '@/utils/fetchOriginalUrl';
 
-import RedirectIcon from '../../../public/assets/icons/redirect';
+import RedirectIcon from '../../components/icons/redirect';
 
 interface LoaderTimerProps {
     timer: number;
