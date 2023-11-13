@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { TINY_API_GOOGLE_LOGIN } from '@/constants/url';
 
@@ -12,9 +12,28 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            onClose();
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [onClose]);
+
     return (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
-            <div className="bg-gray-800 p-8 rounded-md w-96 relative flex flex-col justify-center items-center border border-gray-500">
+            <div
+                ref={modalRef}
+                className="bg-gray-800 p-8 rounded-md w-96 relative flex flex-col justify-center items-center border border-gray-500"
+            >
                 <Button className="absolute top-2 right-2 text-white" testId="close-login-modal" onClick={onClose}>
                     <svg
                         className="w-6 h-6"
