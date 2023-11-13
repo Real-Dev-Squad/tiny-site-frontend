@@ -23,6 +23,7 @@ const IsAuthenticated = () => {
                 }
             } catch (err) {
                 setIsLoggedIn(false);
+                console.log(err);
             }
         };
 

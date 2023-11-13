@@ -17,11 +17,7 @@ const ProfileIcon: React.FC<ProfileIconProps> = ({ firstName, lastName, size }) 
         fontSize: size / 2,
     };
 
-    return (
-        <div data-testid="profile-icon" style={styles}>
-            {initials}
-        </div>
-    );
+    return <div style={styles}>{initials}</div>;
 };
 
 export default ProfileIcon;
