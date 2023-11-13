@@ -5,6 +5,14 @@ import React from 'react';
 
 import Navbar from '@/components/Navbar/';
 
+jest.mock('next/router', () => ({
+    ...jest.requireActual('next/router'),
+    useRouter: () => ({
+        query: {},
+        push: jest.fn(),
+    }),
+}));
+
 describe('Navbar', () => {
     it('should render', () => {
         const { container } = render(<Navbar />);
@@ -17,17 +25,6 @@ describe('Navbar', () => {
         expect(container.querySelector('ul')).toBeInTheDocument();
         expect(container.querySelector('ul')).toContainHTML('Dashboard');
         expect(container.querySelector('ul')).toContainHTML('Sign Out');
-    });
-
-    it('should have google login button', () => {
-        render(<Navbar />);
-        const googleLoginButton = screen.getByTestId('google-login');
-        expect(googleLoginButton).toBeInTheDocument();
-        expect(googleLoginButton).toHaveTextContent('Sign In');
-        expect(googleLoginButton).toHaveAttribute(
-            'href',
-            'https://staging-tinysite-api.realdevsquad.com/v1/auth/google/login'
-        );
     });
 
     it('should display "Sign In" when not logged in', () => {
@@ -59,5 +56,26 @@ describe('Navbar', () => {
 
         const signOutButton = screen.getByText('Sign Out');
         expect(signOutButton).toBeInTheDocument();
+    });
+
+    it('should display modal when "Sign In" button is clicked', () => {
+        render(<Navbar />);
+        const originalIsLoggedIn = screen.getByText('Sign In');
+        fireEvent.click(originalIsLoggedIn);
+
+        const modal = screen.getByText('Sign to your account');
+        expect(modal).toBeInTheDocument();
+    });
+
+    it('should close modal when "X" button is clicked', () => {
+        render(<Navbar />);
+        const originalIsLoggedIn = screen.getByText('Sign In');
+        fireEvent.click(originalIsLoggedIn);
+
+        const closeButton = screen.getByTestId('close-login-modal');
+        fireEvent.click(closeButton);
+
+        const modal = screen.queryByText('Sign to your account');
+        expect(modal).not.toBeInTheDocument();
     });
 });

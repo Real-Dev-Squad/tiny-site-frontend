@@ -2,6 +2,13 @@ import { fireEvent, render } from '@testing-library/react';
 
 import LoginPage from '../../src/pages/login';
 
+jest.mock('next/router', () => ({
+    ...jest.requireActual('next/router'),
+    useRouter: () => ({
+        query: {},
+        push: jest.fn(),
+    }),
+}));
 describe('LoginPage', () => {
     it('should render username input', () => {
         const { getByLabelText } = render(<LoginPage />);
