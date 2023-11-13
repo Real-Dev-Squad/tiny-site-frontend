@@ -28,18 +28,6 @@ const Navbar: React.FC = () => {
         }
     }, [isAuth, userData]);
 
-    const loginButtonHandler = () => {
-        setShowLoginModal(true);
-    };
-
-    const closeLoginModal = () => {
-        setShowLoginModal(false);
-    };
-
-    const toggleDropdown = () => {
-        setMenuOpen(!menuOpen);
-    };
-
     return (
         <>
             <nav className="bg-gray-800 p-4">
@@ -53,7 +41,7 @@ const Navbar: React.FC = () => {
                             {isLoggedIn ? (
                                 <Button
                                     type="button"
-                                    onClick={toggleDropdown}
+                                    onClick={() => setMenuOpen(!menuOpen)}
                                     className="text-white focus:outline-none"
                                 >
                                     <div className="flex items-center space-x-2">
@@ -66,9 +54,7 @@ const Navbar: React.FC = () => {
                                 <Button
                                     className="flex items-center space-x-2  text-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-700"
                                     data-testid="google-login"
-                                    onClick={() => {
-                                        loginButtonHandler();
-                                    }}
+                                    onClick={() => setShowLoginModal(true)}
                                 >
                                     <span>Sign In</span>
                                 </Button>
@@ -95,9 +81,7 @@ const Navbar: React.FC = () => {
             </nav>
             {showLoginModal && (
                 <LoginModal
-                    onClose={() => {
-                        closeLoginModal();
-                    }}
+                    onClose={() => setShowLoginModal(false)}
                     children={
                         <>
                             <p className="text-white text-center mb-4">Sign to your account</p>
