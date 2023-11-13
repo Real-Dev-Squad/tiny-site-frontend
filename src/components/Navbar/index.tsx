@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import { TINY_API_LOGOUT } from '@/constants/url';
 import IsAuthenticated from '@/hooks/isAuthenticated';
 
-import DownArrowIcon from '../../../public/assets/icons/downArrow';
+import DownArrowIcon from '../icons/downArrow';
 import LoginModal from '../LoginModal';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 

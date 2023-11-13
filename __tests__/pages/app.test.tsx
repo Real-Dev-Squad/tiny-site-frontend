@@ -1,13 +1,13 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import Dashboard from '../../src/pages/dashboard';
+import App from '../../src/pages/app';
 
-describe('Dashboard Component', () => {
+describe('App Component', () => {
     const mockWriteText = jest.fn();
     global.navigator.clipboard = { writeText: mockWriteText };
 
-    test('renders the Dashboard component with input box and button', () => {
-        render(<Dashboard />);
+    test('renders the App component with input box and button', () => {
+        render(<App />);
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         const generateButton = screen.getByText('Generate');
 
@@ -16,7 +16,7 @@ describe('Dashboard Component', () => {
     });
 
     test('updates input box value when text is entered', () => {
-        render(<Dashboard />);
+        render(<App />);
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
         expect(urlInput.value).toBe('https://www.google.com');
@@ -30,7 +30,7 @@ describe('Dashboard Component', () => {
             }),
         }));
 
-        render(<Dashboard />);
+        render(<App />);
 
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
@@ -57,7 +57,7 @@ describe('Dashboard Component', () => {
                 userData: null,
             }),
         }));
-        render(<Dashboard />);
+        render(<App />);
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
 
@@ -77,7 +77,7 @@ describe('Dashboard Component', () => {
                 userData: null,
             }),
         }));
-        render(<Dashboard />);
+        render(<App />);
         const generateButton = screen.getByText('Generate');
         fireEvent.click(generateButton);
         await screen.findByTestId('toast');
@@ -86,13 +86,13 @@ describe('Dashboard Component', () => {
     });
 
     test('does not show toast message when Copy button is not clicked', () => {
-        render(<Dashboard />);
+        render(<App />);
         const toast = screen.queryByTestId('toast');
         expect(toast).not.toBeInTheDocument();
     });
 
     test('shows error message when not logged in', () => {
-        render(<Dashboard />);
+        render(<App />);
         const generateButton = screen.getByText('Generate');
         fireEvent.click(generateButton);
         const toast = screen.getByTestId('toast');

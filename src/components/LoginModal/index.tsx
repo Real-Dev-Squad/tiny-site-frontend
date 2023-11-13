@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 
 import { TINY_API_GOOGLE_LOGIN } from '@/constants/url';
 
-import GoogleIcon from '../../../public/assets/icons/google';
 import Button from '../Button';
+import GoogleIcon from '../icons/google';
 
 interface LoginModalProps {
     onClose: () => void;
