@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import LoginModal from '@/components/LoginModal';
 
 describe('LoginModal Component', () => {
-    // close button handler
     const onClose = jest.fn();
 
     test('renders the LoginModal component with close button', () => {

@@ -2,13 +2,6 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import Dashboard from '../../src/pages/dashboard';
 
-jest.mock('next/router', () => ({
-    ...jest.requireActual('next/router'),
-    useRouter: () => ({
-        query: {},
-        push: jest.fn(),
-    }),
-}));
 describe('Dashboard Component', () => {
     const mockWriteText = jest.fn();
     global.navigator.clipboard = { writeText: mockWriteText };

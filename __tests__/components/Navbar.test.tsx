@@ -5,14 +5,6 @@ import React from 'react';
 
 import Navbar from '@/components/Navbar/';
 
-jest.mock('next/router', () => ({
-    ...jest.requireActual('next/router'),
-    useRouter: () => ({
-        query: {},
-        push: jest.fn(),
-    }),
-}));
-
 describe('Navbar', () => {
     it('should render', () => {
         const { container } = render(<Navbar />);

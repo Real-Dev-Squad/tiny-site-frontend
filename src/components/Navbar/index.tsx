@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
@@ -11,8 +10,6 @@ import LoginModal from '../LoginModal';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
-    const router = useRouter();
-
     const [menuOpen, setMenuOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -29,20 +26,14 @@ const Navbar: React.FC = () => {
             setFirstName(first);
             setLastName(last);
         }
-        const loginModalQueryParam = router.query.loginModal;
-        if (loginModalQueryParam && loginModalQueryParam === 'true') {
-            setShowLoginModal(true);
-        }
-    }, [isAuth, userData, router.query.loginModal]);
+    }, [isAuth, userData]);
 
     const loginButtonHandler = () => {
         setShowLoginModal(true);
-        router.push({ query: { loginModal: 'true' } });
     };
 
     const closeLoginModal = () => {
         setShowLoginModal(false);
-        router.push({ query: { loginModal: false } });
     };
 
     const toggleDropdown = () => {
