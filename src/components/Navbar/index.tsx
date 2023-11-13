@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
                                     className="text-white focus:outline-none"
                                 >
                                     <div className="flex items-center space-x-2">
-                                        <ProfileIcon firstName={firstName} lastName={lastName} size={50} />
+                                        <ProfileIcon firstName={firstName} lastName={lastName} />
                                         <span> {firstName}</span>
                                         <DownArrowIcon />
                                     </div>

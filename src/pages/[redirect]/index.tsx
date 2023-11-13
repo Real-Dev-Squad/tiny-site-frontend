@@ -18,23 +18,24 @@ const Redirect = () => {
 
     useEffect(() => {
         if (shortUrlCode) {
-            const fetchOriginalUrlAsync = async () => {
-                try {
-                    const url = await fetchOriginalUrl(shortUrlCode);
-                    if (url) {
-                        setOriginalUrl(url);
-                        startTimer();
-                    } else {
-                        setNotFound(true);
-                    }
-                } catch (error) {
-                    console.error('Error fetching original URL:', error);
-                    setNotFound(true);
-                }
-            };
             fetchOriginalUrlAsync();
         }
     }, [shortUrlCode, timer]);
+
+    const fetchOriginalUrlAsync = async () => {
+        try {
+            const url = await fetchOriginalUrl(shortUrlCode);
+            if (url) {
+                setOriginalUrl(url);
+                startTimer();
+            } else {
+                setNotFound(true);
+            }
+        } catch (error) {
+            console.error('Error fetching original URL:', error);
+            setNotFound(true);
+        }
+    };
 
     const startTimer = () => {
         if (timer > 0) {
