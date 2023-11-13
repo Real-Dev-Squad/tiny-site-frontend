@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
 
     return (
         <>
-            <nav className="bg-gray-800 p-4">
+            <nav className="bg-gray-900 p-4 h-[8vh]">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="text-white text-2xl font-bold">
                         URL Shortener

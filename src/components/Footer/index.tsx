@@ -3,8 +3,8 @@ import React from 'react';
 
 const Footer: React.FC = () => {
     return (
-        <div className="bg-gray-200 flex justify-center items-center h-[6vh]">
-            <p className="text-gray-600 text-sm text-center">
+        <div className="bg-gray-900 flex justify-center items-center h-[6vh]">
+            <p className="text-gray-200 text-sm text-center">
                 The contents of this website are deployed from this{' '}
                 <Link
                     href="https://github.com/Real-Dev-Squad/tiny-site-frontend"
