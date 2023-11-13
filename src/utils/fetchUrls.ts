@@ -17,7 +17,6 @@ async function fetchUrls(userData: UserTypes): Promise<UrlType[] | null> {
             return null;
         }
     } catch (error) {
-        console.error('Error fetching original URL:', error);
         return null;
     }
 }
