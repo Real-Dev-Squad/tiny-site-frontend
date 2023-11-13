@@ -4,9 +4,9 @@ import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
 import Layout from '@/components/Layout';
 import Toast from '@/components/Toast';
+import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
 import IsAuthenticated from '@/hooks/isAuthenticated';
-import { urlRegex } from '@/utils/constants';
 import shortenUrl from '@/utils/shortenUrl';
 
 import CopyIcon from '../../components/icons/copy';

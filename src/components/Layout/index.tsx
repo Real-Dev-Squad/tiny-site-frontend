@@ -16,7 +16,7 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 <title>{title}</title>
             </Head>
             <Navbar />
-            <main className="bg-gray-900 flex flex-col justify-center items-center h-container">{children}</main>
+            <main className="bg-gray-900 ">{children}</main>
             <Footer />
         </>
     );
