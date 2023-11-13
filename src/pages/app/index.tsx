@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React, { ChangeEvent, useState } from 'react';
 
 import Button from '@/components/Button';
@@ -10,8 +9,8 @@ import IsAuthenticated from '@/hooks/isAuthenticated';
 import { urlRegex } from '@/utils/constants';
 import shortenUrl from '@/utils/shortenUrl';
 
-import CopyIcon from '../../../public/assets/icons/copy';
-import ShareIcon from '../../../public/assets/icons/share';
+import CopyIcon from '../../components/icons/copy';
+import ShareIcon from '../../components/icons/share';
 
 interface InputSectionProps {
     url: string;
@@ -51,7 +50,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }
             value={shortUrl}
             placeholder="Copy the URL"
         />
-        <Link
+        <a
             type="button"
             className="bg-gray-200  px-2 py-4 hover:bg-gray-400"
             href={shortUrl}
@@ -59,7 +58,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }
             rel="noopener noreferrer"
         >
             <ShareIcon />
-        </Link>
+        </a>
         <Button
             type="button"
             className="bg-gray-200 rounded-r-2xl px-2 py-4 hover:bg-gray-400"
@@ -71,7 +70,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }
     </div>
 );
 
-const Dashboard = () => {
+const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
     const [toastMessage, setToastMessage] = useState<string>('');
@@ -119,7 +118,7 @@ const Dashboard = () => {
 
     return (
         <Layout title="Home | URL Shortener">
-            <div className="w-screen">
+            <div className="w-screen flex flex-col justify-center items-center h-container">
                 <div className="flex flex-col justify-center items-center m-4">
                     <div className="w-full lg:w-[42rem] md:w-[32rem] sm:w-[22rem]">
                         <h1 className="text-4xl text-center text-white font-semibold">URL Shortener</h1>
@@ -140,4 +139,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default App;
