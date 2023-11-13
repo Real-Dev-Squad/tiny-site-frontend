@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import LoginModal from '@/components/LoginModal';
 
@@ -30,5 +30,20 @@ describe('LoginModal Component', () => {
 
         const signInWithGoogleButton = screen.getByTestId('sign-in-with-google-button');
         expect(signInWithGoogleButton).toBeInTheDocument();
+    });
+
+    test('closes the modal when clicking outside the modal', () => {
+        render(
+            <LoginModal
+                onClose={() => {
+                    onClose();
+                }}
+            />
+        );
+        const modal = screen.getByTestId('login-modal');
+        expect(modal).toBeInTheDocument();
+        const body = document.querySelector('body');
+        fireEvent.mouseDown(body as HTMLElement);
+        expect(onClose).toHaveBeenCalledTimes(1);
     });
 });
