@@ -1,9 +1,6 @@
-interface Props {
-    width?: number;
-    height?: number;
-}
+import { DimensionsProps } from '@/types/dimensions';
 
-const InternetIcon = ({ width = 30, height = 30 }: Props) => (
+const InternetIcon = ({ width = 30, height = 30 }: DimensionsProps) => (
     <svg
         fill="#000000"
         width={width + 'px'}

@@ -1,9 +1,6 @@
-interface Props {
-    width?: number;
-    height?: number;
-}
+import { DimensionsProps } from '@/types/dimensions';
 
-const CopyIcon = ({ width = 30, height = 30 }: Props) => (
+const CopyIcon = ({ width = 30, height = 30 }: DimensionsProps) => (
     <svg
         fill="none"
         stroke="currentColor"
