@@ -16,7 +16,10 @@ const LoaderTimer = ({ timer, goButtonClickHandler }: LoaderTimerProps) => {
     } else {
         return (
             <>
-                <div className="loader border-t-4 rounded-full border-gray-500 animate-spin aspect-square w-20 flex justify-center items-center text-yellow-700 text-4xl font-bold mt-4">
+                <div
+                    className="loader border-t-4 rounded-full border-gray-500 animate-spin aspect-square w-20 flex justify-center items-center text-yellow-700 text-4xl font-bold mt-4"
+                    data-testid="loader"
+                >
                     {timer}
                 </div>
                 <button onClick={goButtonClickHandler} className="mt-4 p-2 bg-blue-500 text-white rounded-md">
