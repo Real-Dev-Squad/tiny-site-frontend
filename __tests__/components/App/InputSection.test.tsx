@@ -10,8 +10,8 @@ describe('InputSection component', () => {
 
         render(<InputSection url={testUrl} setUrl={mockSetUrl} handleUrl={mockHandleUrl} />);
 
-        expect(screen.getByPlaceholderText('🔗 Enter the URL')).toBeInTheDocument();
-        expect(screen.getByText('Generate')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Enter the URL')).toBeInTheDocument();
+        expect(screen.getByText('Shorten')).toBeInTheDocument();
     });
 
     it('calls setUrl function on input change', () => {
@@ -20,7 +20,7 @@ describe('InputSection component', () => {
 
         render(<InputSection url={testUrl} setUrl={mockSetUrl} handleUrl={mockHandleUrl} />);
 
-        const inputElement = screen.getByPlaceholderText('🔗 Enter the URL');
+        const inputElement = screen.getByPlaceholderText('Enter the URL');
 
         fireEvent.change(inputElement, { target: { value: 'https://realdevsquad.com' } });
 
@@ -33,7 +33,7 @@ describe('InputSection component', () => {
 
         render(<InputSection url={testUrl} setUrl={mockSetUrl} handleUrl={mockHandleUrl} />);
 
-        const generateButton = screen.getByText('Generate');
+        const generateButton = screen.getByText('Shorten');
 
         fireEvent.click(generateButton);
 
