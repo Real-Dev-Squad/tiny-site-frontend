@@ -14,7 +14,8 @@ const App = () => {
     const [shortUrl, setShortUrl] = useState<string>('');
     const [toastMessage, setToastMessage] = useState<string>('');
     const [showToast, setShowToast] = useState<boolean>(false);
-    const [showInputBox, setShowInputBox] = useState<boolean>(false);
+    const [showInputBox, setShowInputBox] = useState<boolean>(true);
+    const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
 
     const { isLoggedIn, userData } = IsAuthenticated();
 
@@ -31,7 +32,6 @@ const App = () => {
     const displayErrorMessage = (message: string) => {
         setToastMessage(message);
         setShowToast(true);
-        setShowInputBox(false);
     };
 
     const generateShortUrl = async () => {
@@ -39,8 +39,16 @@ const App = () => {
         if (newShortUrl) {
             const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
             setShortUrl(fullShortUrl);
-            setShowInputBox(true);
+            setShowOutputBox(true);
+            setShowInputBox(false);
         }
+    };
+
+    const createNewHandler = () => {
+        setUrl('');
+        setShortUrl('');
+        setShowInputBox(true);
+        setShowOutputBox(false);
     };
 
     const handleUrl = () => {
@@ -57,13 +65,17 @@ const App = () => {
 
     return (
         <Layout title="Home | URL Shortener">
-            <div className="w-screen flex flex-col justify-center items-center h-container">
-                <div className="flex flex-col justify-center items-center m-4">
-                    <div className="w-full lg:w-[42rem] md:w-[32rem] sm:w-[22rem]">
-                        <h1 className="text-4xl text-center text-white font-semibold">URL Shortener</h1>
-                        <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
-                        {showInputBox && <OutputSection shortUrl={shortUrl} handleCopyUrl={handleCopyUrl} />}
-                    </div>
+            <div className="flex justify-center items-center h-container">
+                <div className="flex flex-col justify-center items-center m-4 lg:w-[52rem] md:w-[42rem] sm:w-[22rem] w-[18rem]">
+                    {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
+                    {showOutputBox && (
+                        <OutputSection
+                            shortUrl={shortUrl}
+                            originalUrl={url}
+                            handleCopyUrl={handleCopyUrl}
+                            handleCreateNew={createNewHandler}
+                        />
+                    )}
                 </div>
                 {showToast && (
                     <Toast
