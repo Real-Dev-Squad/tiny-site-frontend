@@ -25,10 +25,10 @@ describe('LoginModal Component', () => {
                 }}
             />
         );
-        const title = screen.getByText('URL Shortener');
+        const title = screen.getByText('Please log in');
         expect(title).toBeInTheDocument();
 
-        const signInWithGoogleButton = screen.getByText('Sign in with Google');
+        const signInWithGoogleButton = screen.getByTestId('sign-in-with-google-button');
         expect(signInWithGoogleButton).toBeInTheDocument();
     });
 });
