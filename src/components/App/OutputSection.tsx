@@ -25,16 +25,16 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
         <AiOutlineArrowDown style={{ fontSize: '3rem' }} />
 
         <div
-            className="border-2 border-gray-600 text-white flex flex-col md:flex-row justify-center items-center space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 rounded-2xl w-full  lg:w-[80%] xl:w-[80%] cursor-pointer"
+            className="text-white flex flex-col md:flex-row justify-center items-center space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 rounded-2xl w-full  lg:w-[80%] xl:w-[80%] cursor-pointer bg-black p-1"
             onClick={handleCopyUrl}
         >
             <span className="ml-2 p-4 text-center w-full sm:w-[80%] sm:text-2xl md:text-3xl xl:text-3xl">
                 {shortUrl.replace(/(^\w+:|^)\/\//, '')}
             </span>
-            <div className="flex w-full sm:w-[50%] md:w-[20%] justify-center items-center space-y-0 space-x-0 sm:space-x-3 rounded-2xl md:px-2  ">
+            <div className="flex w-full sm:w-[80%] md:w-[20%] justify-center items-center space-y-0 space-x-0 sm:space-x-3 rounded-2xl px-2">
                 <Link
                     type="button"
-                    className="md:p-4 hover:bg-gray-400 w-full sm:w-[50%] rounded-l-2xl md:rounded-none after:content-['Visit'] md:after:content-[''] flex justify-center items-center sm:px-4 py-1"
+                    className=" bg-gray-900 md:p-4 hover:bg-gray-800 w-full sm:w-[50%] rounded-l-2xl after:content-['Visit'] md:after:content-[''] flex justify-center items-center "
                     href={shortUrl}
                     target="_blank"
                     data-testid="share-button"
@@ -45,7 +45,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
                 </Link>
                 <Button
                     type="button"
-                    className="md:rounded-r-2xl md:py-5 md:px-4 hover:bg-gray-600  w-full sm:w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-[''] sm:px-4 sm:py-1 py-2"
+                    className="bg-gray-900 md:rounded-r-2xl md:py-5 md:px-4 hover:bg-gray-800  w-full sm:w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-[''] sm:px-2 sm:py-1 py-1"
                     testId="copy-button"
                     onClick={handleCopyUrl}
                 >
