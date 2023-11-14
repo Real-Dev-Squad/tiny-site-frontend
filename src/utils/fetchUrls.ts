@@ -3,7 +3,7 @@ import { UrlType } from '@/types/url.types';
 import { UserTypes } from '@/types/user.types';
 
 async function fetchUrls(userData: UserTypes): Promise<UrlType[] | null> {
-    const userId = userData?.Id;
+    const userId = userData?.id;
     try {
         const response = await fetch(`${TINY_API_URL}/user/${userId}/urls`, {
             method: 'GET',
@@ -17,7 +17,7 @@ async function fetchUrls(userData: UserTypes): Promise<UrlType[] | null> {
             return null;
         }
     } catch (error) {
-        console.error('Error fetching original URL:', error);
+        // console.error('Error fetching original URL:', error);
         return null;
     }
 }

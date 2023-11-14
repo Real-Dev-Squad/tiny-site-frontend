@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     useEffect(() => {
         setIsLoggedIn(isAuth);
         if (userData) {
-            const username = userData.Username;
+            const username = userData.userName;
             const [first, last] = username.split(' ');
             setFirstName(first);
             setLastName(last);
