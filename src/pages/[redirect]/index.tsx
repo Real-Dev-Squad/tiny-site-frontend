@@ -12,9 +12,9 @@ const Redirect = () => {
     const { redirect: shortUrlCode } = router.query as { redirect: string };
     const [originalUrl, setOriginalUrl] = useState('');
     const [timer, setTimer] = useState(5);
-    const [isPremiumUser] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
     const [notFound, setNotFound] = useState(false);
+    const isPremiumUser = false;
 
     useEffect(() => {
         if (shortUrlCode) {
@@ -63,7 +63,7 @@ const Redirect = () => {
             {notFound ? (
                 <NotFound />
             ) : (
-                <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+                <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
                     <p className="text-lg">You are being redirected to:</p>
                     <p className="text-blue-500 text-xl font-bold w-1/2 text-center truncate xl:w-1/2">{originalUrl}</p>
                     <LoaderTimer timer={timer} goButtonClickHandler={handleGoButtonClick} />
@@ -74,7 +74,7 @@ const Redirect = () => {
                         </div>
                     )}
                     <RedirectFooter />
-                </div>
+                </section>
             )}
         </>
     );
