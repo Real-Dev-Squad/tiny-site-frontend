@@ -7,9 +7,7 @@ describe('InputSection component', () => {
     it('renders InputSection component correctly', () => {
         const mockSetUrl = jest.fn();
         const mockHandleUrl = jest.fn();
-
         render(<InputSection url={testUrl} setUrl={mockSetUrl} handleUrl={mockHandleUrl} />);
-
         expect(screen.getByPlaceholderText('Enter the URL')).toBeInTheDocument();
         expect(screen.getByText('Shorten')).toBeInTheDocument();
     });
@@ -17,26 +15,18 @@ describe('InputSection component', () => {
     it('calls setUrl function on input change', () => {
         const mockSetUrl = jest.fn();
         const mockHandleUrl = jest.fn();
-
         render(<InputSection url={testUrl} setUrl={mockSetUrl} handleUrl={mockHandleUrl} />);
-
         const inputElement = screen.getByPlaceholderText('Enter the URL');
-
         fireEvent.change(inputElement, { target: { value: 'https://realdevsquad.com' } });
-
         expect(mockSetUrl).toHaveBeenCalledWith('https://realdevsquad.com');
     });
 
     it('calls handleUrl function on button click', () => {
         const mockSetUrl = jest.fn();
         const mockHandleUrl = jest.fn();
-
         render(<InputSection url={testUrl} setUrl={mockSetUrl} handleUrl={mockHandleUrl} />);
-
         const generateButton = screen.getByText('Shorten');
-
         fireEvent.click(generateButton);
-
         expect(mockHandleUrl).toHaveBeenCalled();
     });
 });
