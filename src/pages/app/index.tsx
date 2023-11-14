@@ -65,7 +65,7 @@ const App = () => {
 
     return (
         <Layout title="Home | URL Shortener">
-            <div className="flex justify-center items-center h-container">
+            <div className="flex justify-center items-center h-[86vh]">
                 <div className="flex flex-col justify-center items-center m-4 lg:w-[52rem] md:w-[42rem] sm:w-[22rem] w-[18rem]">
                     {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
                     {showOutputBox && (
