@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Button from '@/components/Button';
 import { TINY_API_LOGOUT } from '@/constants/url';
@@ -11,23 +11,12 @@ import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
 
-    const { isLoggedIn: isAuth, userData } = IsAuthenticated();
+    const { isLoggedIn, userData } = IsAuthenticated();
 
-    useEffect(() => {
-        setIsLoggedIn(isAuth);
-        if (userData) {
-            const username = userData.Username;
-            const [first, last] = username.split(' ');
-            setFirstName(first);
-            setLastName(last);
-        }
-    }, [isAuth, userData]);
-
+    const [firstName, lastName] = userData?.Username.split(' ') || ['User'];
     return (
         <>
             <nav className="bg-gray-900 p-4 h-[8vh]">
@@ -82,11 +71,7 @@ const Navbar: React.FC = () => {
             {showLoginModal && (
                 <LoginModal
                     onClose={() => setShowLoginModal(false)}
-                    children={
-                        <>
-                            <p className="text-white text-center mb-4">Sign to your account</p>
-                        </>
-                    }
+                    children={<p className="text-white text-center mb-4">Sign to your account</p>}
                 />
             )}
         </>
