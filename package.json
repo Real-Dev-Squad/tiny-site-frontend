@@ -15,7 +15,7 @@
         "check:all": "yarn format:check && yarn lint:check",
         "fix:all": "yarn format:fix && yarn lint:fix",
         "prepare": "husky install",
-        "test": "jest --coverage --verbose",
+        "test": "jest --coverage",
         "lint": "eslint .",
         "lint-fix": "eslint . --fix"
     },
@@ -31,7 +31,7 @@
     },
     "devDependencies": {
         "@testing-library/jest-dom": "5.17.0",
-        "@testing-library/react": "^14.1.0",
+        "@testing-library/react": "^14.0.0",
         "@testing-library/react-hooks": "^8.0.1",
         "@types/eslint": "^8",
         "@types/jest": "^29.5.3",
