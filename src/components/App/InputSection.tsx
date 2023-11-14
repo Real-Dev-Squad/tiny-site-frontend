@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 
 import Button from '@/components/Button';
 import InputBox from '@/components/InputBox';
@@ -10,13 +10,21 @@ interface InputSectionProps {
 }
 
 const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
-    <div className="flex flex-col justify-center items-center rounded-2xl mt-5 sm:mt-10 w-[100%] text-gray-400">
+    <form
+        className="flex flex-col justify-center items-center rounded-2xl mt-5 sm:mt-10 w-[100%] text-gray-400"
+        onSubmit={(e: FormEvent) => {
+            e.preventDefault();
+            handleUrl();
+        }}
+    >
         <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-8 text-white font-semibold">
             Enter a URL to shorten
         </h1>
 
         <div className="bg-gray-200 flex flex-row justify-center items-center space-y-0 space-x-0 rounded-2xl mt-5 sm:mt-10 w-[100%]">
-            <p className="ml-2">🔗</p>
+            <label htmlFor="url-input" className="ml-2">
+                🔗
+            </label>
             <InputBox
                 type="text"
                 hideLabel={true}
@@ -27,13 +35,15 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
                 name="URL"
             />
             <Button
+                type="submit"
                 className="bg-gray-300 text-black text-lg rounded-r-2xl py-4 px-8 hover:bg-gray-400"
+                testId="shorten-button"
                 onClick={handleUrl}
             >
                 Shorten
             </Button>
         </div>
-    </div>
+    </form>
 );
 
 export default InputSection;
