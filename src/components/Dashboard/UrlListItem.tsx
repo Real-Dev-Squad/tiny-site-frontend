@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { MdOutlineContentCopy } from 'react-icons/md';
+import { TbWorldWww } from 'react-icons/tb';
 
 import { TINY_SITE } from '@/constants/url';
 import { UrlType } from '@/types/url.types';
@@ -6,7 +8,6 @@ import formatDate from '@/utils/formatDate';
 
 import Button from '../Button';
 import CopyIcon from '../icons/copy';
-import InternetIcon from '../icons/internet';
 
 interface UrlListItemProps {
     url: UrlType;
@@ -17,7 +18,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
     return (
         <li className="flex m-2 border-gray-50 rounded-lg border-2 bg-white px-4 py-2 w-full">
             <div className="flex items-center justify-center  ">
-                <InternetIcon width={50} height={50} />
+                <TbWorldWww style={{ fontSize: '2.5em', color: 'black', opacity: '.7' }} />
             </div>
             <div className="flex flex-col sm:flex-row w-full">
                 <div className="flex shrink items-center  w-[60%]">
@@ -37,7 +38,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                                 testId="copy-button"
                             >
                                 <span className="sr-only">Copy</span>
-                                <CopyIcon width={15} height={15} />
+                                <MdOutlineContentCopy style={{ color: 'black' }} />
                             </Button>
                         </div>
                         <div className="flex max-w-fit items-center space-x-1">
