@@ -59,6 +59,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
             className={`fixed bottom-6 right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg cursor-pointer ${
                 window.innerWidth <= 768 ? 'hidden sm:block' : 'block sm:hidden'
             }`}
+            testId="create-new-button-mobile"
             onClick={handleCreateNew}
         >
             <FaPlus size={20} />
@@ -68,6 +69,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
             className={`mt-10 text-white p-3 rounded-full shadow-lg cursor-pointer hover:underline ${
                 window.innerWidth <= 768 ? 'block sm:hidden' : 'hidden sm:block'
             }`}
+            testId="create-new-button"
             onClick={handleCreateNew}
         >
             Create New
