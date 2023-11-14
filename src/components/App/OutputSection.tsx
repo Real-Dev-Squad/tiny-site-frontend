@@ -29,41 +29,39 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
             className="border-2 border-gray-600 text-white flex flex-col md:flex-row justify-center items-center space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 rounded-2xl mt-5 sm:mt-10 w-full  lg:w-[80%] xl:w-[80%] cursor-pointer"
             onClick={handleCopyUrl}
         >
-            <p className="ml-4 text-2xl sm:text-3xl">🔗</p>
-            <span className="ml-2 p-4 text-center w-full sm:w-[80%]">{shortUrl.replace(/(^\w+:|^)\/\//, '')}</span>
-            <div className="flex w-full sm:w-[20%] justify-center items-center space-y-0 space-x-0 sm:space-x-2">
+            <span className="ml-2 p-4 text-center w-full sm:w-[80%] sm:text-2xl md:text-3xl xl:text-3xl">
+                {shortUrl.replace(/(^\w+:|^)\/\//, '')}
+            </span>
+            <div className="flex w-full sm:w-[50%] md:w-[20%] justify-center items-center space-y-0 space-x-0 sm:space-x-3 rounded-2xl md:px-2 ">
                 <Link
                     type="button"
-                    className="py-3 px-4 hover:bg-gray-400"
+                    className="md:p-4 hover:bg-gray-400 w-full sm:w-[50%] rounded-l-2xl md:rounded-none after:content-['Visit'] md:after:content-[''] flex justify-center items-center sm:px-4 py-1"
                     href={shortUrl}
                     target="_blank"
                     data-testid="share-button"
                     rel="noopener noreferrer"
                 >
                     <IoIosShareAlt style={{ fontSize: '2rem' }} />
+                    &nbsp;
                 </Link>
                 <Button
                     type="button"
-                    className="md:rounded-r-2xl py-4 px-4 hover:bg-gray-400 rounded-r-none"
+                    className="md:rounded-r-2xl md:py-5 md:px-4 hover:bg-gray-600  w-full sm:w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-[''] sm:px-4 sm:py-1 py-2"
                     testId="copy-button"
                     onClick={handleCopyUrl}
                 >
                     <IoIosCopy style={{ fontSize: '1.5rem' }} />
+                    &nbsp;
                 </Button>
             </div>
         </div>
 
-        {/* create new button */}
-        <div className="flex flex-col justify-center items-center space-y-0 space-x-0 rounded-2xl mt-5 sm:mt-10 w-[100%] text-gray-400">
-            <Link href="/">
-                <Button
-                    className="text-white underline text-lg py-3 m-4 px-8 border-2  border-gray-900 hover:border-gray-200 hover:border-2 hover:rounded-2xl"
-                    onClick={handleCreateNew}
-                >
-                    Create New
-                </Button>
-            </Link>
-        </div>
+        <Button
+            className="flex flex-col justify-center items-center space-y-0 space-x-0 rounded-2xl mt-5 sm:mt-10 w-fit-content text-gray-200 underline text-lg py-3 m-4 px-8 border-2 border-gray-900 hover:border-gray-200 hover:border-2 hover:rounded-2xl"
+            onClick={handleCreateNew}
+        >
+            Create New
+        </Button>
     </>
 );
 
