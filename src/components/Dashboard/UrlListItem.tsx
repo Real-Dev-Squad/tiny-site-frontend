@@ -7,7 +7,6 @@ import { UrlType } from '@/types/url.types';
 import formatDate from '@/utils/formatDate';
 
 import Button from '../Button';
-import CopyIcon from '../icons/copy';
 
 interface UrlListItemProps {
     url: UrlType;

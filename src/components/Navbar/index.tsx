@@ -11,12 +11,10 @@ import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-
     const { isLoggedIn, userData } = IsAuthenticated();
-
     const [firstName, lastName] = userData?.Username.split(' ') || ['User'];
+
     return (
         <>
             <nav className="bg-gray-900 p-4 h-[8vh]">
@@ -55,7 +53,12 @@ const Navbar: React.FC = () => {
                             } absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}
                         >
                             <li>
-                                <Link href="#" className="text-white hover:bg-gray-700 block px-4 py-2">
+                                <Link href="/" className="text-white hover:bg-gray-700 block px-4 py-2">
+                                    Create New
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/dashboard" className="text-white hover:bg-gray-700 block px-4 py-2">
                                     Dashboard
                                 </Link>
                             </li>
