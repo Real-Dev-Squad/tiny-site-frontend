@@ -42,11 +42,14 @@ const Dashboard = () => {
 
     return (
         <Layout title="Dashboard | URL Shortener">
-            <div className="w-[full] flex flex-col justify-center items-center p-8 text-white bg-gray-900 min-h-[86vh]">
+            <div className="w-full flex flex-col justify-center items-center p-4 text-white bg-gray-900 min-h-[86vh]">
                 {isLoggedIn ? (
                     <>
                         {urls.length ? (
-                            <ul className="justify-center items-center w-full">
+                            <ul className="flex flex-col justify-center items-center w-full mt-10">
+                                <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-8 text-white font-semibold">
+                                    Your URLs
+                                </h1>
                                 {urls.map((url) => (
                                     <UrlListItem key={url.ShortUrl} url={url} copyButtonHandler={copyButtonHandler} />
                                 ))}
@@ -82,6 +85,7 @@ const Dashboard = () => {
                         isVisible={showToast}
                         timeToShow={3000}
                         onDismiss={() => setShowToast(false)}
+                        type="success"
                     />
                 )}
             </div>

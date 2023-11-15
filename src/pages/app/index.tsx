@@ -7,31 +7,38 @@ import Toast from '@/components/Toast';
 import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
 import IsAuthenticated from '@/hooks/isAuthenticated';
+import { ToastType } from '@/types/toast.tyes';
 import shortenUrl from '@/utils/shortenUrl';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
-    const [toastMessage, setToastMessage] = useState<string>('');
-    const [showToast, setShowToast] = useState<boolean>(false);
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
-
+    const [toast, setToast] = useState<ToastType>({
+        message: '',
+        type: 'success',
+        onDismiss: () => {
+            setToast({ ...toast, isVisible: false });
+        },
+        isVisible: false,
+    });
     const { isLoggedIn, userData } = IsAuthenticated();
 
     const handleCopyUrl = () => {
         if (shortUrl) {
-            setToastMessage('Copied to clipboard');
             navigator.clipboard.writeText(shortUrl);
-            setShowToast(true);
-        } else {
-            setToastMessage('No URL to copy');
+            showToast('Copied to clipboard', 'success');
         }
     };
 
-    const displayErrorMessage = (message: string) => {
-        setToastMessage(message);
-        setShowToast(true);
+    const showToast = (message: string, type: 'success' | 'error' | 'info') => {
+        setToast({
+            message,
+            type,
+            isVisible: true,
+            onDismiss: () => setToast({ ...toast, isVisible: false }),
+        });
     };
 
     const generateShortUrl = async () => {
@@ -53,11 +60,11 @@ const App = () => {
 
     const handleUrl = () => {
         if (!isLoggedIn) {
-            displayErrorMessage('Not logged in');
+            showToast('Not logged in', 'info');
         } else if (!url) {
-            displayErrorMessage('Enter the URL');
+            showToast('Enter the URL', 'info');
         } else if (!urlRegex.test(url)) {
-            displayErrorMessage('Enter a valid URL');
+            showToast('Enter a valid URL', 'info');
         } else {
             generateShortUrl();
         }
@@ -77,12 +84,13 @@ const App = () => {
                         />
                     )}
                 </div>
-                {showToast && (
+                {toast.isVisible && (
                     <Toast
-                        message={toastMessage}
-                        isVisible={showToast}
+                        message={toast.message}
+                        isVisible={toast.isVisible}
                         timeToShow={3000}
-                        onDismiss={() => setShowToast(false)}
+                        type={toast.type}
+                        onDismiss={toast.onDismiss}
                     />
                 )}
             </div>
