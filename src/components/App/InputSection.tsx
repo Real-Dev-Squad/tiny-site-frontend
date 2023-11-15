@@ -17,7 +17,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             handleUrl();
         }}
     >
-        <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-8 text-white font-semibold">
+        <h1 className="text-2xl md:text-3xl xl:text-3xl text-center mb-4 text-white font-semibold">
             Enter a URL to shorten
         </h1>
 
@@ -28,7 +28,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             <InputBox
                 type="text"
                 hideLabel={true}
-                className="bg-gray-200 text-black w-full outline-none p-4 rounded-l-2xl"
+                className="bg-gray-200 text-black outline-none p-4 rounded-l-2xl w-full  "
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
                 value={url}
                 placeholder="Enter the URL"
