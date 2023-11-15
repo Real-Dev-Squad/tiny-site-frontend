@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import InputSection from '@/components/App/InputSection';
 import OutputSection from '@/components/App/OutputSection';
 import Layout from '@/components/Layout';
+import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
 import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
@@ -15,6 +16,7 @@ const App = () => {
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
+    const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [toast, setToast] = useState<ToastType>({
         message: '',
         type: 'success',
@@ -23,7 +25,17 @@ const App = () => {
         },
         isVisible: false,
     });
+
     const { isLoggedIn, userData } = IsAuthenticated();
+    useEffect(() => {
+        const localUrl = localStorage.getItem('url');
+
+        if (isLoggedIn && localUrl) {
+            setUrl(localUrl);
+            generateShortUrl(localUrl);
+            localStorage.removeItem('url');
+        }
+    }, [isLoggedIn, url]);
 
     const handleCopyUrl = () => {
         if (shortUrl) {
@@ -41,7 +53,7 @@ const App = () => {
         });
     };
 
-    const generateShortUrl = async () => {
+    const generateShortUrl = async (url: string) => {
         const newShortUrl = await shortenUrl(url, userData);
         if (newShortUrl) {
             const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
@@ -60,13 +72,14 @@ const App = () => {
 
     const handleUrl = () => {
         if (!isLoggedIn) {
-            showToast('Not logged in', 'info');
+            setShowLoginModal(true);
+            if (url) localStorage.setItem('url', url);
         } else if (!url) {
             showToast('Enter the URL', 'info');
         } else if (!urlRegex.test(url)) {
             showToast('Enter a valid URL', 'info');
         } else {
-            generateShortUrl();
+            generateShortUrl(url);
         }
     };
 
@@ -91,6 +104,12 @@ const App = () => {
                         timeToShow={3000}
                         type={toast.type}
                         onDismiss={toast.onDismiss}
+                    />
+                )}
+                {showLoginModal && (
+                    <LoginModal
+                        onClose={() => setShowLoginModal(false)}
+                        children={<p className="text-white text-center mb-4">Log in to generate short links</p>}
                     />
                 )}
             </div>
