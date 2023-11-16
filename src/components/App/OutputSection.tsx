@@ -23,7 +23,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
         <span className="ml-2 p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap">
             {originalUrl}
         </span>
-        <AiOutlineArrowDown style={{ fontSize: '5rem', padding: '15px' }} />
+        <AiOutlineArrowDown style={{ fontSize: '5rem', paddingBottom: '15px' }} />
 
         <div
             className="text-white flex flex-col md:flex-row justify-center items-center  rounded-2xl w-full  lg:w-[80%] xl:w-[80%] cursor-pointer bg-black p-2"
@@ -69,7 +69,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
         <Button
             className={`mt-10 text-white p-3 rounded-full shadow-lg cursor-pointer hover:underline ${
                 window.innerWidth <= 768 ? 'block sm:hidden' : 'hidden sm:block'
-            }`}
+            } text-[20px]`}
             testId="create-new-button"
             onClick={handleCreateNew}
         >
