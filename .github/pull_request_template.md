@@ -45,6 +45,10 @@ _Indicate whether the changes include modifications to the database._
 
 Attach any relevant screenshots, such as test coverage reports, before and after images, or other visual aids.
 
+## Test Coverage
+
+Provide information on the test coverage for the changes made in this PR. Include details on the types of tests conducted and their outcomes.
+
 ## Additional Notes
 
 Include any additional notes, considerations, or explanations that might be helpful for reviewers.
