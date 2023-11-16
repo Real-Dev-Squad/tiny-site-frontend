@@ -11,9 +11,9 @@ The following document outlines the flow for shortening URLs on the Tiny Site. T
 The flowchart below illustrates the steps involved in shortening a URL on the Tiny Site.
 
 ```mermaid
-graph TD
+flowchart TD
     A[Show URL Input Field] -->|User Inputs URL| B[Click Generate Button]
-    B --> C[Check User Login Status]
+    B --> C{Check User Login Status}
     C -->|Logged In| D[Generate Shortened URL]
     C -->|Not Logged In| E[Show Login Modal with Text Continue to Short URL. Please Login.]
     E --> F[User Logs In]
