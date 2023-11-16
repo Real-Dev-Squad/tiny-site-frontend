@@ -10,6 +10,12 @@ const typeClassMap = {
     default: 'bg-blue-500 text-white',
 };
 
+const iconMap: Record<string, React.ReactElement> = {
+    success: <MdDone size={24} />,
+    error: <MdError size={24} />,
+    default: <MdInfo size={24} />,
+};
+
 const Toast: FC<ToastType> = ({ message, isVisible, timeToShow, onDismiss, type }) => {
     useEffect(() => {
         if (isVisible) {
@@ -21,6 +27,10 @@ const Toast: FC<ToastType> = ({ message, isVisible, timeToShow, onDismiss, type 
         }
     }, [isVisible, timeToShow, onDismiss]);
 
+    const toastType = type as keyof typeof typeClassMap;
+    const icon = iconMap[toastType] || iconMap.default;
+    const toastClasses = typeClassMap[toastType] || typeClassMap.default;
+
     return (
         <motion.div
             initial={{ opacity: 0, y: '100%' }}
@@ -28,26 +38,16 @@ const Toast: FC<ToastType> = ({ message, isVisible, timeToShow, onDismiss, type 
             exit={{ opacity: 0, y: '100%' }}
             transition={{ duration: 0.5 }}
             data-testid="toast-div"
-            className={`fixed top-16 right-4 p-4 rounded-md shadow-md ${isVisible ? 'visible' : 'invisible'} ${
-                typeClassMap[type as keyof typeof typeClassMap] || typeClassMap.default
-            }`}
+            className={`fixed top-16 right-4 p-4 rounded-md shadow-md ${
+                isVisible ? 'visible' : 'invisible'
+            } ${toastClasses}`}
         >
-            {type ? (
-                <div className=" flex items-center justify-center">
-                    {type === 'success' ? (
-                        <MdDone size={24} />
-                    ) : type === 'error' ? (
-                        <MdError size={24} />
-                    ) : (
-                        <MdInfo size={24} />
-                    )}
-                    <p className="ml-2" data-testid="toast">
-                        {message}
-                    </p>
-                </div>
-            ) : (
-                <p data-testid="toast">{message}</p>
-            )}
+            <div className="flex items-center justify-center">
+                {icon}
+                <p className="ml-2" data-testid="toast">
+                    {message}
+                </p>
+            </div>
         </motion.div>
     );
 };
