@@ -1,6 +1,6 @@
 ## Issue Ticket Number
 
--   Add the relevant issue ticket number here (e.g., #923).
+-   Add the relevant issue ticket number here (e.g., Closes #<issue_number>).
 
 ## Description
 
