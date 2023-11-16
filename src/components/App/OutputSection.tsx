@@ -6,6 +6,7 @@ import { IoIosCopy } from 'react-icons/io';
 import { IoIosShareAlt } from 'react-icons/io';
 
 import Button from '@/components/Button';
+import { removeProtocol } from '@/constants/constants';
 
 interface OutputSectionProps {
     originalUrl: string;
@@ -29,7 +30,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, originalUrl, ha
             onClick={handleCopyUrl}
         >
             <span className="ml-2 p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-2xl md:text-3xl xl:text-3xl">
-                {shortUrl.replace(/(^\w+:|^)\/\//, '')}
+                {shortUrl.replace(removeProtocol, '')}
             </span>
             <div className="flex w-full sm:w-[80%] md:w-[20%] justify-center items-center space-x-2 rounded-2xl px-2">
                 <Link
