@@ -8,8 +8,8 @@ describe('App Component', () => {
 
     test('renders the App component with input box and button', () => {
         render(<App />);
-        const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
-        const generateButton = screen.getByText('Generate');
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
+        const generateButton = screen.getByText('Shorten');
 
         expect(urlInput).toBeInTheDocument();
         expect(generateButton).toBeInTheDocument();
@@ -17,7 +17,7 @@ describe('App Component', () => {
 
     test('updates input box value when text is entered', () => {
         render(<App />);
-        const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
         expect(urlInput.value).toBe('https://www.google.com');
     });
@@ -78,7 +78,7 @@ describe('App Component', () => {
             }),
         }));
         render(<App />);
-        const generateButton = screen.getByText('Generate');
+        const generateButton = screen.getByText('Shorten');
         fireEvent.click(generateButton);
         await screen.findByTestId('toast');
         const toast = screen.getByTestId('toast');
@@ -93,7 +93,7 @@ describe('App Component', () => {
 
     test('shows error message when not logged in', () => {
         render(<App />);
-        const generateButton = screen.getByText('Generate');
+        const generateButton = screen.getByText('Shorten');
         fireEvent.click(generateButton);
         const toast = screen.getByTestId('toast');
         expect(toast).toHaveTextContent('Not logged in');
