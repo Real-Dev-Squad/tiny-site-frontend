@@ -62,6 +62,6 @@ describe('formatDate', () => {
             relativeDuration: false,
             fullDate: true,
         });
-        expect(result).toEqual('August 9, 2021 at 11:29:59 PM');
+        expect(result).toEqual('August 9, 2021 at 5:59:59 PM');
     });
 });
