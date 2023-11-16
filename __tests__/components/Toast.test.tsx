@@ -17,8 +17,8 @@ describe('Toast', () => {
             />
         );
 
-        expect(screen.getByText('This is a toast message')).toBeInTheDocument();
         expect(screen.getByTestId('toast')).toBeInTheDocument();
+        expect(screen.getByText('This is a toast message')).toBeInTheDocument();
     });
 
     test('should not call onDismiss function when the timeToShow is not completed', () => {
@@ -50,33 +50,22 @@ describe('Toast', () => {
     });
 
     test('should render the error toast component with the message', () => {
-        render(
-            <Toast
-                message="This is a toast message"
-                isVisible={true}
-                timeToShow={5000}
-                onDismiss={onDismiss}
-                type="error"
-            />
-        );
+        render(<Toast message="Error message" isVisible={true} timeToShow={5000} onDismiss={onDismiss} type="error" />);
 
-        expect(screen.getByText('This is a toast message')).toBeInTheDocument();
+        const toastDiv = screen.getByTestId('toast-div');
+
         expect(screen.getByTestId('toast')).toBeInTheDocument();
+        expect(screen.getByText('Error message')).toBeInTheDocument();
+        expect(toastDiv.classList.contains('bg-red-500')).toBeTruthy();
     });
 
     test('should render the info toast component with the message', () => {
-        render(
-            <Toast
-                message="This is a toast message"
-                isVisible={true}
-                timeToShow={5000}
-                onDismiss={onDismiss}
-                type="info"
-            />
-        );
+        render(<Toast message="Info message" isVisible={true} timeToShow={5000} onDismiss={onDismiss} type="info" />);
 
-        expect(screen.getByText('This is a toast message')).toBeInTheDocument();
+        const toastDiv = screen.getByTestId('toast-div');
         expect(screen.getByTestId('toast')).toBeInTheDocument();
+        expect(screen.getByText('Info message')).toBeInTheDocument();
+        expect(toastDiv.classList.contains('bg-blue-500')).toBeTruthy();
     });
 
     test('should become invisible when isVisible is false', async () => {
@@ -89,7 +78,7 @@ describe('Toast', () => {
                 type="success"
             />
         );
-        const toastContainer = screen.getByTestId('toast');
+        const toastContainer = screen.getByTestId('toast-div');
         expect(toastContainer).toBeInTheDocument();
 
         waitFor(() => expect(toastContainer).not.toBeInTheDocument());

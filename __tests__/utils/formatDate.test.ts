@@ -56,7 +56,6 @@ describe('formatDate', () => {
         expect(result).toEqual('August 5, 2021');
     });
 
-    // Add more test cases based on the function's behavior
     it('should return full date and time', () => {
         const result = formatDate({
             inputDate: '2021-08-09T17:59:59.000Z',

@@ -4,6 +4,12 @@ import { MdDone, MdError, MdInfo } from 'react-icons/md';
 
 import { ToastType } from '@/types/toast.tyes';
 
+const typeClassMap = {
+    success: 'bg-green-500 text-white',
+    error: 'bg-red-500 text-white',
+    default: 'bg-blue-500 text-white',
+};
+
 const Toast: FC<ToastType> = ({ message, isVisible, timeToShow, onDismiss, type }) => {
     useEffect(() => {
         if (isVisible) {
@@ -21,12 +27,9 @@ const Toast: FC<ToastType> = ({ message, isVisible, timeToShow, onDismiss, type 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ duration: 0.5 }}
+            data-testid="toast-div"
             className={`fixed top-16 right-4 p-4 rounded-md shadow-md ${isVisible ? 'visible' : 'invisible'} ${
-                type === 'success'
-                    ? 'bg-green-500 text-white'
-                    : type === 'error'
-                    ? 'bg-red-500 text-white'
-                    : 'bg-blue-500 text-white'
+                typeClassMap[type as keyof typeof typeClassMap] || typeClassMap.default
             }`}
         >
             {type ? (

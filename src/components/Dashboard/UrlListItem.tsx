@@ -18,7 +18,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
     return (
         <li className="flex m-1 border-gray-50 rounded-lg border-2 bg-white  w-[100%] sm:w-[60%] sm:m-2 px-2 py-2 sm:px-4 sm:py-2">
             <div className="mr-2 flex items-center justify-center">
-                <TbWorldWww style={{ fontSize: '2.5em', color: 'black', opacity: '.7' }} />
+                <TbWorldWww className="text-black text-opacity-70 text-4xl" />
             </div>
             <div className="flex flex-col w-[85%]">
                 <div className="flex max-w-fit items-center space-x-2 ">
@@ -36,7 +36,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         testId="copy-button"
                     >
                         <span className="sr-only">Copy</span>
-                        <MdOutlineContentCopy style={{ color: 'black' }} />
+                        <MdOutlineContentCopy className="text-black" />
                     </Button>
                 </div>
                 <Link
