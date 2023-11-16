@@ -1,40 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import InputSection from '@/components/App/InputSection';
 import OutputSection from '@/components/App/OutputSection';
 import Layout from '@/components/Layout';
+import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
 import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
 import IsAuthenticated from '@/hooks/isAuthenticated';
+import { ToastType } from '@/types/toast.tyes';
 import shortenUrl from '@/utils/shortenUrl';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
-    const [toastMessage, setToastMessage] = useState<string>('');
-    const [showToast, setShowToast] = useState<boolean>(false);
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
+    const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+    const [toast, setToast] = useState<ToastType>({
+        message: '',
+        type: 'success',
+        onDismiss: () => {
+            setToast({ ...toast, isVisible: false });
+        },
+        isVisible: false,
+    });
 
     const { isLoggedIn, userData } = IsAuthenticated();
+    useEffect(() => {
+        const localUrl = localStorage.getItem('url');
+
+        if (isLoggedIn && localUrl) {
+            setUrl(localUrl);
+            generateShortUrl(localUrl);
+            localStorage.removeItem('url');
+        }
+    }, [isLoggedIn, url]);
 
     const handleCopyUrl = () => {
         if (shortUrl) {
-            setToastMessage('Copied to clipboard');
             navigator.clipboard.writeText(shortUrl);
-            setShowToast(true);
-        } else {
-            setToastMessage('No URL to copy');
+            showToast('Copied to clipboard', 'success');
         }
     };
 
-    const displayErrorMessage = (message: string) => {
-        setToastMessage(message);
-        setShowToast(true);
+    const showToast = (message: string, type: 'success' | 'error' | 'info') => {
+        setToast({
+            message,
+            type,
+            isVisible: true,
+            onDismiss: () => setToast({ ...toast, isVisible: false }),
+        });
     };
 
-    const generateShortUrl = async () => {
+    const generateShortUrl = async (url: string) => {
         const newShortUrl = await shortenUrl(url, userData);
         if (newShortUrl) {
             const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
@@ -53,13 +72,14 @@ const App = () => {
 
     const handleUrl = () => {
         if (!isLoggedIn) {
-            displayErrorMessage('Not logged in');
+            setShowLoginModal(true);
+            if (url) localStorage.setItem('url', url);
         } else if (!url) {
-            displayErrorMessage('Enter the URL');
+            showToast('Enter the URL', 'info');
         } else if (!urlRegex.test(url)) {
-            displayErrorMessage('Enter a valid URL');
+            showToast('Enter a valid URL', 'info');
         } else {
-            generateShortUrl();
+            generateShortUrl(url);
         }
     };
 
@@ -77,12 +97,19 @@ const App = () => {
                         />
                     )}
                 </div>
-                {showToast && (
+                {toast.isVisible && (
                     <Toast
-                        message={toastMessage}
-                        isVisible={showToast}
+                        message={toast.message}
+                        isVisible={toast.isVisible}
                         timeToShow={3000}
-                        onDismiss={() => setShowToast(false)}
+                        type={toast.type}
+                        onDismiss={toast.onDismiss}
+                    />
+                )}
+                {showLoginModal && (
+                    <LoginModal
+                        onClose={() => setShowLoginModal(false)}
+                        children={<p className="text-white text-center mb-4">Log in to generate short links</p>}
                     />
                 )}
             </div>
