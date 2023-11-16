@@ -11,10 +11,12 @@ import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-    const { isLoggedIn, userData } = IsAuthenticated();
-    const [firstName, lastName] = userData?.Username.split(' ') || ['User'];
 
+    const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+
+    const { isLoggedIn, userData } = IsAuthenticated();
+
+    const [firstName, lastName] = userData?.Username.split(' ') || ['User'];
     return (
         <>
             <nav className="bg-gray-900 p-4 h-[8vh]">

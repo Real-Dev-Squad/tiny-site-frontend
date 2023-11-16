@@ -15,24 +15,23 @@ const LoaderTimer = ({ timer, goButtonClickHandler }: LoaderTimerProps) => {
                 <p className="text-1xl">Redirecting...</p>
             </div>
         );
-    } else {
-        return (
-            <>
-                <div
-                    className="loader border-t-4 rounded-full border-gray-500 animate-ping aspect-square w-20 flex justify-center items-center text-yellow-700 text-4xl font-bold mt-8"
-                    data-testid="loader"
-                >
-                    <span>{timer}</span>
-                </div>
-                <Button
-                    onClick={goButtonClickHandler}
-                    className="mt-4 p-2 px-8 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                >
-                    Go
-                </Button>
-            </>
-        );
     }
+    return (
+        <>
+            <div
+                className="loader border-t-4 rounded-full border-gray-500 animate-ping aspect-square w-20 flex justify-center items-center text-yellow-700 text-4xl font-bold mt-8"
+                data-testid="loader"
+            >
+                <span>{timer}</span>
+            </div>
+            <Button
+                onClick={goButtonClickHandler}
+                className="mt-4 p-2 px-8 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+                Go
+            </Button>
+        </>
+    );
 };
 
 export default LoaderTimer;

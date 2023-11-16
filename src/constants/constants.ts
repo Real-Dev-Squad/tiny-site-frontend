@@ -8,3 +8,5 @@ export const urlRegex = new RegExp(
         '(\\#[-a-z\\d_]*)?$', // fragment locator like '#ref'
     'i'
 );
+
+export const removeProtocol = /(^\w+:|^)\/\//;
