@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { TINY_API_URL } from '@/constants/url';
 import { UserTypes } from '@/types/user.types';
 
@@ -17,25 +19,22 @@ export default async function shortenUrl(originalUrl: string, userData: UserType
         const createdBy = userData?.Username;
         const userId = userData?.Id;
 
-        const response = await fetch(`${TINY_API_URL}/tinyurl`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        const { data } = await axios.post<ShortenUrlResponse>(
+            `${TINY_API_URL}/tinyurl`,
+            {
                 OriginalUrl: originalUrl,
                 Comment: '',
                 CreatedBy: createdBy,
                 UserId: userId,
-            } as ShortenUrlRequest),
-        });
+            } as ShortenUrlRequest,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            }
+        );
 
-        if (!response.ok) {
-            const errorMessage = `Error shortening URL: ${response.statusText}`;
-            throw new Error(errorMessage);
-        }
-
-        const data: ShortenUrlResponse = await response.json();
         return data.short_url;
     } catch (error) {
         console.error('Error shortening URL:', error);
