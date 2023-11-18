@@ -1,137 +1,115 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Button from '@/components/Button';
-import InputBox from '@/components/InputBox';
+import InputSection from '@/components/App/InputSection';
+import OutputSection from '@/components/App/OutputSection';
 import Layout from '@/components/Layout';
+import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
+import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
 import IsAuthenticated from '@/hooks/isAuthenticated';
-import { urlRegex } from '@/utils/constants';
+import { ToastType } from '@/types/toast.tyes';
 import shortenUrl from '@/utils/shortenUrl';
-
-import CopyIcon from '../../components/icons/copy';
-import ShareIcon from '../../components/icons/share';
-
-interface InputSectionProps {
-    url: string;
-    setUrl: (url: string) => void;
-    handleUrl: () => void;
-}
-
-interface OutputSectionProps {
-    shortUrl: string;
-    handleCopyUrl: () => void;
-}
-
-const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
-    <div className="bg-gray-200 flex flex-row justify-center items-center space-y-0 space-x-0 rounded-2xl mt-5 sm:mt-10">
-        <InputBox
-            type="text"
-            hideLabel={true}
-            className="bg-gray-200 w-full outline-none p-4 rounded-l-2xl"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-            value={url}
-            placeholder="🔗 Enter the URL"
-            name="URL"
-        />
-        <Button className="bg-gray-300 rounded-r-2xl p-4 hover:bg-gray-400" onClick={handleUrl}>
-            Generate
-        </Button>
-    </div>
-);
-
-const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, handleCopyUrl }) => (
-    <div className="bg-gray-200 flex flex-row justify-center items-center space-y-0 space-x-0 rounded-2xl mt-2">
-        <InputBox
-            type="text"
-            name="URL"
-            hideLabel={true}
-            className="bg-gray-200 w-full outline-none p-4 rounded-l-2xl"
-            value={shortUrl}
-            placeholder="Copy the URL"
-        />
-        <a
-            type="button"
-            className="bg-gray-200  px-2 py-4 hover:bg-gray-400"
-            href={shortUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <ShareIcon />
-        </a>
-        <Button
-            type="button"
-            className="bg-gray-200 rounded-r-2xl px-2 py-4 hover:bg-gray-400"
-            testId="copy-button"
-            onClick={handleCopyUrl}
-        >
-            <CopyIcon />
-        </Button>
-    </div>
-);
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
-    const [toastMessage, setToastMessage] = useState<string>('');
-    const [showToast, setShowToast] = useState<boolean>(false);
-    const [showInputBox, setShowInputBox] = useState<boolean>(false);
+    const [showInputBox, setShowInputBox] = useState<boolean>(true);
+    const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
+    const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+    const [toast, setToast] = useState<ToastType>({
+        message: '',
+        type: 'success',
+        onDismiss: () => {
+            setToast({ ...toast, isVisible: false });
+        },
+        isVisible: false,
+    });
 
     const { isLoggedIn, userData } = IsAuthenticated();
+    useEffect(() => {
+        const localUrl = localStorage.getItem('url');
+
+        if (isLoggedIn && localUrl) {
+            setUrl(localUrl);
+            generateShortUrl(localUrl);
+            localStorage.removeItem('url');
+        }
+    }, [isLoggedIn, url]);
 
     const handleCopyUrl = () => {
         if (shortUrl) {
-            setToastMessage('Copied to clipboard');
             navigator.clipboard.writeText(shortUrl);
-            setShowToast(true);
-        } else {
-            setToastMessage('No URL to copy');
+            showToast('Copied to clipboard', 'success');
         }
     };
 
-    const displayErrorMessage = (message: string) => {
-        setToastMessage(message);
-        setShowToast(true);
-        setShowInputBox(false);
+    const showToast = (message: string, type: 'success' | 'error' | 'info') => {
+        setToast({
+            message,
+            type,
+            isVisible: true,
+            onDismiss: () => setToast({ ...toast, isVisible: false }),
+        });
     };
 
-    const generateShortUrl = async () => {
+    const generateShortUrl = async (url: string) => {
         const newShortUrl = await shortenUrl(url, userData);
         if (newShortUrl) {
             const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
             setShortUrl(fullShortUrl);
-            setShowInputBox(true);
+            setShowOutputBox(true);
+            setShowInputBox(false);
         }
+    };
+
+    const createNewHandler = () => {
+        setUrl('');
+        setShortUrl('');
+        setShowInputBox(true);
+        setShowOutputBox(false);
     };
 
     const handleUrl = () => {
         if (!isLoggedIn) {
-            displayErrorMessage('Not logged in');
+            setShowLoginModal(true);
+            if (url) localStorage.setItem('url', url);
         } else if (!url) {
-            displayErrorMessage('Enter the URL');
+            showToast('Enter the URL', 'info');
         } else if (!urlRegex.test(url)) {
-            displayErrorMessage('Enter a valid URL');
+            showToast('Enter a valid URL', 'info');
         } else {
-            generateShortUrl();
+            generateShortUrl(url);
         }
     };
 
     return (
         <Layout title="Home | URL Shortener">
-            <div className="w-screen flex flex-col justify-center items-center h-container">
-                <div className="flex flex-col justify-center items-center m-4">
-                    <div className="w-full lg:w-[42rem] md:w-[32rem] sm:w-[22rem]">
-                        <h1 className="text-4xl text-center text-white font-semibold">URL Shortener</h1>
-                        <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
-                        {showInputBox && <OutputSection shortUrl={shortUrl} handleCopyUrl={handleCopyUrl} />}
-                    </div>
+            <div className="flex justify-center items-center h-[86vh]">
+                <div className="flex flex-col justify-center items-center m-4 lg:w-[52rem] md:w-[42rem] sm:w-[22rem] w-[18rem]">
+                    {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
+                    {showOutputBox && (
+                        <OutputSection
+                            shortUrl={shortUrl}
+                            originalUrl={url}
+                            handleCopyUrl={handleCopyUrl}
+                            handleCreateNew={createNewHandler}
+                        />
+                    )}
                 </div>
-                {showToast && (
+                {toast.isVisible && (
                     <Toast
-                        message={toastMessage}
-                        isVisible={showToast}
+                        message={toast.message}
+                        isVisible={toast.isVisible}
                         timeToShow={3000}
-                        onDismiss={() => setShowToast(false)}
+                        type={toast.type}
+                        onDismiss={toast.onDismiss}
+                    />
+                )}
+                {showLoginModal && (
+                    <LoginModal
+                        onClose={() => setShowLoginModal(false)}
+                        children={<p className="text-white text-center mb-4">Log in to generate short links</p>}
                     />
                 )}
             </div>

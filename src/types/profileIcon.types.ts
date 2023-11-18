@@ -1,5 +1,4 @@
 export interface ProfileIconProps {
     firstName: string;
-    lastName: string;
-    size: number;
+    lastName?: string;
 }
