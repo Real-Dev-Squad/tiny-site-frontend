@@ -52,7 +52,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                     placement="right"
                     color="primary"
                     content={formatDate({
-                        inputDate: url.CreatedAt as string,
+                        inputDate: url.createdAt as string,
                         relativeDuration: false,
                         fullDate: true,
                     })}
