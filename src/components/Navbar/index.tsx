@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 
     const { isLoggedIn, userData } = IsAuthenticated();
 
-    const [firstName, lastName] = userData?.UserName.split(' ') || ['User'];
+    const [firstName, lastName] = userData?.userName.split(' ') || ['User'];
     return (
         <>
             <nav className="bg-gray-900 p-4 h-[8vh]">
