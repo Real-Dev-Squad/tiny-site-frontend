@@ -7,7 +7,7 @@ import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
 import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
-import IsAuthenticated from '@/hooks/isAuthenticated';
+import useAuthenticated from '@/hooks/useAuthenticated';
 import { ToastType } from '@/types/toast.tyes';
 import shortenUrl from '@/utils/shortenUrl';
 
@@ -26,7 +26,7 @@ const App = () => {
         isVisible: false,
     });
 
-    const { isLoggedIn, userData } = IsAuthenticated();
+    const { isLoggedIn, userData } = useAuthenticated();
     useEffect(() => {
         const localUrl = localStorage.getItem('url');
 
@@ -91,6 +91,7 @@ const App = () => {
                     {showOutputBox && (
                         <OutputSection
                             shortUrl={shortUrl}
+                            isLoaded={!!shortUrl}
                             originalUrl={url}
                             handleCopyUrl={handleCopyUrl}
                             handleCreateNew={createNewHandler}

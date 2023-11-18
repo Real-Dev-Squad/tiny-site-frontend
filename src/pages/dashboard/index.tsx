@@ -5,7 +5,7 @@ import UrlListItem from '@/components/Dashboard/UrlListItem';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
-import IsAuthenticated from '@/hooks/isAuthenticated';
+import useAuthenticated from '@/hooks/useAuthenticated';
 import { UrlType } from '@/types/url.types';
 import fetchUrls from '@/utils/fetchUrls';
 
@@ -13,7 +13,7 @@ const Dashboard = () => {
     const [toastMessage, setToastMessage] = useState<string>('');
     const [showToast, setShowToast] = useState<boolean>(false);
     const [urls, setUrls] = useState<UrlType[]>([]);
-    const { isLoggedIn, userData } = IsAuthenticated();
+    const { isLoggedIn, userData } = useAuthenticated();
 
     const copyButtonHandler = (url: string) => {
         navigator.clipboard.writeText(url);

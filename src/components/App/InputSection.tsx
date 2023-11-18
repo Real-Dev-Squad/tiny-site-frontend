@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent } from 'react';
 
 import Button from '@/components/Button';
-import InputBox from '@/components/InputBox';
 
 interface InputSectionProps {
     url: string;
@@ -25,9 +24,8 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             <label htmlFor="url-input" className="ml-2">
                 🔗
             </label>
-            <InputBox
+            <input
                 type="text"
-                hideLabel={true}
                 className="bg-gray-200 text-black outline-none p-4 rounded-l-2xl w-full  "
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
                 value={url}
