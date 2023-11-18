@@ -33,7 +33,7 @@ jobs:
 
             - name: Prettier check
               run: yarn format:check
-             
+
             - name: Build check
               run: yarn build
 
