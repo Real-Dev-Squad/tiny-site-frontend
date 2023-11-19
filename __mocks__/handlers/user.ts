@@ -5,7 +5,7 @@ import { TINY_API_URL } from '@/constants/url';
 import userData from '../db/user';
 
 const userHandler = [
-    http.get(TINY_API_URL, () => {
+    http.get(`${TINY_API_URL}/users/self`, () => {
         return HttpResponse.json(userData);
     }),
 ];
