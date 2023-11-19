@@ -1,54 +1,63 @@
+import axios from 'axios';
+
 import { TINY_API_URL } from '@/constants/url';
-import { UserTypes } from '@/types/user.types';
 import shortenUrl from '@/utils/shortenUrl';
 
+import urlsData from '../../fixtures/urls';
 import { userData } from '../../fixtures/users';
 
+jest.mock('axios');
+
 describe('shortenUrl', () => {
-    beforeEach(() => {
-        global.fetch = jest.fn();
-        jest.clearAllMocks();
+    const originalUrl = urlsData.urls[0].originalUrl;
+    const user = userData.data;
+    it('successfully shortens a URL', async () => {
+        const shortUrl = urlsData.urls[0].shortUrl;
+        const axiosPostMock = jest.spyOn(axios, 'post');
+        axiosPostMock.mockResolvedValue({ data: { short_url: shortUrl } });
+        if (originalUrl) {
+            const result = await shortenUrl(originalUrl, user);
+
+            expect(axiosPostMock).toHaveBeenCalledWith(
+                `${TINY_API_URL}/tinyurl`,
+                {
+                    OriginalUrl: originalUrl,
+                    Comment: '',
+                    CreatedBy: user.Username,
+                    UserId: user.Id,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                }
+            );
+            expect(result).toBe(shortUrl);
+        }
     });
 
-    it('should return the shortened URL when the API call is successful', async () => {
-        const originalUrl = 'https://example.com/original';
+    it('handles errors when shortening URL', async () => {
+        const axiosPostMock = jest.spyOn(axios, 'post');
+        axiosPostMock.mockRejectedValue({ message: 'Network Error' });
 
-        const mockResponseData = { short_url: 'https://example.com/shortened' };
+        if (originalUrl) {
+            const result = await shortenUrl(originalUrl, user);
 
-        global.fetch.mockResolvedValue({
-            ok: true,
-            json: async () => mockResponseData,
-            headers: {
-                get: () => 'application/json',
-            },
-        });
-
-        const shortenedUrl = await shortenUrl(originalUrl, { ...userData.data } as UserTypes);
-
-        expect(shortenedUrl).toBe('https://example.com/shortened');
-
-        expect(global.fetch).toHaveBeenCalledWith(
-            expect.stringContaining(TINY_API_URL),
-            expect.objectContaining({
-                method: 'POST',
-                headers: expect.objectContaining({
-                    'Content-Type': 'application/json',
-                }),
-            })
-        );
+            expect(axiosPostMock).toHaveBeenCalledWith(expect.any(String), expect.any(Object), expect.any(Object));
+            expect(result).toBeNull();
+        }
     });
 
-    it('should return null when the API call fails', async () => {
-        const originalUrl = 'https://example.com/original';
+    it('handles null response when shortening URL', async () => {
+        const axiosPostMock = jest.spyOn(axios, 'post');
+        axiosPostMock.mockResolvedValue(null);
 
-        global.fetch.mockResolvedValue({
-            ok: false,
-            status: 500,
-            statusText: 'Internal Server Error',
-        });
+        if (originalUrl) {
+            const result = await shortenUrl(originalUrl, user);
 
-        const shortenedUrl = await shortenUrl(originalUrl, { ...userData.data } as UserTypes);
-
-        expect(shortenedUrl).toBeNull();
+            expect(axiosPostMock).toHaveBeenCalledWith(expect.any(String), expect.any(Object), expect.any(Object));
+            expect(result).toBeNull();
+        }
     });
 });
