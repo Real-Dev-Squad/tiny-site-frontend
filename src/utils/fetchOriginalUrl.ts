@@ -1,7 +1,6 @@
-import axios from 'axios';
-
 import { TINY_API_URL_DETAIL } from '@/constants/url';
 import { UrlResponseTypes } from '@/types/url.types';
+import axios from 'axios';
 
 async function fetchOriginalUrl(shortUrlCode: string): Promise<string | null> {
     try {
@@ -9,7 +8,7 @@ async function fetchOriginalUrl(shortUrlCode: string): Promise<string | null> {
 
         if (response) {
             const data = (await response.data) as UrlResponseTypes;
-            return data.url.OriginalUrl;
+            return data.url.originalUrl;
         } else {
             return null;
         }

@@ -16,8 +16,8 @@ interface ShortenUrlResponse {
 
 export default async function shortenUrl(originalUrl: string, userData: UserTypes | null) {
     try {
-        const createdBy = userData?.Username;
-        const userId = userData?.Id;
+        const createdBy = userData?.userName;
+        const userId = userData?.id;
 
         const { data } = await axios.post<ShortenUrlResponse>(
             `${TINY_API_URL}/tinyurl`,

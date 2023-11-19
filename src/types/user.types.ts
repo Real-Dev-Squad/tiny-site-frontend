@@ -1,10 +1,10 @@
 export interface UserTypes {
-    Id: number;
-    Username: string;
-    Email?: string;
-    Password?: string;
-    IsVerified?: boolean;
-    IsOnboarding?: boolean;
-    CreatedAt?: string;
-    UpdatedAt?: string;
+    id: number;
+    userName: string;
+    email?: string;
+    password?: string;
+    isVerified?: boolean;
+    isOnboarding?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
 }

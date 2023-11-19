@@ -46,7 +46,7 @@ const Dashboard = () => {
                         Your URLs
                     </h1>
                     {urls.map((url) => (
-                        <UrlListItem key={url.ShortUrl} url={url} copyButtonHandler={copyButtonHandler} />
+                        <UrlListItem key={url.shortUrl} url={url} copyButtonHandler={copyButtonHandler} />
                     ))}
                 </ul>
             );
