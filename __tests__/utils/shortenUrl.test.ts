@@ -23,8 +23,8 @@ describe('shortenUrl', () => {
                 {
                     OriginalUrl: originalUrl,
                     Comment: '',
-                    CreatedBy: user.Username,
-                    UserId: user.Id,
+                    CreatedBy: user.userName,
+                    UserId: user.id,
                 },
                 {
                     headers: {
