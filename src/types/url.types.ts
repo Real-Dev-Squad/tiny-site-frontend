@@ -1,12 +1,12 @@
 export interface UrlType {
-    Id: number;
-    OriginalUrl: string;
-    ShortUrl: string;
-    Comment: string;
-    UserId: number;
-    ExpiredAt: string;
-    CreatedAt: string;
-    CreatedBy: string;
+    id: number;
+    originalUrl: string;
+    shortUrl: string;
+    comment: string;
+    userId: number;
+    expiredAt: string;
+    createdAt: string;
+    createdBy: string;
 }
 
 export interface UrlResponseTypes {

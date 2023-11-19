@@ -10,7 +10,7 @@ describe('fetchOriginalUrl', () => {
     const originalUrl = 'https://github.com/Real-Dev-Squad/tiny-site-frontend/pull/40';
 
     it('fetches and displays the original URL if the response is successful', async () => {
-        const responseData = { url: { OriginalUrl: originalUrl } };
+        const responseData = { url: { originalUrl: originalUrl } };
 
         fetchMock.mockResponse(JSON.stringify(responseData), { status: 200 });
 

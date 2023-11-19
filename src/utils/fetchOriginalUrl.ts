@@ -7,7 +7,7 @@ async function fetchOriginalUrl(shortUrlCode: string): Promise<string | null> {
 
         if (response.ok) {
             const data = (await response.json()) as UrlResponseTypes;
-            return data.url.OriginalUrl;
+            return data.url.originalUrl;
         } else {
             return null;
         }

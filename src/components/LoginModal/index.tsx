@@ -30,7 +30,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
     }, [onClose]);
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+        <dialog
+            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50"
+            data-testid="login-modal"
+        >
             <div
                 ref={modalRef}
                 className="bg-gray-800 p-8 rounded-md w-[330px] relative flex flex-col justify-center items-center border border-gray-500"
@@ -48,7 +51,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
                     <SignInWithGoogleIcon />
                 </Link>
             </div>
-        </div>
+        </dialog>
     );
 };
 
