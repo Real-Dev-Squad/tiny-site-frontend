@@ -1,20 +1,19 @@
-import Link from 'next/link';
 import React, { useState } from 'react';
-import { RxDropdownMenu } from 'react-icons/rx';
 
 import Button from '@/components/Button';
-import useAuthenticated from '@/hooks/useAuthenticated';
-
+import Link from 'next/link';
 import LoginModal from '../LoginModal';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
-import UserLoginShimmer from '../ShimmerEffect/UserLoginShimmer';
 import NavbarMenuItems from './NavbarMenuItems';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
+import { RxDropdownMenu } from 'react-icons/rx';
+import UserLoginShimmer from '../ShimmerEffect/UserLoginShimmer';
+import useAuthenticated from '@/hooks/useAuthenticated';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const { isLoggedIn, isFetching, userData } = useAuthenticated();
-    const [firstName, lastName] = userData?.Username.split(' ') || ['User'];
+    const [firstName, lastName] = userData?.userName.split(' ') || ['User'];
 
     const handleMenuClick = () => {
         setMenuOpen(!menuOpen);
