@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import UrlListItem from '@/components/Dashboard/UrlListItem';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
+import DashboardShimmer from '@/components/ShimmerEffect/DashboardShimmer';
 import Toast from '@/components/Toast';
 import useAuthenticated from '@/hooks/useAuthenticated';
 import { UrlType } from '@/types/url.types';
@@ -14,6 +15,7 @@ const Dashboard = () => {
     const [showToast, setShowToast] = useState<boolean>(false);
     const [urls, setUrls] = useState<UrlType[]>([]);
     const { isLoggedIn, userData } = useAuthenticated();
+    const [isFetching, setIsFetching] = useState<boolean>(true);
 
     const copyButtonHandler = (url: string) => {
         navigator.clipboard.writeText(url);
@@ -28,6 +30,7 @@ const Dashboard = () => {
                     const fetchedUrls = await fetchUrls(userData);
                     if (fetchedUrls) {
                         setUrls(fetchedUrls);
+                        setIsFetching(false);
                     }
                 }
             } catch (error) {
@@ -67,17 +70,14 @@ const Dashboard = () => {
 
     const renderContent = () => {
         if (isLoggedIn) {
-            return renderUrlsSection();
-        } else {
-            return (
-                <LoginModal
-                    onClose={() => setShowToast(false)}
-                    children={
-                        <p className="text-white text-center mb-4">Login to view your URLs and create new ones</p>
-                    }
-                />
-            );
+            return isFetching ? <DashboardShimmer /> : renderUrlsSection();
         }
+        return (
+            <LoginModal
+                onClose={() => setShowToast(false)}
+                children={<p className="text-white text-center mb-4">Login to view your URLs and create new ones</p>}
+            />
+        );
     };
 
     return (
