@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import axios from 'axios';
 
-import IsAuthenticated from '@/hooks/isAuthenticated';
+import useAuthenticated from '@/hooks/useAuthenticated';
 
 import { userData } from '../../fixtures/users';
 
@@ -10,7 +10,7 @@ jest.mock('axios');
 describe('IsAuthenticated', () => {
     it('fetches successfully data from an API and sets state', async () => {
         jest.spyOn(axios, 'get').mockResolvedValue({ status: 200, data: { data: userData } });
-        const { result, waitFor } = renderHook(() => IsAuthenticated());
+        const { result, waitFor } = renderHook(() => useAuthenticated());
 
         await act(async () => {
             await waitFor(() => result.current.isLoggedIn === true);
@@ -22,7 +22,7 @@ describe('IsAuthenticated', () => {
 
     it('handles unsuccessful API response and sets isLoggedIn to false', async () => {
         jest.spyOn(axios, 'get').mockResolvedValue({ status: 401 });
-        const { result, waitFor } = renderHook(() => IsAuthenticated());
+        const { result, waitFor } = renderHook(() => useAuthenticated());
 
         await act(async () => {
             await waitFor(() => result.current.isLoggedIn === false);
@@ -34,7 +34,7 @@ describe('IsAuthenticated', () => {
 
     it('handles API error and sets isLoggedIn to false', async () => {
         jest.spyOn(axios, 'get').mockRejectedValue(new Error('API Error'));
-        const { result, waitFor } = renderHook(() => IsAuthenticated());
+        const { result, waitFor } = renderHook(() => useAuthenticated());
 
         await act(async () => {
             await waitFor(() => result.current.isLoggedIn === false);

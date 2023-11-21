@@ -7,7 +7,7 @@ import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
 import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
-import IsAuthenticated from '@/hooks/isAuthenticated';
+import useAuthenticated from '@/hooks/useAuthenticated';
 import { ToastType } from '@/types/toast.tyes';
 import shortenUrl from '@/utils/shortenUrl';
 
@@ -26,7 +26,7 @@ const App = () => {
         isVisible: false,
     });
 
-    const { isLoggedIn, userData } = IsAuthenticated();
+    const { isLoggedIn, userData } = useAuthenticated();
     useEffect(() => {
         const localUrl = localStorage.getItem('url');
 
@@ -86,11 +86,12 @@ const App = () => {
     return (
         <Layout title="Home | URL Shortener">
             <div className="flex justify-center items-center h-[86vh]">
-                <div className="flex flex-col justify-center items-center m-4 lg:w-[52rem] md:w-[42rem] sm:w-[22rem] w-[18rem]">
+                <div className="flex flex-col justify-center items-center m-4  w-[100%]">
                     {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
                     {showOutputBox && (
                         <OutputSection
                             shortUrl={shortUrl}
+                            isLoaded={!!shortUrl}
                             originalUrl={url}
                             handleCopyUrl={handleCopyUrl}
                             handleCreateNew={createNewHandler}

@@ -13,6 +13,7 @@ describe('OutputSection component', () => {
             <OutputSection
                 shortUrl={shortUrl}
                 originalUrl={originalUrl}
+                isLoaded={true}
                 handleCopyUrl={mockHandleCopyUrl}
                 handleCreateNew={mockHandleCreateNew}
             />
@@ -27,6 +28,7 @@ describe('OutputSection component', () => {
             <OutputSection
                 shortUrl={shortUrl}
                 originalUrl={originalUrl}
+                isLoaded={true}
                 handleCopyUrl={mockHandleCopyUrl}
                 handleCreateNew={mockHandleCopyUrl}
             />
@@ -42,6 +44,7 @@ describe('OutputSection component', () => {
             <OutputSection
                 shortUrl={shortUrl}
                 originalUrl={originalUrl}
+                isLoaded={true}
                 handleCopyUrl={mockHandleCopyUrl}
                 handleCreateNew={mockHandleCopyUrl}
             />
@@ -57,6 +60,7 @@ describe('OutputSection component', () => {
             <OutputSection
                 shortUrl={shortUrl}
                 originalUrl={originalUrl}
+                isLoaded={true}
                 handleCopyUrl={mockHandleCopyUrl}
                 handleCreateNew={mockHandleCreateNew}
             />
@@ -73,6 +77,7 @@ describe('OutputSection component', () => {
             <OutputSection
                 originalUrl={originalUrl}
                 shortUrl={shortUrl}
+                isLoaded={true}
                 handleCopyUrl={mockHandleCopyUrl}
                 handleCreateNew={mockHandleCreateNew}
             />
@@ -82,5 +87,20 @@ describe('OutputSection component', () => {
         expect(createNewButton).toBeInTheDocument();
         fireEvent.click(createNewButton);
         expect(mockHandleCreateNew).toHaveBeenCalled();
+    });
+
+    it('renders shimmer when isLoaded is false', () => {
+        render(
+            <OutputSection
+                originalUrl={originalUrl}
+                shortUrl={shortUrl}
+                isLoaded={false}
+                handleCopyUrl={mockHandleCopyUrl}
+                handleCreateNew={mockHandleCreateNew}
+            />
+        );
+
+        const shimmer = screen.getByTestId('output-section-shimmer');
+        expect(shimmer).toBeInTheDocument();
     });
 });

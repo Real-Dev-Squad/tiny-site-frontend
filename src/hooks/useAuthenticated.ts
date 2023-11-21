@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { TINY_API_URL } from '@/constants/url';
 import { UserTypes } from '@/types/user.types';
 
-const IsAuthenticated = () => {
+const useAuthenticated = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isFetching, setIsFetching] = useState(true);
+    const [error, setError] = useState<Error | null>(null);
     const [userData, setUserData] = useState<UserTypes | null>(null);
 
     useEffect(() => {
@@ -23,15 +25,16 @@ const IsAuthenticated = () => {
                     setIsLoggedIn(false);
                 }
             } catch (err) {
-                setIsLoggedIn(false);
-                console.error(err);
+                setError(err as Error);
+            } finally {
+                setIsFetching(false);
             }
         };
 
         fetchData();
     }, []);
 
-    return { isLoggedIn, userData };
+    return { isLoggedIn, isFetching, error, userData };
 };
 
-export default IsAuthenticated;
+export default useAuthenticated;
