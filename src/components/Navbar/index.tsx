@@ -1,22 +1,60 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { RxDropdownMenu } from 'react-icons/rx';
 
 import Button from '@/components/Button';
-import { TINY_API_LOGOUT } from '@/constants/url';
-import IsAuthenticated from '@/hooks/isAuthenticated';
+import LoginModal from '@/components/LoginModal';
+import NavbarMenuItems from '@/components/Navbar/NavbarMenuItems';
+import ProfileIcon from '@/components/ProfileIcon/ProfileIcon';
+import UserLoginShimmer from '@/components/ShimmerEffect/UserLoginShimmer';
+import useAuthenticated from '@/hooks/useAuthenticated';
 
-import DownArrowIcon from '../icons/downArrow';
-import LoginModal from '../LoginModal';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
+interface SignInButtonProps {
+    isLoggedIn: boolean;
+    firstName: string;
+    lastName: string;
+    handleMenuClick: () => void;
+    setShowLoginModal: (value: boolean) => void;
+}
+
+const UserProfileButton = ({
+    isLoggedIn,
+    firstName,
+    lastName,
+    handleMenuClick,
+    setShowLoginModal,
+}: SignInButtonProps) => {
+    if (isLoggedIn) {
+        return (
+            <Button type="button" onClick={handleMenuClick} className="text-white focus:outline-none">
+                <div className="flex items-center space-x-2">
+                    <ProfileIcon firstName={firstName} lastName={lastName} />
+                    <span> {firstName}</span>
+                    <RxDropdownMenu className="text-[2em]" />
+                </div>
+            </Button>
+        );
+    }
+    return (
+        <Button
+            className="flex items-center space-x-2  text-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-700"
+            data-testid="google-login"
+            onClick={() => setShowLoginModal(true)}
+        >
+            <span>Sign In</span>
+        </Button>
+    );
+};
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-
-    const { isLoggedIn, userData } = IsAuthenticated();
-
+    const { isLoggedIn, isFetching, userData } = useAuthenticated();
     const [firstName, lastName] = userData?.userName.split(' ') || ['User'];
+
+    const handleMenuClick = () => {
+        setMenuOpen(!menuOpen);
+    };
     return (
         <>
             <nav className="bg-gray-900 p-4 h-[8vh]">
@@ -25,52 +63,22 @@ const Navbar: React.FC = () => {
                         URL Shortener
                     </Link>
 
-                    <ul className={'lg:flex space-x-4'}>
-                        <li className="relative group">
-                            {isLoggedIn ? (
-                                <Button
-                                    type="button"
-                                    onClick={() => setMenuOpen(!menuOpen)}
-                                    className="text-white focus:outline-none"
-                                >
-                                    <div className="flex items-center space-x-2">
-                                        <ProfileIcon firstName={firstName} lastName={lastName} />
-                                        <span> {firstName}</span>
-                                        <DownArrowIcon />
-                                    </div>
-                                </Button>
-                            ) : (
-                                <Button
-                                    className="flex items-center space-x-2  text-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-700"
-                                    data-testid="google-login"
-                                    onClick={() => setShowLoginModal(true)}
-                                >
-                                    <span>Sign In</span>
-                                </Button>
-                            )}
-                        </li>
-                        <ul
-                            className={`${
-                                menuOpen ? 'block' : 'hidden'
-                            } absolute top-[8vh] right-0 bg-gray-800 p-2 z-10`}
-                        >
-                            <li>
-                                <Link href="/" className="text-white hover:bg-gray-700 block px-4 py-2">
-                                    Create New
-                                </Link>
+                    {isFetching ? (
+                        <UserLoginShimmer />
+                    ) : (
+                        <ul className="lg:flex space-x-4">
+                            <li className="relative group">
+                                <UserProfileButton
+                                    isLoggedIn={isLoggedIn}
+                                    firstName={firstName}
+                                    lastName={lastName}
+                                    handleMenuClick={handleMenuClick}
+                                    setShowLoginModal={setShowLoginModal}
+                                />
                             </li>
-                            <li>
-                                <Link href="/dashboard" className="text-white hover:bg-gray-700 block px-4 py-2">
-                                    Dashboard
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={TINY_API_LOGOUT} className="text-white hover:bg-gray-700 block px-4 py-2">
-                                    Sign Out
-                                </Link>
-                            </li>
+                            <NavbarMenuItems menuOpen={menuOpen} />
                         </ul>
-                    </ul>
+                    )}
                 </div>
             </nav>
             {showLoginModal && (
