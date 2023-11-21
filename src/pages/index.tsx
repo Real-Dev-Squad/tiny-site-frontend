@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Dashboard from './dashboard';
+import App from '@/pages/app';
 
 export default function Home() {
-    return <Dashboard />;
+    return <App />;
 }

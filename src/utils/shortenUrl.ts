@@ -14,8 +14,8 @@ interface ShortenUrlResponse {
 
 export default async function shortenUrl(originalUrl: string, userData: UserTypes | null) {
     try {
-        const createdBy = userData?.Username;
-        const userId = userData?.Id;
+        const createdBy = userData?.userName;
+        const userId = userData?.id;
 
         const response = await fetch(`${TINY_API_URL}/tinyurl`, {
             method: 'POST',
