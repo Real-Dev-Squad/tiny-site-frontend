@@ -23,8 +23,8 @@ describe('App Component', () => {
     });
 
     test.skip('generates and displays short URL on button click', async () => {
-        jest.mock('../../src/hooks/isAuthenticated', () => ({
-            useIsAuthenticated: () => ({
+        jest.mock('../../src/hooks/useAuthenticated', () => ({
+            useuseAuthenticated: () => ({
                 isLoggedIn: true,
                 userData: { username: 'testUser', Id: 1 },
             }),
@@ -51,8 +51,8 @@ describe('App Component', () => {
     });
 
     test.skip('copies short URL to clipboard on Copy button click', async () => {
-        jest.mock('../../src/hooks/isAuthenticated', () => ({
-            useIsAuthenticated: () => ({
+        jest.mock('../../src/hooks/useAuthenticated', () => ({
+            useuseAuthenticated: () => ({
                 isLoggedIn: false,
                 userData: null,
             }),
@@ -71,8 +71,8 @@ describe('App Component', () => {
     });
 
     test.skip('shows toast message when Copy button is clicked', async () => {
-        jest.mock('../../src/hooks/isAuthenticated', () => ({
-            useIsAuthenticated: () => ({
+        jest.mock('../../src/hooks/useAuthenticated', () => ({
+            useuseAuthenticated: () => ({
                 isLoggedIn: true,
                 userData: null,
             }),
