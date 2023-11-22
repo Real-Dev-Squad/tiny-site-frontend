@@ -60,4 +60,14 @@ describe('Navbar', () => {
             expect(modalTitle).not.toBeInTheDocument();
         });
     });
+    test('should show menu items when menuOpen is true', () => {
+        render(<Navbar />);
+        waitFor(() => {
+            const originalIsLoggedIn = screen.getByText('Sign In');
+            fireEvent.click(originalIsLoggedIn);
+
+            const menuItems = screen.getByTestId('navbar-menu-items');
+            expect(menuItems).toBeInTheDocument();
+        });
+    });
 });
