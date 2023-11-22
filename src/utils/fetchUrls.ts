@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { TINY_API_URL } from '@/constants/url';
 import { UrlType } from '@/types/url.types';
 import { UserTypes } from '@/types/user.types';
@@ -5,17 +7,11 @@ import { UserTypes } from '@/types/user.types';
 async function fetchUrls(userData: UserTypes): Promise<UrlType[] | null> {
     const userId = userData?.id;
     try {
-        const response = await fetch(`${TINY_API_URL}/user/${userId}/urls`, {
-            method: 'GET',
-            credentials: 'include',
+        const response = await axios.get(`${TINY_API_URL}/user/${userId}/urls`, {
+            withCredentials: true,
         });
-
-        if (response.ok) {
-            const data = (await response.json()) as { urls: UrlType[] };
-            return data.urls;
-        } else {
-            return null;
-        }
+        const data = response.data as { urls: UrlType[] };
+        return data.urls;
     } catch (error) {
         console.error('Error fetching original URL:', error);
         return null;

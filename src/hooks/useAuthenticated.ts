@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { TINY_API_URL } from '@/constants/url';
@@ -12,13 +13,12 @@ const useAuthenticated = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${TINY_API_URL}/users/self`, {
+                const response = await axios.get(`${TINY_API_URL}/users/self`, {
                     method: 'GET',
-                    credentials: 'include',
+                    withCredentials: true,
                 });
-
-                if (response.ok) {
-                    const userData = await response.json();
+                if (response.status === 200) {
+                    const userData = await response.data;
                     setUserData(userData.data);
                     setIsLoggedIn(true);
                 } else {
