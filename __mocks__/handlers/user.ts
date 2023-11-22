@@ -10,4 +10,10 @@ const userHandler = [
     }),
 ];
 
-export default userHandler;
+const failedUserHandler = [
+    rest.get(`${TINY_API_URL}/users/self`, (req, res, ctx) => {
+        return res(ctx.status(401));
+    }),
+];
+
+export { failedUserHandler, userHandler };

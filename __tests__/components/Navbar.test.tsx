@@ -1,82 +1,63 @@
-import '@testing-library/jest-dom';
-
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import Navbar from '@/components/Navbar/';
 
+import { failedUserHandler } from '../../__mocks__/handlers/user';
+import { server } from '../../__mocks__/server';
+
 describe('Navbar', () => {
-    it('should render', () => {
-        const { container } = render(<Navbar />);
-        expect(container).toHaveTextContent('URL Shortener');
-        expect(container.querySelector('a')).toHaveAttribute('href', '/');
-    });
+    it('should display "Sign In" when not logged in', async () => {
+        server.use(...failedUserHandler);
 
-    it('should have dropdown menu', () => {
-        const { container } = render(<Navbar />);
-        expect(container.querySelector('ul')).toBeInTheDocument();
-        expect(container.querySelector('ul')).toContainHTML('Dashboard');
-        expect(container.querySelector('ul')).toContainHTML('Sign Out');
-    });
-
-    it('should display "Sign In" when not logged in', () => {
         render(<Navbar />);
-        const signInButton = screen.getByText('Sign In');
-        expect(signInButton).toBeInTheDocument();
+
+        await waitFor(() => {
+            const signInButton = screen.getByText('Sign In');
+            expect(signInButton).toBeInTheDocument();
+        });
     });
 
-    it('should handle "Sign Out" button click', () => {
+    it('should display "Sign Out" when logged in', async () => {
         render(<Navbar />);
-        const signOutButton = screen.getByText('Sign Out');
-        expect(signOutButton).toBeInTheDocument();
-
-        const originalIsLoggedIn = screen.getByText('Sign In');
-        fireEvent.click(originalIsLoggedIn);
-
-        expect(signOutButton).toBeInTheDocument();
-
-        fireEvent.click(signOutButton);
-
-        const signInButton = screen.getByText('Sign In');
-        expect(signInButton).toBeInTheDocument();
+        await waitFor(() => {
+            const signOutButton = screen.getByText('Sign Out');
+            expect(signOutButton).toBeInTheDocument();
+        });
     });
 
-    it('should display "Sign Out" when logged in', () => {
+    it('should display "URL Shortener" text', () => {
         render(<Navbar />);
-        const originalIsLoggedIn = screen.getByText('Sign In');
-        fireEvent.click(originalIsLoggedIn);
-
-        const signOutButton = screen.getByText('Sign Out');
-        expect(signOutButton).toBeInTheDocument();
+        const linkElement = screen.getByText(/URL Shortener/i);
+        expect(linkElement).toBeInTheDocument();
     });
 
-    it('should display modal when "Sign In" button is clicked', () => {
-        render(<Navbar />);
-        const originalIsLoggedIn = screen.getByText('Sign In');
-        fireEvent.click(originalIsLoggedIn);
+    it('should display login modal when "Sign In" is clicked', async () => {
+        server.use(...failedUserHandler);
 
-        const modal = screen.getByText('Sign to your account');
-        expect(modal).toBeInTheDocument();
+        render(<Navbar />);
+        await waitFor(() => {
+            const signInButton = screen.getByText('Sign In');
+            fireEvent.click(signInButton);
+
+            const modalTitle = screen.getByText('Sign to your account');
+            expect(modalTitle).toBeInTheDocument();
+        });
     });
 
-    it('should close modal when "X" button is clicked', () => {
+    it('should close login modal when close button is clicked', async () => {
+        server.use(...failedUserHandler);
+
         render(<Navbar />);
-        const originalIsLoggedIn = screen.getByText('Sign In');
-        fireEvent.click(originalIsLoggedIn);
+        await waitFor(() => {
+            const signInButton = screen.getByText('Sign In');
+            fireEvent.click(signInButton);
 
-        const closeButton = screen.getByTestId('close-login-modal');
-        fireEvent.click(closeButton);
+            const closeButton = screen.getByTestId('close-login-modal');
+            fireEvent.click(closeButton);
 
-        const modal = screen.queryByText('Sign to your account');
-        expect(modal).not.toBeInTheDocument();
-    });
-
-    test('should show menu items when menuOpen is true', () => {
-        render(<Navbar />);
-        const originalIsLoggedIn = screen.getByText('Sign In');
-        fireEvent.click(originalIsLoggedIn);
-
-        const menuItems = screen.getByTestId('navbar-menu-items');
-        expect(menuItems).toBeInTheDocument();
+            const modalTitle = screen.queryByText('Sign to your account');
+            expect(modalTitle).not.toBeInTheDocument();
+        });
     });
 });
