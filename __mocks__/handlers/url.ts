@@ -10,7 +10,7 @@ const getAllUrlHandler = [
     }),
 ];
 
-const notFoundUrls = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
+const notFoundUrlsHandler = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
     return res(
         ctx.status(404),
         ctx.json({
@@ -21,8 +21,4 @@ const notFoundUrls = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
     );
 });
 
-const failedUrls = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res) => {
-    return res.networkError('Failed to fetch');
-});
-
-export { failedUrls, getAllUrlHandler, notFoundUrls };
+export { getAllUrlHandler, notFoundUrlsHandler };

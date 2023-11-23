@@ -10,10 +10,10 @@ const getSelfUserHandler = [
     }),
 ];
 
-const failedUserHandler = [
+const unauthorizedUserHandler = [
     rest.get(`${TINY_API_URL}/users/self`, (req, res, ctx) => {
         return res(ctx.status(401));
     }),
 ];
 
-export { failedUserHandler, getSelfUserHandler };
+export { getSelfUserHandler, unauthorizedUserHandler };
