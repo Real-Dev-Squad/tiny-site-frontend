@@ -1,4 +1,5 @@
 const urls = {
+    message: 'All URLs fetched successfully',
     urls: [
         {
             id: 1,

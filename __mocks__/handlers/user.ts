@@ -12,7 +12,14 @@ const getSelfUserHandler = [
 
 const unauthorizedUserHandler = [
     rest.get(`${TINY_API_URL}/users/self`, (req, res, ctx) => {
-        return res(ctx.status(401));
+        return res(
+            ctx.status(401),
+            ctx.json({
+                statusCode: 401,
+                error: 'Unauthorized',
+                message: 'User is not authorized ',
+            })
+        );
     }),
 ];
 
