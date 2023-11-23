@@ -1,5 +1,5 @@
-import { urlHandler } from './handlers/url';
-import { userHandler } from './handlers/user';
+import { getAllUrlHandler } from './handlers/url';
+import { getSelfUserHandler } from './handlers/user';
 
-const handlers = [...userHandler, ...urlHandler];
+const handlers = [...getSelfUserHandler, ...getAllUrlHandler];
 export default handlers;
