@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
-import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
+import { TINY_API_URL } from '@/constants/url';
 
 const useAuthenticatedQuery = () => {
     return useQuery({

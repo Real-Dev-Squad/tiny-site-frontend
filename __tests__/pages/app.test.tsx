@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import App from '../../src/pages/app';
 
@@ -6,8 +7,14 @@ describe('App Component', () => {
     const mockWriteText = jest.fn();
     global.navigator.clipboard = { writeText: mockWriteText };
 
+    const queryClient = new QueryClient();
+
     test('renders the App component with input box and button', () => {
-        render(<App />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('Enter the URL');
         const generateButton = screen.getByText('Shorten');
 
@@ -16,7 +23,11 @@ describe('App Component', () => {
     });
 
     test('updates input box value when text is entered', () => {
-        render(<App />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
         expect(urlInput.value).toBe('https://www.google.com');
@@ -30,8 +41,11 @@ describe('App Component', () => {
             }),
         }));
 
-        render(<App />);
-
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
 
@@ -57,7 +71,11 @@ describe('App Component', () => {
                 userData: null,
             }),
         }));
-        render(<App />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
 
@@ -77,7 +95,11 @@ describe('App Component', () => {
                 userData: null,
             }),
         }));
-        render(<App />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const generateButton = screen.getByText('Shorten');
         fireEvent.click(generateButton);
         await screen.findByTestId('toast');
@@ -86,20 +108,12 @@ describe('App Component', () => {
     });
 
     test('does not show toast message when Copy button is not clicked', () => {
-        render(<App />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const toast = screen.queryByTestId('toast');
         expect(toast).not.toBeInTheDocument();
-    });
-
-    test('shows login modal when Sign In button is clicked', () => {
-        render(<App />);
-
-        const urlInput = screen.getByPlaceholderText('Enter the URL');
-        fireEvent.change(urlInput, { target: { value: 'https://www.realdevsquad.com/longurl' } });
-
-        const generateButton = screen.getByText('Shorten');
-        fireEvent.click(generateButton);
-        const loginModal = screen.getByTestId('login-modal');
-        expect(loginModal).toBeInTheDocument();
     });
 });

@@ -50,7 +50,11 @@ const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const { isLoggedIn, isLoading, userData } = useAuthenticated();
-    const [firstName, lastName] = userData?.userName.split(' ') || ['User'];
+
+    const userName = userData?.userName || 'User';
+    const spaceIndex = userName.indexOf(' ');
+    const firstName = spaceIndex !== -1 ? userName.substring(0, spaceIndex) : userName;
+    const lastName = spaceIndex !== -1 ? userName.substring(spaceIndex + 1) : '';
 
     const handleMenuClick = () => {
         setMenuOpen(!menuOpen);

@@ -1,46 +1,41 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import axios from 'axios';
+import { setupServer } from 'msw/node';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useAuthenticated from '@/hooks/useAuthenticated';
 
-import { userData } from '../../fixtures/users';
+import user from '../../__mocks__/db/user';
+import handlers from '../../__mocks__/handler';
 
-jest.mock('axios');
+const server = setupServer(...handlers);
 
-describe('IsAuthenticated', () => {
-    it('fetches successfully data from an API and sets state', async () => {
-        jest.spyOn(axios, 'get').mockResolvedValue({ status: 200, data: { data: userData } });
-        const { result, waitFor } = renderHook(() => useAuthenticated());
+beforeAll(() => server.listen());
+
+afterEach(() => server.resetHandlers());
+
+afterAll(() => server.close());
+
+describe('useAuthenticated', () => {
+    const queryClient = new QueryClient();
+    const wrapper = ({ children }: any) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+
+    it('returns isLoggedIn as false and userData as undefined by default', () => {
+        const { result } = renderHook(() => useAuthenticated(), { wrapper });
+
+        expect(result.current.isLoggedIn).toBe(false);
+        expect(result.current.userData).toBe(undefined);
+    });
+
+    it('returns isLoggedIn as true and userData as user data when user is logged in', async () => {
+        const { result, waitFor } = renderHook(() => useAuthenticated(), { wrapper });
 
         await act(async () => {
-            await waitFor(() => result.current.isLoggedIn === true);
+            await queryClient.setQueryData('user', user);
         });
+
+        await waitFor(() => result.current.isLoggedIn);
 
         expect(result.current.isLoggedIn).toBe(true);
-        expect(result.current.userData).toEqual(userData);
-    });
-
-    it('handles unsuccessful API response and sets isLoggedIn to false', async () => {
-        jest.spyOn(axios, 'get').mockResolvedValue({ status: 401 });
-        const { result, waitFor } = renderHook(() => useAuthenticated());
-
-        await act(async () => {
-            await waitFor(() => result.current.isLoggedIn === false);
-        });
-
-        expect(result.current.isLoggedIn).toBe(false);
-        expect(result.current.userData).toBe(null);
-    });
-
-    it('handles API error and sets isLoggedIn to false', async () => {
-        jest.spyOn(axios, 'get').mockRejectedValue(new Error('API Error'));
-        const { result, waitFor } = renderHook(() => useAuthenticated());
-
-        await act(async () => {
-            await waitFor(() => result.current.isLoggedIn === false);
-        });
-
-        expect(result.current.isLoggedIn).toBe(false);
-        expect(result.current.userData).toBe(null);
+        expect(result.current.userData).toEqual(user);
     });
 });

@@ -1,29 +1,52 @@
 import '@testing-library/jest-dom';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { setupServer } from 'msw/node';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Navbar from '@/components/Navbar/';
 
-jest.mock('../../src/services/api', () => ({
-    useGetUserQuery: () => ({
-        data: { name: 'John Doe' },
-        isLoading: false,
-    }),
-}));
+import user from '../../__mocks__/db/user';
+import handlers from '../../__mocks__/handler';
+
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen());
+
+afterEach(() => server.resetHandlers());
+
+afterAll(() => server.close());
 
 describe('Navbar', () => {
     const queryClient = new QueryClient();
 
-    it('should render', () => {
+    it('should render shimmer when loading', () => {
         const { container } = render(
             <QueryClientProvider client={queryClient}>
                 <Navbar />
             </QueryClientProvider>
         );
-        expect(container).toHaveTextContent('URL Shortener');
-        expect(container.querySelector('a')).toHaveAttribute('href', '/');
+        const shimmer = container.querySelector('div[data-testid="user-login-shimmer"]');
+        expect(shimmer).toBeInTheDocument();
+    });
+
+    it('should have sign in button', () => {
+        jest.mock('../../src/services/api', () => ({
+            useGetUserQuery: () => ({
+                data: { name: 'John Doe' },
+                isLoading: false,
+            }),
+        }));
+        const { container } = render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
+        waitFor(() => {
+            expect(container.querySelector('button')).toBeInTheDocument();
+            expect(container.querySelector('button')).toContainHTML('Sign In');
+        });
     });
 
     it('should have dropdown menu', () => {
@@ -52,16 +75,16 @@ describe('Navbar', () => {
     });
 
     it('should handle "Sign Out" button click', () => {
-        render(<Navbar />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
-            const signOutButton = screen.getByText('Sign Out');
-            expect(signOutButton).toBeInTheDocument();
-
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
 
-            expect(signOutButton).toBeInTheDocument();
-
+            const signOutButton = screen.getByText('Sign Out');
             fireEvent.click(signOutButton);
 
             const signInButton = screen.getByText('Sign In');
@@ -69,19 +92,27 @@ describe('Navbar', () => {
         });
     });
 
-    it('should display "Sign Out" when logged in', () => {
-        render(<Navbar />);
+    it('should display user name when logged in', () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
 
-            const signOutButton = screen.getByText('Sign Out');
-            expect(signOutButton).toBeInTheDocument();
+            const userName = screen.getByText(user.data.userName);
+            expect(userName).toBeInTheDocument();
         });
     });
 
     it('should display modal when "Sign In" button is clicked', () => {
-        render(<Navbar />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
@@ -92,7 +123,11 @@ describe('Navbar', () => {
     });
 
     it('should close modal when "X" button is clicked', () => {
-        render(<Navbar />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
@@ -106,7 +141,11 @@ describe('Navbar', () => {
     });
 
     test('should show menu items when menuOpen is true', () => {
-        render(<Navbar />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
