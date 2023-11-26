@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { setupServer } from 'msw/node';
+import { PropsWithChildren } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useAuthenticated from '@/hooks/useAuthenticated';
@@ -17,7 +18,9 @@ afterAll(() => server.close());
 
 describe('useAuthenticated', () => {
     const queryClient = new QueryClient();
-    const wrapper = ({ children }: any) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+    const wrapper = ({ children }: PropsWithChildren<Record<string>>) => (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
 
     it('returns isLoggedIn as false and userData as undefined by default', () => {
         const { result } = renderHook(() => useAuthenticated(), { wrapper });
