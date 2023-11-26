@@ -11,7 +11,7 @@ interface ShortenUrlRequest {
 }
 
 interface ShortenUrlResponse {
-    short_url: string;
+    shortUrl: string;
 }
 
 export default async function shortenUrl(originalUrl: string, userData: UserTypes | null) {
@@ -35,7 +35,7 @@ export default async function shortenUrl(originalUrl: string, userData: UserType
             }
         );
 
-        return data.short_url;
+        return data.shortUrl;
     } catch (error) {
         console.error('Error shortening URL:', error);
         return null;

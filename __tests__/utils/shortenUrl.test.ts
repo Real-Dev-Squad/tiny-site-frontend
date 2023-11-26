@@ -14,7 +14,7 @@ describe('shortenUrl', () => {
     it('successfully shortens a URL', async () => {
         const shortUrl = urlsData.urls[0].shortUrl;
         const axiosPostMock = jest.spyOn(axios, 'post');
-        axiosPostMock.mockResolvedValue({ data: { short_url: shortUrl } });
+        axiosPostMock.mockResolvedValue({ data: { shortUrl: shortUrl } });
         if (originalUrl) {
             const result = await shortenUrl(originalUrl, user);
 
