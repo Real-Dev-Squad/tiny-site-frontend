@@ -21,4 +21,20 @@ const notFoundUrlsHandler = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx
     );
 });
 
-export { getAllUrlHandler, notFoundUrlsHandler };
+const getOriginalUrlHandler = [
+    rest.get(`${TINY_API_URL}/urls/963d9c42`, (_, res, ctx) => {
+        return res(ctx.status(200), ctx.json(urls.url[0]));
+    }),
+];
+
+const notFoundOriginalUrlHandler = rest.get(`${TINY_API_URL}/urls/963d9425`, (_, res, ctx) => {
+    return res(
+        ctx.status(404),
+        ctx.json({
+            statusCode: 404,
+            message: 'urls not found',
+        })
+    );
+});
+
+export { getAllUrlHandler, getOriginalUrlHandler, notFoundOriginalUrlHandler, notFoundUrlsHandler };
