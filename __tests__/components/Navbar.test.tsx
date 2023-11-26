@@ -11,11 +11,8 @@ import user from '../../__mocks__/db/user';
 import handlers from '../../__mocks__/handler';
 
 const server = setupServer(...handlers);
-
 beforeAll(() => server.listen());
-
 afterEach(() => server.resetHandlers());
-
 afterAll(() => server.close());
 
 describe('Navbar', () => {
@@ -34,7 +31,7 @@ describe('Navbar', () => {
     it('should have sign in button', () => {
         jest.mock('../../src/services/api', () => ({
             useGetUserQuery: () => ({
-                data: { name: 'John Doe' },
+                data: user,
                 isLoading: false,
             }),
         }));

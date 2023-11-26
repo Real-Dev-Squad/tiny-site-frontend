@@ -8,16 +8,15 @@ import user from '../../__mocks__/db/user';
 import handlers from '../../__mocks__/handler';
 
 const server = setupServer(...handlers);
-
 beforeAll(() => server.listen());
-
 afterEach(() => server.resetHandlers());
-
 afterAll(() => server.close());
 
 describe('useAuthenticated', () => {
     const queryClient = new QueryClient();
-    const wrapper = ({ children }: any) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
 
     it('returns isLoggedIn as false and userData as undefined by default', () => {
         const { result } = renderHook(() => useAuthenticated(), { wrapper });
