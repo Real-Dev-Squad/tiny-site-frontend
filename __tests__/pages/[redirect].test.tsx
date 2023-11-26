@@ -1,50 +1,53 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useRouter } from 'next/router';
+import { render, screen, waitFor } from '@testing-library/react';
+import { setupServer } from 'msw/node';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
+import urls from '../../__mocks__/db/urls';
+import handlers from '../../__mocks__/handler';
+import notFoundOriginalUrlHandler from '../../__mocks__/handler';
 import Redirect from '../../src/pages/[redirect]/index';
 
+const server = setupServer(...handlers);
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 jest.mock('next/router', () => ({
-    useRouter: jest.fn(),
+    ...jest.requireActual('next/router'),
+    useRouter: jest.fn().mockImplementation(() => ({
+        query: { redirect: '963d9c42' },
+    })),
 }));
 
 describe('Redirect Component', () => {
-    const mockRouterPush = jest.fn();
-    const mockRouterReplace = jest.fn();
-    const mockRouter = {
-        push: mockRouterPush,
-        replace: mockRouterReplace,
-        query: { redirect: 'ffdsfds' },
-    };
+    const queryClient = new QueryClient();
+    server.use(...handlers);
+    jest.mock('../../src/services/api', () => ({
+        useGetOriginalUrlQuery: jest.fn().mockReturnValue({
+            data: urls.url[0],
+            isLoading: false,
+        }),
+    }));
 
-    beforeEach(() => {
-        (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    test('render text "Loading..." when isLoading is true', async () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
 
-    test('renders loader timer with go button', () => {
-        render(<Redirect />);
-        const timer = screen.getByText('5');
-        const goButton = screen.getByText('Go');
-        expect(timer).toBeInTheDocument();
-        expect(goButton).toBeInTheDocument();
-    });
-
-    test.skip('redirects to original URL on Go button click', async () => {
-        render(<Redirect />);
-        const goButton = screen.getByText('Go');
-        await act(async () => {
-            fireEvent.click(goButton);
-        });
-        expect(mockRouterPush).toHaveBeenCalled();
-    });
-
-    test.skip('redirects when timer reaches zero', async () => {
-        jest.useFakeTimers();
-        render(<Redirect />);
-
-        act(() => jest.advanceTimersByTime(5000));
-
+    test('render text "Not Found" when isError is true', async () => {
+        server.use(...notFoundOriginalUrlHandler);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
         await waitFor(() => {
-            expect(mockRouterPush).toHaveBeenCalled();
+            expect(screen.getByText('404 - Not Found')).toBeInTheDocument();
+            expect(screen.getByText('Create New Short URL')).toBeInTheDocument();
         });
     });
 });
