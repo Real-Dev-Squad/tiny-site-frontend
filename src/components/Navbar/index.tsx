@@ -49,7 +49,7 @@ const UserProfileButton = ({
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-    const { isLoggedIn, isFetching, userData } = useAuthenticated();
+    const { isLoggedIn, isLoading, userData } = useAuthenticated();
     const [firstName, lastName] = userData?.userName.split(' ') || ['User'];
 
     const handleMenuClick = () => {
@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
                         URL Shortener
                     </Link>
 
-                    {isFetching ? (
+                    {isLoading ? (
                         <UserLoginShimmer />
                     ) : (
                         <ul className="lg:flex space-x-4">

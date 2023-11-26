@@ -2,18 +2,36 @@ import '@testing-library/jest-dom';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Navbar from '@/components/Navbar/';
 
+jest.mock('../../src/services/api', () => ({
+    useGetUserQuery: () => ({
+        data: { name: 'John Doe' },
+        isLoading: false,
+    }),
+}));
+
 describe('Navbar', () => {
+    const queryClient = new QueryClient();
+
     it('should render', () => {
-        const { container } = render(<Navbar />);
+        const { container } = render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         expect(container).toHaveTextContent('URL Shortener');
         expect(container.querySelector('a')).toHaveAttribute('href', '/');
     });
 
     it('should have dropdown menu', () => {
-        const { container } = render(<Navbar />);
+        const { container } = render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
             expect(container.querySelector('ul')).toBeInTheDocument();
             expect(container.querySelector('ul')).toContainHTML('Dashboard');
@@ -22,7 +40,11 @@ describe('Navbar', () => {
     });
 
     it('should display "Sign In" when not logged in', () => {
-        render(<Navbar />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
         waitFor(() => {
             const signInButton = screen.getByText('Sign In');
             expect(signInButton).toBeInTheDocument();
