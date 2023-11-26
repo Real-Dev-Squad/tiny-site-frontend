@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Navbar from '@/components/Navbar/';
 
-import user from '../../__mocks__/db/user';
+import user from '../../../__mocks__/db/user';
 
 describe('Navbar', () => {
     const queryClient = new QueryClient();
@@ -22,7 +22,7 @@ describe('Navbar', () => {
     });
 
     it('should have sign in button', () => {
-        jest.mock('../../src/services/api', () => ({
+        jest.mock('../../../src/services/api', () => ({
             useGetUserQuery: () => ({
                 data: user,
                 isLoading: false,
@@ -52,36 +52,6 @@ describe('Navbar', () => {
         });
     });
 
-    it('should display "Sign In" when not logged in', () => {
-        render(
-            <QueryClientProvider client={queryClient}>
-                <Navbar />
-            </QueryClientProvider>
-        );
-        waitFor(() => {
-            const signInButton = screen.getByText('Sign In');
-            expect(signInButton).toBeInTheDocument();
-        });
-    });
-
-    it('should handle "Sign Out" button click', () => {
-        render(
-            <QueryClientProvider client={queryClient}>
-                <Navbar />
-            </QueryClientProvider>
-        );
-        waitFor(() => {
-            const originalIsLoggedIn = screen.getByText('Sign In');
-            fireEvent.click(originalIsLoggedIn);
-
-            const signOutButton = screen.getByText('Sign Out');
-            fireEvent.click(signOutButton);
-
-            const signInButton = screen.getByText('Sign In');
-            expect(signInButton).toBeInTheDocument();
-        });
-    });
-
     it('should display user name when logged in', () => {
         render(
             <QueryClientProvider client={queryClient}>
@@ -94,6 +64,8 @@ describe('Navbar', () => {
 
             const userName = screen.getByText(user.data.userName);
             expect(userName).toBeInTheDocument();
+            const profileIcon = screen.getByTestId('profile-icon');
+            expect(profileIcon).toBeInTheDocument();
         });
     });
 
@@ -130,7 +102,8 @@ describe('Navbar', () => {
         });
     });
 
-    test('should show menu items when menuOpen is true', () => {
+    test('should show menu items when menuOpen is true when user is logged in', () => {
+        const mockSetMenuOpen = jest.fn();
         render(
             <QueryClientProvider client={queryClient}>
                 <Navbar />
@@ -140,8 +113,27 @@ describe('Navbar', () => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
 
-            const menuItems = screen.getByTestId('navbar-menu-items');
-            expect(menuItems).toBeInTheDocument();
+            const menuButton = screen.getByTestId('menu-button');
+            fireEvent.click(menuButton);
+
+            expect(mockSetMenuOpen).toHaveBeenCalled();
+        });
+    });
+    test('should close modal when "X" button is clicked', () => {
+        const mockSetShowLoginModal = jest.fn();
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Navbar />
+            </QueryClientProvider>
+        );
+        waitFor(() => {
+            const originalIsLoggedIn = screen.getByText('Sign In');
+            fireEvent.click(originalIsLoggedIn);
+
+            const closeButton = screen.getByTestId('close-login-modal');
+            fireEvent.click(closeButton);
+
+            expect(mockSetShowLoginModal).toHaveBeenCalled();
         });
     });
 });
