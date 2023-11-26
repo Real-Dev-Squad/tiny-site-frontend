@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
+
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
+
+
+
 
 const useAuthenticatedQuery = () => {
     return useQuery({
@@ -16,6 +20,7 @@ const useAuthenticatedQuery = () => {
     });
 };
 
+
 const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolean }) => {
     return useQuery({
         queryKey: ['originalUrl', shortUrlCode],
@@ -26,3 +31,6 @@ const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolea
 };
 
 export { useAuthenticatedQuery, useGetOriginalUrlQuery };
+
+
+
