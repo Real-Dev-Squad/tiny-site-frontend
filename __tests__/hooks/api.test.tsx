@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { setupServer } from 'msw/node';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { useAuthenticatedQuery, useGetOriginalUrlQuery } from '@/services/api';
@@ -7,12 +6,7 @@ import { useAuthenticatedQuery, useGetOriginalUrlQuery } from '@/services/api';
 import urls from '../../__mocks__/db/urls';
 import user from '../../__mocks__/db/user';
 import handlers from '../../__mocks__/handler';
-
-const server = setupServer(...handlers);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+import { server } from '../../__mocks__/server';
 
 describe('useAuthenticatedQuery', () => {
     it('should return data', async () => {

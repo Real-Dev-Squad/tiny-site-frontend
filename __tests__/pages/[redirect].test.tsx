@@ -1,16 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { setupServer } from 'msw/node';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import urls from '../../__mocks__/db/urls';
 import handlers from '../../__mocks__/handler';
 import notFoundOriginalUrlHandler from '../../__mocks__/handler';
+import { server } from '../../__mocks__/server';
 import Redirect from '../../src/pages/[redirect]/index';
-
-const server = setupServer(...handlers);
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 jest.mock('next/router', () => ({
     ...jest.requireActual('next/router'),
@@ -24,7 +19,7 @@ describe('Redirect Component', () => {
     server.use(...handlers);
     jest.mock('../../src/services/api', () => ({
         useGetOriginalUrlQuery: jest.fn().mockReturnValue({
-            data: urls.url[0],
+            data: urls.urls[0],
             isLoading: false,
         }),
     }));
