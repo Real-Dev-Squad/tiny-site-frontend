@@ -1,16 +1,9 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { setupServer } from 'msw/node';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useAuthenticated from '@/hooks/useAuthenticated';
 
 import user from '../../__mocks__/db/user';
-import handlers from '../../__mocks__/handler';
-
-const server = setupServer(...handlers);
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 describe('useAuthenticated', () => {
     const queryClient = new QueryClient();

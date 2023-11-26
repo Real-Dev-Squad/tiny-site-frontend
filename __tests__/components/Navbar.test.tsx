@@ -1,19 +1,12 @@
 import '@testing-library/jest-dom';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { setupServer } from 'msw/node';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Navbar from '@/components/Navbar/';
 
 import user from '../../__mocks__/db/user';
-import handlers from '../../__mocks__/handler';
-
-const server = setupServer(...handlers);
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 describe('Navbar', () => {
     const queryClient = new QueryClient();
