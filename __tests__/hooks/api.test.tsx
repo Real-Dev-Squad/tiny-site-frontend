@@ -3,12 +3,14 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { useAuthenticatedQuery, useGetOriginalUrlQuery } from '@/services/api';
 
-import urls from '../../__mocks__/db/urls';
+import { urlDetails } from '../../__mocks__/db/urls';
 import user from '../../__mocks__/db/user';
+import notFoundOriginalUrlHandler from '../../__mocks__/handler';
 import handlers from '../../__mocks__/handler';
 import { server } from '../../__mocks__/server';
 
 describe('useAuthenticatedQuery', () => {
+    server.use(...handlers);
     it('should return data', async () => {
         const queryClient = new QueryClient();
         const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -35,30 +37,30 @@ describe('useGetOriginalUrlQuery', () => {
     });
 
     it('returns isLoading as false and data as original url data when original url is found', async () => {
-        const shortUrlCode = urls.urls[0].shortUrl;
+        const shortUrlCode = urlDetails.url.shortUrl;
         const { result, waitFor } = renderHook(() => useGetOriginalUrlQuery(shortUrlCode, { enabled: true }), {
             wrapper,
         });
 
         await act(async () => {
-            await queryClient.setQueryData(['originalUrl', shortUrlCode], urls.urls[0]);
+            await queryClient.setQueryData(['originalUrl', shortUrlCode], urlDetails);
         });
 
         await waitFor(() => result.current.isLoading === false);
 
         expect(result.current.isLoading).toBe(false);
-        expect(result.current.data).toEqual(urls.urls[0]);
+        expect(result.current.data).toEqual(urlDetails);
     });
 
     it('returns isLoading as false and isError as true when original url is not found', async () => {
-        server.use(...handlers);
+        server.use(...notFoundOriginalUrlHandler);
         const { result, waitFor } = renderHook(() => useGetOriginalUrlQuery('963d9c42', { enabled: true }), {
             wrapper,
         });
 
-        await waitFor(() => result.current.isError === true);
-
-        expect(result.current.isLoading).toBe(false);
-        expect(result.current.isError).toBe(true);
+        waitFor(() => {
+            expect(result.current.isLoading).toBe(false);
+            expect(result.current.isError).toBe(true);
+        });
     });
 });

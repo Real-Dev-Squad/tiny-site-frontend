@@ -2,7 +2,7 @@ import { rest } from 'msw';
 
 import { TINY_API_URL } from '@/constants/url';
 
-import urls from '../db/urls';
+import { urlDetails, urls } from '../db/urls';
 
 const getAllUrlHandler = [
     rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
@@ -23,16 +23,15 @@ const notFoundUrlsHandler = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx
 
 const getOriginalUrlHandler = [
     rest.get(`${TINY_API_URL}/urls/963d9c42`, (_, res, ctx) => {
-        return res(ctx.status(200), ctx.json(urls.url[0]));
+        return res(ctx.status(200), ctx.json(urlDetails));
     }),
 ];
 
-const notFoundOriginalUrlHandler = rest.get(`${TINY_API_URL}/urls/963d9425`, (_, res, ctx) => {
+const notFoundOriginalUrlHandler = rest.get(`${TINY_API_URL}/urls/963d9c4s`, (_, res, ctx) => {
     return res(
         ctx.status(404),
         ctx.json({
-            statusCode: 404,
-            message: 'urls not found',
+            message: 'No URLs found',
         })
     );
 });
