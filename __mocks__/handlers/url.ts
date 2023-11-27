@@ -10,13 +10,11 @@ const getAllUrlHandler = [
     }),
 ];
 
-const notFoundUrlsHandler = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
+const notFoundAllUrlHandler = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
     return res(
         ctx.status(404),
         ctx.json({
-            statusCode: 404,
-            error: 'Not Found',
-            message: 'urls not found',
+            message: 'Urls not found',
         })
     );
 });
@@ -36,4 +34,4 @@ const notFoundOriginalUrlHandler = rest.get(`${TINY_API_URL}/urls/963d9c4s`, (_,
     );
 });
 
-export { getAllUrlHandler, getOriginalUrlHandler, notFoundOriginalUrlHandler, notFoundUrlsHandler };
+export { getAllUrlHandler, getOriginalUrlHandler, notFoundAllUrlHandler, notFoundOriginalUrlHandler };
