@@ -44,4 +44,17 @@ const urls = {
     ],
 };
 
-export default urls;
+const urlDetails = {
+    message: 'URL fetched successfully',
+    url: {
+        id: 218,
+        originalUrl: 'https://www.hotstar.com/in/onboarding/profile',
+        shortUrl: '963d9c42',
+        userId: 1,
+        createdBy: 'Sunny Sahsi',
+        expiredAt: '0001-01-01T00:00:00Z',
+        createdAt: '2023-11-14T07:15:30.144636Z',
+    },
+};
+
+export { urlDetails, urls };
