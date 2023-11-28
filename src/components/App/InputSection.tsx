@@ -15,6 +15,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             e.preventDefault();
             handleUrl();
         }}
+        data-testid="input-section"
     >
         <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-4 text-white font-semibold">
             Enter a URL to shorten
