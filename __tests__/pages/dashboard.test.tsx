@@ -1,51 +1,125 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import fetchMock from 'jest-fetch-mock';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import useAuthenticated from '@/hooks/useAuthenticated';
+import { useGetUrlsQuery } from '@/services/api';
+
+import { urls } from '../../__mocks__/db/urls';
+import userData from '../../__mocks__/db/user';
 import Dashboard from '../../src/pages/dashboard';
 
+jest.mock('../../src/services/api', () => ({
+    useGetUrlsQuery: jest.fn(),
+}));
+
+jest.mock('../../src/hooks/useAuthenticated', () => ({
+    __esModule: true,
+    default: jest.fn(),
+}));
+
 describe('Dashboard', () => {
-    beforeEach(() => {
-        fetchMock.resetMocks();
-    });
-
-    const mockWriteText = jest.fn();
-    global.navigator.clipboard = { writeText: mockWriteText };
     const queryClient = new QueryClient();
+    const mockUseAuthenticated = useAuthenticated as jest.Mock;
+    const mockUseGetUrlsQuery = useGetUrlsQuery as jest.Mock;
+    const mockCopyToClipboard = jest.fn();
 
-    it('renders without crashing', () => {
-        render(
-            <QueryClientProvider client={queryClient}>
-                <Dashboard />
-            </QueryClientProvider>
-        );
-        expect(screen.getByText('URL Shortener')).toBeInTheDocument();
-    });
-
-    it.skip('displays a message when no URLs are found', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify({ urls: [] }));
-        render(
-            <QueryClientProvider client={queryClient}>
-                <Dashboard />
-            </QueryClientProvider>
-        );
-        await waitFor(() => {
-            expect(screen.getByText('No URLs found')).toBeInTheDocument();
+    beforeAll(() => {
+        Object.assign(navigator, {
+            clipboard: {
+                writeText: mockCopyToClipboard,
+            },
         });
     });
 
-    it.skip('navigates to create page when "Create one" link is clicked', async () => {
+    it('renders dashboard page', () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        mockUseGetUrlsQuery.mockReturnValue({
+            data: undefined,
+            isLoading: true,
+        });
         render(
             <QueryClientProvider client={queryClient}>
                 <Dashboard />
             </QueryClientProvider>
         );
-        const createLink = screen.getByText('Create New');
-        fireEvent.click(createLink);
+        expect(screen.getByTestId('dashboard-shimmer')).toBeInTheDocument();
+    });
 
-        await waitFor(() => {
-            expect(screen.getByText('Enter a URL to shorten')).toBeInTheDocument();
+    it('renders dashboard page with urls', () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
         });
+        mockUseGetUrlsQuery.mockReturnValue({
+            data: urls,
+            isLoading: false,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Dashboard />
+            </QueryClientProvider>
+        );
+        expect(screen.getByText(urls.urls[0].originalUrl)).toBeInTheDocument();
+    });
+
+    it('shows login modal if not logged in', () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: false,
+            userData: undefined,
+        });
+        mockUseGetUrlsQuery.mockReturnValue({
+            data: undefined,
+            isLoading: false,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Dashboard />
+            </QueryClientProvider>
+        );
+        expect(screen.getByTestId('login-modal')).toBeInTheDocument();
+        expect(screen.getByText('Login to view your URLs and create new ones')).toBeInTheDocument();
+        const closeButton = screen.getByTestId('close-login-modal');
+        closeButton.click();
+    });
+
+    it('shows no url found if urls are empty', () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        mockUseGetUrlsQuery.mockReturnValue({
+            data: { urls: [] },
+            isLoading: false,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Dashboard />
+            </QueryClientProvider>
+        );
+        expect(screen.getByText('No URLs found')).toBeInTheDocument();
+        expect(screen.getByText('Create one')).toBeInTheDocument();
+    });
+
+    it('shows toast message when copy button is clicked', () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        mockUseGetUrlsQuery.mockReturnValue({
+            data: urls,
+            isLoading: false,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Dashboard />
+            </QueryClientProvider>
+        );
+        const copyButton = screen.getAllByTestId('copy-button');
+        copyButton[0].click();
+        expect(mockCopyToClipboard).toHaveBeenCalledTimes(1);
     });
 });

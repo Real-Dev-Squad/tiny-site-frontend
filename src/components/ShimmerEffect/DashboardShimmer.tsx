@@ -17,7 +17,7 @@ const UrlShimmer = () => {
 
 const DashboardShimmer = () => {
     return (
-        <div className="flex flex-col justify-center items-center w-full h-screen">
+        <div className="flex flex-col justify-center items-center w-full h-screen" data-testid="dashboard-shimmer">
             <div className="flex flex-col justify-center items-center w-full mt-10">
                 <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-8 text-white font-semibold">
                     Your URLs

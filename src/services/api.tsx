@@ -25,4 +25,18 @@ const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolea
     });
 };
 
-export { useAuthenticatedQuery, useGetOriginalUrlQuery };
+const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
+    return useQuery({
+        queryKey: ['urls'],
+        queryFn: () =>
+            axios
+                .get(`${TINY_API_URL}/user/${userId}/urls`, {
+                    withCredentials: true,
+                })
+                .then((res) => res.data),
+        ...options,
+        retry: false,
+    });
+};
+
+export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery };
