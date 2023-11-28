@@ -34,4 +34,16 @@ const notFoundOriginalUrlHandler = rest.get(`${TINY_API_URL}/urls/963d9c4s`, (_,
     );
 });
 
-export { getAllUrlHandler, getOriginalUrlHandler, notFoundAllUrlHandler, notFoundOriginalUrlHandler };
+const shortenUrlHandler = [
+    rest.post(`${TINY_API_URL}/tinyurl`, (_, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ shortUrl: urlDetails.url.shortUrl }));
+    }),
+];
+
+export {
+    getAllUrlHandler,
+    getOriginalUrlHandler,
+    notFoundAllUrlHandler,
+    notFoundOriginalUrlHandler,
+    shortenUrlHandler,
+};

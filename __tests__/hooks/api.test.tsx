@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery } from '@/services/api';
+import { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation } from '@/services/api';
 
 import { urlDetails } from '../../__mocks__/db/urls';
 import { urls } from '../../__mocks__/db/urls';
@@ -104,6 +104,32 @@ describe('useGetUrlsQuery', () => {
         waitFor(() => {
             expect(result.current.isLoading).toBe(false);
             expect(result.current.isError).toBe(true);
+        });
+    });
+});
+
+describe('useShortenUrlMutation', () => {
+    const queryClient = new QueryClient();
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
+
+    it('should return data after successfully shortening the URL', async () => {
+        const userData = user.data;
+        const originalUrl = urlDetails.url.originalUrl;
+
+        server.use(...handlers);
+        const { result, waitFor } = renderHook(() => useShortenUrlMutation(), { wrapper });
+
+        act(() => {
+            result.current.mutate({ originalUrl, userData });
+        });
+
+        await waitFor(() => result.current.isSuccess);
+
+        await waitFor(() => {
+            expect(result.current.data).toEqual(urlDetails.url.shortUrl);
+            expect(result.current.isSuccess).toBe(true);
         });
     });
 });
