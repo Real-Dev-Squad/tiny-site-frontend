@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { TINY_API_URL } from '@/constants/url';
-import { UserTypes } from '@/types/user.types';
+import { User } from '@/types/user.types';
 
 interface ShortenUrlRequest {
     OriginalUrl: string;
@@ -14,10 +14,10 @@ interface ShortenUrlResponse {
     shortUrl: string;
 }
 
-export default async function shortenUrl(originalUrl: string, userData: UserTypes | null) {
+export default async function shortenUrl(originalUrl: string, userData: User | null) {
     try {
-        const createdBy = userData?.userName;
-        const userId = userData?.id;
+        const createdBy = userData?.data?.userName;
+        const userId = userData?.data?.id;
 
         const { data } = await axios.post<ShortenUrlResponse>(
             `${TINY_API_URL}/tinyurl`,
