@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { TINY_API_URL } from '@/constants/url';
+import { User } from '@/types/user.types';
 import shortenUrl from '@/utils/shortenUrl';
 
 import urlsData from '../../fixtures/urls';
@@ -10,7 +11,20 @@ jest.mock('axios');
 
 describe('shortenUrl', () => {
     const originalUrl = urlsData.urls[0].originalUrl;
-    const user = userData.data;
+    const user: User = {
+        message: 'User fetched successfully',
+        data: {
+            id: userData?.data.id,
+            userName: userData?.data.userName,
+            email: userData?.data.email,
+            password: userData?.data.password,
+            isVerified: userData?.data.isVerified,
+            isOnboarding: userData?.data.isOnboarding,
+            createdAt: userData?.data.createdAt,
+            updatedAt: userData?.data.updatedAt,
+        }
+    };
+
     it('successfully shortens a URL', async () => {
         const shortUrl = urlsData.urls[0].shortUrl;
         const axiosPostMock = jest.spyOn(axios, 'post');
@@ -23,8 +37,8 @@ describe('shortenUrl', () => {
                 {
                     OriginalUrl: originalUrl,
                     Comment: '',
-                    CreatedBy: user.userName,
-                    UserId: user.id,
+                    CreatedBy: user.data.userName,
+                    UserId: user.data.id,
                 },
                 {
                     headers: {
