@@ -1,5 +1,5 @@
 export interface User {
-    message: string,
+    message: string;
     data: {
         id: number;
         userName: string;
@@ -9,5 +9,5 @@ export interface User {
         isOnboarding?: boolean;
         createdAt?: string;
         updatedAt?: string;
-    }
+    };
 }

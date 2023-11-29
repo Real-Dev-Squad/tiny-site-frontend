@@ -22,7 +22,7 @@ describe('shortenUrl', () => {
             isOnboarding: userData?.data.isOnboarding,
             createdAt: userData?.data.createdAt,
             updatedAt: userData?.data.updatedAt,
-        }
+        },
     };
 
     it('successfully shortens a URL', async () => {
