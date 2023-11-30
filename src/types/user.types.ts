@@ -1,5 +1,4 @@
 export interface User {
-    message: string;
     data: {
         id: number;
         userName: string;
