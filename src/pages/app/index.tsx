@@ -8,25 +8,26 @@ import Toast from '@/components/Toast';
 import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
+import { useShortenUrlMutation } from '@/services/api';
 import { ToastType } from '@/types/toast.tyes';
-import shortenUrl from '@/utils/shortenUrl';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
-    const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [toast, setToast] = useState<ToastType>({
         message: '',
         type: 'success',
+        isVisible: false,
         onDismiss: () => {
             setToast({ ...toast, isVisible: false });
         },
-        isVisible: false,
     });
 
     const { isLoggedIn, userData } = useAuthenticated();
+    const shortenUrlMutation = useShortenUrlMutation();
+
     useEffect(() => {
         const localUrl = localStorage.getItem('url');
 
@@ -35,14 +36,7 @@ const App = () => {
             generateShortUrl(localUrl);
             localStorage.removeItem('url');
         }
-    }, [isLoggedIn, url]);
-
-    const handleCopyUrl = () => {
-        if (shortUrl) {
-            navigator.clipboard.writeText(shortUrl);
-            showToast('Copied to clipboard', 'success');
-        }
-    };
+    }, [isLoggedIn]);
 
     const showToast = (message: string, type: 'success' | 'error' | 'info') => {
         setToast({
@@ -53,13 +47,41 @@ const App = () => {
         });
     };
 
+    const validateUrl = (url: string) => {
+        if (!url) {
+            showToast('Enter the URL', 'info');
+            return false;
+        }
+
+        if (!urlRegex.test(url)) {
+            showToast('Enter a valid URL', 'info');
+            return false;
+        }
+
+        return true;
+    };
+
     const generateShortUrl = async (url: string) => {
-        const newShortUrl = await shortenUrl(url, userData);
-        if (newShortUrl) {
+        if (!validateUrl(url)) return;
+
+        try {
+            const newShortUrl = await shortenUrlMutation.mutateAsync({
+                originalUrl: url,
+                userData: userData,
+            });
+
             const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
             setShortUrl(fullShortUrl);
-            setShowOutputBox(true);
             setShowInputBox(false);
+        } catch (error) {
+            showToast('Error shortening URL', 'error');
+        }
+    };
+
+    const handleCopyUrl = () => {
+        if (shortUrl) {
+            navigator.clipboard.writeText(shortUrl);
+            showToast('Copied to clipboard', 'success');
         }
     };
 
@@ -67,17 +89,12 @@ const App = () => {
         setUrl('');
         setShortUrl('');
         setShowInputBox(true);
-        setShowOutputBox(false);
     };
 
     const handleUrl = () => {
         if (!isLoggedIn) {
             setShowLoginModal(true);
             if (url) localStorage.setItem('url', url);
-        } else if (!url) {
-            showToast('Enter the URL', 'info');
-        } else if (!urlRegex.test(url)) {
-            showToast('Enter a valid URL', 'info');
         } else {
             generateShortUrl(url);
         }
@@ -87,8 +104,9 @@ const App = () => {
         <Layout title="Home | URL Shortener">
             <div className="flex justify-center items-center h-[86vh]">
                 <div className="flex flex-col justify-center items-center m-4  w-[100%]">
-                    {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
-                    {showOutputBox && (
+                    {showInputBox ? (
+                        <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
+                    ) : (
                         <OutputSection
                             shortUrl={shortUrl}
                             isLoaded={!!shortUrl}
@@ -104,7 +122,7 @@ const App = () => {
                         isVisible={toast.isVisible}
                         timeToShow={3000}
                         type={toast.type}
-                        onDismiss={toast.onDismiss}
+                        onDismiss={() => setToast({ ...toast, isVisible: false })}
                     />
                 )}
                 {showLoginModal && (

@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery } from '@/services/api';
+import { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation } from '@/services/api';
 
 import { urlDetails } from '../../__mocks__/db/urls';
 import { urls } from '../../__mocks__/db/urls';
@@ -11,14 +11,14 @@ import notFoundAllUrlHandler from '../../__mocks__/handler';
 import handlers from '../../__mocks__/handler';
 import { server } from '../../__mocks__/server';
 
+const queryClient = new QueryClient();
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
+
 describe('useAuthenticatedQuery', () => {
     server.use(...handlers);
     it('should return data', async () => {
-        const queryClient = new QueryClient();
-        const wrapper = ({ children }: { children: React.ReactNode }) => (
-            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-        );
-
         const { result, waitFor } = renderHook(() => useAuthenticatedQuery(), { wrapper });
         await waitFor(() => result.current.isSuccess);
         expect(result.current.data).toEqual(user);
@@ -27,11 +27,6 @@ describe('useAuthenticatedQuery', () => {
 });
 
 describe('useGetOriginalUrlQuery', () => {
-    const queryClient = new QueryClient();
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
-
     it('returns isLoading as true by default', () => {
         const { result } = renderHook(() => useGetOriginalUrlQuery('963d9c42', { enabled: true }), { wrapper });
 
@@ -69,10 +64,6 @@ describe('useGetOriginalUrlQuery', () => {
 
 describe('useGetUrlsQuery', () => {
     const userId = user.data.id.toString();
-    const queryClient = new QueryClient();
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
 
     it('returns isLoading as true by default', () => {
         const { result } = renderHook(() => useGetUrlsQuery(userId, { enabled: true }), { wrapper });
@@ -104,6 +95,27 @@ describe('useGetUrlsQuery', () => {
         waitFor(() => {
             expect(result.current.isLoading).toBe(false);
             expect(result.current.isError).toBe(true);
+        });
+    });
+});
+
+describe('useShortenUrlMutation', () => {
+    it('should return data after successfully shortening the URL', async () => {
+        const userData = user.data;
+        const originalUrl = urlDetails.url.originalUrl;
+
+        server.use(...handlers);
+        const { result, waitFor } = renderHook(() => useShortenUrlMutation(), { wrapper });
+
+        act(() => {
+            result.current.mutate({ originalUrl, userData });
+        });
+
+        await waitFor(() => result.current.isSuccess);
+
+        await waitFor(() => {
+            expect(result.current.data).toEqual(urlDetails.url.shortUrl);
+            expect(result.current.isSuccess).toBe(true);
         });
     });
 });
