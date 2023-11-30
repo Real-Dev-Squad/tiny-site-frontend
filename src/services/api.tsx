@@ -1,7 +1,19 @@
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
+import { UserTypes } from '@/types/user.types';
+
+interface ShortenUrlRequest {
+    OriginalUrl: string;
+    Comment: string;
+    CreatedBy: string;
+    UserId: number;
+}
+
+interface ShortenUrlResponse {
+    shortUrl: string;
+}
 
 const useAuthenticatedQuery = () => {
     return useQuery({
@@ -39,4 +51,27 @@ const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
     });
 };
 
-export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery };
+const useShortenUrlMutation = () => {
+    return useMutation(
+        async ({ originalUrl, userData }: { originalUrl: string; userData: UserTypes }) => {
+            const response = await axios.post(
+                `${TINY_API_URL}/tinyurl`,
+                {
+                    OriginalUrl: originalUrl,
+                    Comment: '',
+                    CreatedBy: userData?.userName,
+                    UserId: userData?.id,
+                } as ShortenUrlRequest,
+                {
+                    withCredentials: true,
+                }
+            );
+            return response.data.shortUrl as ShortenUrlResponse;
+        },
+        {
+            retry: false,
+        }
+    );
+};
+
+export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
