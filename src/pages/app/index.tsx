@@ -5,26 +5,19 @@ import OutputSection from '@/components/App/OutputSection';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
-import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
+import useToast from '@/hooks/useToast';
 import { useShortenUrlMutation } from '@/services/api';
-import { ToastType } from '@/types/toast.tyes';
+import validateUrl from '@/utils/validateUrl';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-    const [toast, setToast] = useState<ToastType>({
-        message: '',
-        type: 'success',
-        isVisible: false,
-        onDismiss: () => {
-            setToast({ ...toast, isVisible: false });
-        },
-    });
 
+    const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
     const shortenUrlMutation = useShortenUrlMutation();
 
@@ -38,50 +31,23 @@ const App = () => {
         }
     }, [isLoggedIn]);
 
-    const showToast = (message: string, type: 'success' | 'error' | 'info') => {
-        setToast({
-            message,
-            type,
-            isVisible: true,
-            onDismiss: () => setToast({ ...toast, isVisible: false }),
-        });
-    };
-
-    const validateUrl = (url: string) => {
-        if (!url) {
-            showToast('Enter the URL', 'info');
-            return false;
-        }
-
-        if (!urlRegex.test(url)) {
-            showToast('Enter a valid URL', 'info');
-            return false;
-        }
-
-        return true;
-    };
-
     const generateShortUrl = async (url: string) => {
-        if (!validateUrl(url)) return;
+        if (!validateUrl(url, showToast)) return;
 
-        try {
-            const newShortUrl = await shortenUrlMutation.mutateAsync({
-                originalUrl: url,
-                userData: userData,
-            });
+        const newShortUrl = await shortenUrlMutation.mutateAsync({
+            originalUrl: url,
+            userData: userData,
+        });
 
-            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
-            setShortUrl(fullShortUrl);
-            setShowInputBox(false);
-        } catch (error) {
-            showToast('Error shortening URL', 'error');
-        }
+        const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
+        setShortUrl(fullShortUrl);
+        setShowInputBox(false);
     };
 
     const handleCopyUrl = () => {
         if (shortUrl) {
             navigator.clipboard.writeText(shortUrl);
-            showToast('Copied to clipboard', 'success');
+            showToast('Copied to clipboard', 3000, 'success');
         }
     };
 
@@ -116,15 +82,9 @@ const App = () => {
                         />
                     )}
                 </div>
-                {toast.isVisible && (
-                    <Toast
-                        message={toast.message}
-                        isVisible={toast.isVisible}
-                        timeToShow={3000}
-                        type={toast.type}
-                        onDismiss={() => setToast({ ...toast, isVisible: false })}
-                    />
-                )}
+                {toasts.map((toast) => (
+                    <Toast key={toast.id} {...toast} />
+                ))}
                 {showLoginModal && (
                     <LoginModal
                         onClose={() => setShowLoginModal(false)}
