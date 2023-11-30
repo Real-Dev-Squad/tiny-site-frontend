@@ -2,13 +2,17 @@ import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
-import { UserTypes } from '@/types/user.types';
+import { User } from '@/types/user.types';
 
 interface ShortenUrlRequest {
     OriginalUrl: string;
     Comment: string;
     CreatedBy: string;
     UserId: number;
+}
+interface MutationParams {
+    originalUrl: string;
+    userData: User;
 }
 
 interface ShortenUrlResponse {
@@ -53,14 +57,14 @@ const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
 
 const useShortenUrlMutation = () => {
     return useMutation(
-        async ({ originalUrl, userData }: { originalUrl: string; userData: UserTypes }) => {
+        async ({ originalUrl, userData }: MutationParams) => {
             const response = await axios.post(
                 `${TINY_API_URL}/tinyurl`,
                 {
                     OriginalUrl: originalUrl,
                     Comment: '',
-                    CreatedBy: userData?.userName,
-                    UserId: userData?.id,
+                    CreatedBy: userData?.data?.userName,
+                    UserId: userData?.data?.id,
                 } as ShortenUrlRequest,
                 {
                     withCredentials: true,

@@ -12,7 +12,7 @@ const Navbar = () => {
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const { isLoggedIn, isLoading, userData } = useAuthenticated();
 
-    const userName = userData?.userName || 'User';
+    const userName = userData?.data?.userName || 'User';
     const [firstName, lastName] = userName.split(' ');
 
     const handleMenuClick = () => {

@@ -10,8 +10,8 @@ import { useGetUrlsQuery } from '@/services/api';
 const Dashboard = () => {
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
-    const { data: urls, isLoading } = useGetUrlsQuery(userData?.id, {
-        enabled: !!userData?.id,
+    const { data: urls, isLoading } = useGetUrlsQuery(userData?.data?.id, {
+        enabled: !!userData?.data?.id,
     });
 
     const copyButtonHandler = (url: string) => {
