@@ -10,6 +10,10 @@ interface ShortenUrlRequest {
     CreatedBy: string;
     UserId: number;
 }
+interface MutationParams {
+    originalUrl: string;
+    userData: User;
+}
 
 interface ShortenUrlResponse {
     shortUrl: string;
@@ -53,7 +57,7 @@ const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
 
 const useShortenUrlMutation = () => {
     return useMutation(
-        async ({ originalUrl, userData }: { originalUrl: string; userData: User }) => {
+        async ({ originalUrl, userData }: MutationParams) => {
             const response = await axios.post(
                 `${TINY_API_URL}/tinyurl`,
                 {
