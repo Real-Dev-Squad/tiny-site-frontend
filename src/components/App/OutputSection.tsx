@@ -30,7 +30,10 @@ const OutputSection: React.FC<OutputSectionProps> = ({
     }
 
     return (
-        <section className="flex flex-col justify-between items-center  rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400">
+        <section
+            className="flex flex-col justify-between items-center  rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400"
+            data-testid="output-section"
+        >
             <h1 className="text-2xl md:text-3xl xl:text-3xl text-center mb-2 text-white font-semibold">
                 Your Tiny URL is ready! 🎉🎉
             </h1>
