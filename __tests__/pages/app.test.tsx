@@ -1,13 +1,33 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-import App from '../../src/pages/app';
+import useAuthenticated from '@/hooks/useAuthenticated';
+import App from '@/pages/app';
+
+import { userData } from '../../fixtures/users';
+
+jest.mock('../../src/hooks/useAuthenticated', () => ({
+    __esModule: true,
+    default: jest.fn(),
+}));
 
 describe('App Component', () => {
     const mockWriteText = jest.fn();
+    const mockUseAuthenticated = useAuthenticated as jest.Mock;
     global.navigator.clipboard = { writeText: mockWriteText };
 
+    const queryClient = new QueryClient();
+
     test('renders the App component with input box and button', () => {
-        render(<App />);
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('Enter the URL');
         const generateButton = screen.getByText('Shorten');
 
@@ -16,90 +36,122 @@ describe('App Component', () => {
     });
 
     test('updates input box value when text is entered', () => {
-        render(<App />);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('Enter the URL');
         fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
         expect(urlInput.value).toBe('https://www.google.com');
     });
 
-    test.skip('generates and displays short URL on button click', async () => {
-        jest.mock('../../src/hooks/isAuthenticated', () => ({
-            useIsAuthenticated: () => ({
-                isLoggedIn: true,
-                userData: { username: 'testUser', Id: 1 },
-            }),
-        }));
-
-        render(<App />);
-
-        const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
-        fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
-
-        const generateButton = screen.getByText('Generate');
-
-        await act(async () => {
-            fireEvent.click(generateButton);
-
-            await new Promise((resolve) => setTimeout(resolve, 500));
-
-            const shortUrlInput = screen.queryByPlaceholderText('Copy the URL');
-            expect(shortUrlInput).toBeTruthy();
-        });
-
-        const toast = screen.queryByTestId('toast');
-        expect(toast).toBeNull();
-    });
-
-    test.skip('copies short URL to clipboard on Copy button click', async () => {
-        jest.mock('../../src/hooks/isAuthenticated', () => ({
-            useIsAuthenticated: () => ({
-                isLoggedIn: false,
-                userData: null,
-            }),
-        }));
-        render(<App />);
-        const urlInput = screen.getByPlaceholderText('🔗 Enter the URL');
-        fireEvent.change(urlInput, { target: { value: 'https://www.google.com' } });
-
-        const generateButton = screen.getByText('Generate');
-        fireEvent.click(generateButton);
-
-        const copyButton = screen.getByTestId('copy-button');
-        fireEvent.click(copyButton);
-
-        expect(mockWriteText).toHaveBeenCalledWith(expect.any(String));
-    });
-
-    test.skip('shows toast message when Copy button is clicked', async () => {
-        jest.mock('../../src/hooks/isAuthenticated', () => ({
-            useIsAuthenticated: () => ({
-                isLoggedIn: true,
-                userData: null,
-            }),
-        }));
-        render(<App />);
-        const generateButton = screen.getByText('Shorten');
-        fireEvent.click(generateButton);
-        await screen.findByTestId('toast');
-        const toast = screen.getByTestId('toast');
-        expect(toast).toBeInTheDocument();
-    });
-
-    test('does not show toast message when Copy button is not clicked', () => {
-        render(<App />);
-        const toast = screen.queryByTestId('toast');
-        expect(toast).not.toBeInTheDocument();
-    });
-
-    test('shows login modal when Sign In button is clicked', () => {
-        render(<App />);
-
+    test('shows error toast when invalid URL is entered', async () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
         const urlInput = screen.getByPlaceholderText('Enter the URL');
-        fireEvent.change(urlInput, { target: { value: 'https://www.realdevsquad.com/longurl' } });
-
         const generateButton = screen.getByText('Shorten');
+        fireEvent.change(urlInput, { target: { value: 'invalid url' } });
         fireEvent.click(generateButton);
-        const loginModal = screen.getByTestId('login-modal');
+        const errorToasts = await screen.findAllByText('Enter a valid URL');
+        expect(errorToasts.length).toBeTruthy();
+    });
+
+    test('shows login modal when user is not logged in', async () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: false,
+            userData: undefined,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
+        const generateButton = screen.getByText('Shorten');
+        fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
+        fireEvent.click(generateButton);
+        const loginModal = await screen.findByText('Log in to generate short links');
         expect(loginModal).toBeInTheDocument();
+    });
+
+    test('shows output section when user is logged in', async () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
+        const generateButton = screen.getByText('Shorten');
+        fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
+        fireEvent.click(generateButton);
+        const outputSection = await screen.findByTestId('output-section');
+        expect(outputSection).toBeInTheDocument();
+    });
+
+    test('closes login modal when user clicks on close button', async () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: false,
+            userData: undefined,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
+        const generateButton = screen.getByText('Shorten');
+        fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
+        fireEvent.click(generateButton);
+        const closeButton = await screen.findByTestId('close-login-modal');
+        fireEvent.click(closeButton);
+        const loginModal = screen.queryByText('Log in to generate short links');
+        expect(loginModal).not.toBeInTheDocument();
+    });
+
+    test('copies short url to clipboard when user clicks on copy button', async () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
+        const generateButton = screen.getByText('Shorten');
+        fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
+        fireEvent.click(generateButton);
+        const copyButton = await screen.findByTestId('copy-button');
+        fireEvent.click(copyButton);
+        await waitFor(() => expect(mockWriteText).toBeTruthy());
+    });
+
+    test('shows input section when user clicks on create new button', async () => {
+        mockUseAuthenticated.mockReturnValue({
+            isLoggedIn: true,
+            userData: userData.data,
+        });
+        render(
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        );
+        const urlInput = screen.getByPlaceholderText('Enter the URL');
+        const generateButton = screen.getByText('Shorten');
+        fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
+        fireEvent.click(generateButton);
+        const createNewButton = await screen.findByTestId('create-new-button');
+        fireEvent.click(createNewButton);
+        const inputSection = screen.queryByTestId('input-section');
+        expect(inputSection).toBeInTheDocument();
     });
 });

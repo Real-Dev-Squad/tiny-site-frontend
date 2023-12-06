@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 
 import UrlListItem from '@/components/Dashboard/UrlListItem';
 
-import urlsData from '../../fixtures/urls';
+import { urls } from '../../../__mocks__/db/urls';
 
 describe('UrlListItem', () => {
-    const url = urlsData.urls[0];
+    const url = urls.urls[0];
     const copyButtonHandler = (url: string) => {
         navigator.clipboard.writeText(url);
     };
@@ -17,11 +17,11 @@ describe('UrlListItem', () => {
             <UrlListItem
                 url={url}
                 copyButtonHandler={() => {
-                    copyButtonHandler(url.OriginalUrl);
+                    copyButtonHandler(url.originalUrl);
                 }}
             />
         );
-        const linkElement = screen.getByText(`${url.OriginalUrl}`);
+        const linkElement = screen.getByText(`${url.originalUrl}`);
         expect(linkElement).toBeInTheDocument();
     });
 
@@ -30,12 +30,12 @@ describe('UrlListItem', () => {
             <UrlListItem
                 url={url}
                 copyButtonHandler={() => {
-                    copyButtonHandler(url.OriginalUrl);
+                    copyButtonHandler(url.originalUrl);
                 }}
             />
         );
         const copyButton = screen.getByTestId('copy-button');
         copyButton.click();
-        expect(mockWriteText).toHaveBeenCalledWith(url.OriginalUrl);
+        expect(mockWriteText).toHaveBeenCalledWith(url.originalUrl);
     });
 });

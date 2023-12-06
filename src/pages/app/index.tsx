@@ -5,28 +5,22 @@ import OutputSection from '@/components/App/OutputSection';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import Toast from '@/components/Toast';
-import { urlRegex } from '@/constants/constants';
 import { TINY_SITE } from '@/constants/url';
-import IsAuthenticated from '@/hooks/isAuthenticated';
-import { ToastType } from '@/types/toast.tyes';
-import shortenUrl from '@/utils/shortenUrl';
+import useAuthenticated from '@/hooks/useAuthenticated';
+import useToast from '@/hooks/useToast';
+import { useShortenUrlMutation } from '@/services/api';
+import validateUrl from '@/utils/validateUrl';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
-    const [showOutputBox, setShowOutputBox] = useState<boolean>(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-    const [toast, setToast] = useState<ToastType>({
-        message: '',
-        type: 'success',
-        onDismiss: () => {
-            setToast({ ...toast, isVisible: false });
-        },
-        isVisible: false,
-    });
 
-    const { isLoggedIn, userData } = IsAuthenticated();
+    const { showToast, toasts } = useToast();
+    const { isLoggedIn, userData } = useAuthenticated();
+    const shortenUrlMutation = useShortenUrlMutation();
+
     useEffect(() => {
         const localUrl = localStorage.getItem('url');
 
@@ -35,31 +29,25 @@ const App = () => {
             generateShortUrl(localUrl);
             localStorage.removeItem('url');
         }
-    }, [isLoggedIn, url]);
+    }, [isLoggedIn]);
+
+    const generateShortUrl = async (url: string) => {
+        if (!validateUrl(url, showToast)) return;
+
+        const newShortUrl = await shortenUrlMutation.mutateAsync({
+            originalUrl: url,
+            userData: userData,
+        });
+
+        const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
+        setShortUrl(fullShortUrl);
+        setShowInputBox(false);
+    };
 
     const handleCopyUrl = () => {
         if (shortUrl) {
             navigator.clipboard.writeText(shortUrl);
-            showToast('Copied to clipboard', 'success');
-        }
-    };
-
-    const showToast = (message: string, type: 'success' | 'error' | 'info') => {
-        setToast({
-            message,
-            type,
-            isVisible: true,
-            onDismiss: () => setToast({ ...toast, isVisible: false }),
-        });
-    };
-
-    const generateShortUrl = async (url: string) => {
-        const newShortUrl = await shortenUrl(url, userData);
-        if (newShortUrl) {
-            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
-            setShortUrl(fullShortUrl);
-            setShowOutputBox(true);
-            setShowInputBox(false);
+            showToast('Copied to clipboard', 3000, 'success');
         }
     };
 
@@ -67,17 +55,12 @@ const App = () => {
         setUrl('');
         setShortUrl('');
         setShowInputBox(true);
-        setShowOutputBox(false);
     };
 
     const handleUrl = () => {
         if (!isLoggedIn) {
             setShowLoginModal(true);
             if (url) localStorage.setItem('url', url);
-        } else if (!url) {
-            showToast('Enter the URL', 'info');
-        } else if (!urlRegex.test(url)) {
-            showToast('Enter a valid URL', 'info');
         } else {
             generateShortUrl(url);
         }
@@ -86,26 +69,22 @@ const App = () => {
     return (
         <Layout title="Home | URL Shortener">
             <div className="flex justify-center items-center h-[86vh]">
-                <div className="flex flex-col justify-center items-center m-4 lg:w-[52rem] md:w-[42rem] sm:w-[22rem] w-[18rem]">
-                    {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
-                    {showOutputBox && (
+                <div className="flex flex-col justify-center items-center m-4  w-[100%]">
+                    {showInputBox ? (
+                        <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
+                    ) : (
                         <OutputSection
                             shortUrl={shortUrl}
+                            isLoaded={!!shortUrl}
                             originalUrl={url}
                             handleCopyUrl={handleCopyUrl}
                             handleCreateNew={createNewHandler}
                         />
                     )}
                 </div>
-                {toast.isVisible && (
-                    <Toast
-                        message={toast.message}
-                        isVisible={toast.isVisible}
-                        timeToShow={3000}
-                        type={toast.type}
-                        onDismiss={toast.onDismiss}
-                    />
-                )}
+                {toasts.map((toast) => (
+                    <Toast key={toast.id} {...toast} />
+                ))}
                 {showLoginModal && (
                     <LoginModal
                         onClose={() => setShowLoginModal(false)}
