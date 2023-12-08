@@ -2,9 +2,10 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import ErrorPage from '@/components/Redirect/ErrorPage';
 import LoaderTimer from '@/components/Redirect/LoaderTimer';
-import NotFound from '@/components/Redirect/NotFound';
 import RedirectFooter from '@/components/Redirect/RedirectFooter';
+import RedirectShimmer from '@/components/ShimmerEffect/RedirectShimmer';
 import { useGetOriginalUrlQuery } from '@/services/api';
 
 const Redirect = () => {
@@ -40,17 +41,8 @@ const Redirect = () => {
         }
     };
 
-    if (isLoading) {
-        return (
-            <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
-                <p className="text-lg">Loading...</p>
-            </section>
-        );
-    }
-
-    if (isError) {
-        return <NotFound />;
-    }
+    if (isLoading) return <RedirectShimmer />;
+    if (isError) return <ErrorPage />;
 
     return (
         <>
