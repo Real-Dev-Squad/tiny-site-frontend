@@ -1,30 +1,33 @@
-import { renderHook } from '@testing-library/react-hooks';
-import fetchMock from 'jest-fetch-mock';
+import { act, renderHook } from '@testing-library/react-hooks';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useAuthenticated from '@/hooks/useAuthenticated';
 
-import { userData } from '../../fixtures/users';
+import user from '../../__mocks__/db/user';
 
-beforeAll(() => {
-    fetchMock.enableMocks();
-});
+describe('useAuthenticated', () => {
+    const queryClient = new QueryClient();
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
 
-afterEach(() => {
-    fetchMock.resetMocks();
-});
+    it('returns isLoggedIn as false and userData as undefined by default', () => {
+        const { result } = renderHook(() => useAuthenticated(), { wrapper });
 
-it('should return isLoggedIn as true and userData if the request is successful', async () => {
-    const userDataMock = userData;
-    fetchMock.mockResponseOnce(JSON.stringify(userDataMock), { status: 200 });
-    const { result, waitForNextUpdate } = renderHook(() => useAuthenticated());
-    await waitForNextUpdate();
-    expect(result.current.isLoggedIn).toBe(true);
-    expect(result.current.userData).toEqual(userDataMock.data);
-});
+        expect(result.current.isLoggedIn).toBe(false);
+        expect(result.current.userData).toBe(undefined);
+    });
 
-it('should return isLoggedIn as false if the request is unsuccessful', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({}), { status: 401 });
-    const { result } = renderHook(() => useAuthenticated());
-    expect(result.current.isLoggedIn).toBe(false);
-    expect(result.current.userData).toBeNull();
+    it('returns isLoggedIn as true and userData as user data when user is logged in', async () => {
+        const { result, waitFor } = renderHook(() => useAuthenticated(), { wrapper });
+
+        await act(async () => {
+            await queryClient.setQueryData('user', user);
+        });
+
+        await waitFor(() => result.current.isLoggedIn);
+
+        expect(result.current.isLoggedIn).toBe(true);
+        expect(result.current.userData).toEqual(user);
+    });
 });

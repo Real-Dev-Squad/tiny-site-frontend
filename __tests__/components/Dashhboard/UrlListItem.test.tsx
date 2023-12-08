@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 
 import UrlListItem from '@/components/Dashboard/UrlListItem';
 
-import urlsData from '../../fixtures/urls';
+import { urls } from '../../../__mocks__/db/urls';
 
 describe('UrlListItem', () => {
-    const url = urlsData.urls[0];
+    const url = urls.urls[0];
     const copyButtonHandler = (url: string) => {
         navigator.clipboard.writeText(url);
     };

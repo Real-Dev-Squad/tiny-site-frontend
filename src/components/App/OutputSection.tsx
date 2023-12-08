@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
-import { FaPlus } from 'react-icons/fa';
 import { IoIosCopy } from 'react-icons/io';
 import { IoIosShareAlt } from 'react-icons/io';
 
@@ -30,7 +29,10 @@ const OutputSection: React.FC<OutputSectionProps> = ({
     }
 
     return (
-        <section className="flex flex-col justify-between items-center  rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400">
+        <section
+            className="flex flex-col justify-between items-center  rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400"
+            data-testid="output-section"
+        >
             <h1 className="text-2xl md:text-3xl xl:text-3xl text-center mb-2 text-white font-semibold">
                 Your Tiny URL is ready! 🎉🎉
             </h1>
@@ -70,14 +72,6 @@ const OutputSection: React.FC<OutputSectionProps> = ({
                     </Button>
                 </div>
             </div>
-
-            <Button
-                className="fixed bottom-10 right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg cursor-pointer"
-                testId="create-new-button-mobile"
-                onClick={handleCreateNew}
-            >
-                <FaPlus size={20} />
-            </Button>
             <Button
                 className="mt-10 text-white p-3 rounded-full shadow-lg cursor-pointer hover:underline text-[20px]"
                 testId="create-new-button"

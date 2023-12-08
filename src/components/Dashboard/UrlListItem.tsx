@@ -32,7 +32,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                     </Link>
                     <Button
                         className="rounded-full bg-gray-100 p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
-                        onClick={() => copyButtonHandler(url.originalUrl)}
+                        onClick={() => copyButtonHandler(`${TINY_SITE}/${url.shortUrl}`)}
                         testId="copy-button"
                     >
                         <span className="sr-only">Copy</span>

@@ -1,50 +1,110 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useRouter } from 'next/router';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { useGetOriginalUrlQuery } from '@/services/api';
+
+import { urlDetails } from '../../__mocks__/db/urls';
 import Redirect from '../../src/pages/[redirect]/index';
 
 jest.mock('next/router', () => ({
-    useRouter: jest.fn(),
+    ...jest.requireActual('next/router'),
+    useRouter: jest.fn().mockImplementation(() => ({
+        query: { redirect: '963d9c42' },
+    })),
+}));
+
+jest.mock('../../src/services/api', () => ({
+    useGetOriginalUrlQuery: jest.fn(),
 }));
 
 describe('Redirect Component', () => {
-    const mockRouterPush = jest.fn();
-    const mockRouterReplace = jest.fn();
-    const mockRouter = {
-        push: mockRouterPush,
-        replace: mockRouterReplace,
-        query: { redirect: 'ffdsfds' },
-    };
+    const queryClient = new QueryClient();
+    const mockUseGetOriginalUrlQuery = useGetOriginalUrlQuery as jest.Mock;
 
-    beforeEach(() => {
-        (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    test('renders loading state', async () => {
+        mockUseGetOriginalUrlQuery.mockReturnValue({
+            isLoading: true,
+        });
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
+
+        const redirectShimmer = screen.getByTestId('redirect-shimmer');
+        expect(redirectShimmer).toBeInTheDocument();
     });
 
-    test('renders loader timer with go button', () => {
-        render(<Redirect />);
-        const timer = screen.getByText('5');
-        const goButton = screen.getByText('Go');
+    test('renders not found message', async () => {
+        mockUseGetOriginalUrlQuery.mockReturnValue({ isError: true });
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
+
+        const error = screen.getByText('Something went wrong. Please try again.');
+        expect(error).toBeInTheDocument();
+    });
+
+    test('renders redirect information and timer', async () => {
+        mockUseGetOriginalUrlQuery.mockReturnValue({
+            data: urlDetails,
+            isLoading: false,
+        });
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
+
+        const redirectUrl = screen.getByText(urlDetails.url.originalUrl);
+        expect(redirectUrl).toBeInTheDocument();
+        const timer = screen.getByTestId('loader');
         expect(timer).toBeInTheDocument();
+        const goButton = screen.getByText('Go');
         expect(goButton).toBeInTheDocument();
     });
 
-    test.skip('redirects to original URL on Go button click', async () => {
-        render(<Redirect />);
-        const goButton = screen.getByText('Go');
-        await act(async () => {
-            fireEvent.click(goButton);
+    test('redirects when timer reaches 0', async () => {
+        mockUseGetOriginalUrlQuery.mockReturnValue({
+            data: urlDetails,
+            isLoading: false,
         });
-        expect(mockRouterPush).toHaveBeenCalled();
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
+
+        expect(screen.getByTestId('loader')).toHaveTextContent('5');
+        jest.advanceTimersByTime(5000);
+        await waitFor(() => {
+            const redirectUrl = screen.getByText(urlDetails.url.originalUrl);
+            expect(redirectUrl).toBeInTheDocument();
+        });
     });
 
-    test.skip('redirects when timer reaches zero', async () => {
-        jest.useFakeTimers();
-        render(<Redirect />);
+    test('shows tooltip when user is not premium and clicks go button', async () => {
+        mockUseGetOriginalUrlQuery.mockReturnValue({
+            data: urlDetails,
+            isLoading: false,
+        });
 
-        act(() => jest.advanceTimersByTime(5000));
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Redirect />
+            </QueryClientProvider>
+        );
 
+        fireEvent.click(screen.getByText('Go'));
         await waitFor(() => {
-            expect(mockRouterPush).toHaveBeenCalled();
+            const tooltip = screen.getByText('The skip feature is exclusively available to Premium users.');
+            expect(tooltip).toBeInTheDocument();
         });
     });
 });
