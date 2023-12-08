@@ -86,14 +86,14 @@ describe('Dashboard', () => {
         closeButton.click();
     });
 
-    it('shows no url found if urls are empty', () => {
+    it('shows no urls found message if no urls found', () => {
         mockUseAuthenticated.mockReturnValue({
             isLoggedIn: true,
             userData: userData.data,
         });
         mockUseGetUrlsQuery.mockReturnValue({
-            data: { urls: [] },
             isLoading: false,
+            isError: true,
         });
         render(
             <QueryClientProvider client={queryClient}>

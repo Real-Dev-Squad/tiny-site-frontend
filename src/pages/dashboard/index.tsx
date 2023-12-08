@@ -1,3 +1,4 @@
+import NoUrlFound from '@/components/Dashboard/NoUrlFound';
 import UrlList from '@/components/Dashboard/UrlList';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
@@ -10,7 +11,11 @@ import { useGetUrlsQuery } from '@/services/api';
 const Dashboard = () => {
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
-    const { data: urls, isLoading } = useGetUrlsQuery(userData?.data?.id, {
+    const {
+        data: urls,
+        isLoading,
+        isError,
+    } = useGetUrlsQuery(userData?.data?.id, {
         enabled: !!userData?.data?.id,
     });
 
@@ -18,6 +23,8 @@ const Dashboard = () => {
         navigator.clipboard.writeText(url);
         showToast('Copied to clipboard', 3000, 'success');
     };
+
+    if (isError) return <NoUrlFound />;
 
     return (
         <Layout title="Dashboard | URL Shortener">
