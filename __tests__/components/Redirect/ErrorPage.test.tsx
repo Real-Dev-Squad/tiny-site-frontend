@@ -5,9 +5,12 @@ import ErrorPage from '@/components/Redirect/ErrorPage';
 describe('ErrorPage', () => {
     it('should render correctly', () => {
         render(<ErrorPage />);
-        expect(screen.getByText('Oops!')).toBeInTheDocument();
-        expect(screen.getByText('Something went wrong. Please try again.')).toBeInTheDocument();
-        expect(screen.getByText('Reload')).toBeInTheDocument();
+        const errorText = screen.getByText('Oops!');
+        const errorDescription = screen.getByText('Something went wrong. Please try again.');
+        const reloadButton = screen.getByText('Reload');
+        expect(errorText).toBeInTheDocument();
+        expect(errorDescription).toBeInTheDocument();
+        expect(reloadButton).toBeInTheDocument();
     });
 
     it('should reload the page when reload button is clicked', () => {
