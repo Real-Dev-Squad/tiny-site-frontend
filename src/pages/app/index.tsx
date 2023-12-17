@@ -16,6 +16,7 @@ const App = () => {
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+    const [currentUrl, setCurrentUrl] = useState<string>('');
 
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
@@ -26,7 +27,7 @@ const App = () => {
 
         if (isLoggedIn && localUrl) {
             setUrl(localUrl);
-            generateShortUrl(localUrl);
+            setCurrentUrl(localUrl);
             localStorage.removeItem('url');
         }
     }, [isLoggedIn]);
@@ -34,14 +35,18 @@ const App = () => {
     const generateShortUrl = async (url: string) => {
         if (!validateUrl(url, showToast)) return;
 
-        const newShortUrl = await shortenUrlMutation.mutateAsync({
-            originalUrl: url,
-            userData: userData,
-        });
+        try {
+            const newShortUrl = await shortenUrlMutation.mutateAsync({
+                originalUrl: url,
+                userData: userData,
+            });
 
-        const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
-        setShortUrl(fullShortUrl);
-        setShowInputBox(false);
+            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
+            setShortUrl(fullShortUrl);
+            setShowInputBox(false);
+        } catch (error) {
+            console.error('Error creating short URL:', error);
+        }
     };
 
     const handleCopyUrl = () => {
@@ -54,6 +59,7 @@ const App = () => {
     const createNewHandler = () => {
         setUrl('');
         setShortUrl('');
+        setCurrentUrl('');
         setShowInputBox(true);
     };
 
@@ -62,10 +68,12 @@ const App = () => {
             setShowLoginModal(true);
             if (url) localStorage.setItem('url', url);
         } else {
-            generateShortUrl(url);
+            if (url !== currentUrl) {
+                setCurrentUrl(url);
+                generateShortUrl(url);
+            }
         }
     };
-
     return (
         <Layout title="Home | URL Shortener">
             <div className="flex justify-center items-center h-[86vh]">
