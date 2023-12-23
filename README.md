@@ -8,10 +8,10 @@ The Tiny Site Frontend is a web application built using the Next.js framework, T
 
 The Tiny Site Frontend uses the following technologies:
 
-- **Next.js**: A React framework for building server-rendered and statically generated web applications.
-- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
-- **TypeScript**: A superset of JavaScript that adds static types to the language.
-- **React Query**: A library for managing, caching, and synchronizing data in React applications.
+- **Next.js(13.4.19)**: A React framework for building server-rendered and statically generated web applications.
+- **Tailwind CSS(3.3.3)**: A utility-first CSS framework for rapid UI development.
+- **TypeScript(5.2.2)**: A superset of JavaScript that adds static types to the language.
+- **React Query(3.39.3)**: A library for managing, caching, and synchronizing data in React applications.
 
 ## Table of Contents
 
