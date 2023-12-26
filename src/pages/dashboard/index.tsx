@@ -24,13 +24,15 @@ const Dashboard = () => {
         showToast('Copied to clipboard', 3000, 'success');
     };
 
-    if (isError) return <NoUrlFound />;
-
     return (
         <Layout title="Dashboard | URL Shortener">
-            <div className="w-full flex flex-col justify-center items-center p-4 text-white bg-gray-900 min-h-[86vh]">
+            <div className="w-full flex flex-col items-center p-4 text-white bg-gray-900 min-h-[86vh]">
                 {isLoading && <DashboardShimmer />}
-                {urls && <UrlList urls={urls.urls} copyButtonHandler={copyButtonHandler} />}
+                {isError || !urls?.urls?.length ? (
+                    <NoUrlFound />
+                ) : (
+                    <>{urls && <UrlList urls={urls.urls} copyButtonHandler={copyButtonHandler} />}</>
+                )}
                 {toasts.map((toast) => (
                     <Toast key={toast.id} {...toast} />
                 ))}
