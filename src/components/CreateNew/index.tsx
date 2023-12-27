@@ -16,7 +16,7 @@ function CreateNew() {
             data-testid="create-new-link"
         >
             <FaPlus size={20} />
-            <span className=" w-[0%] opacity-0 group-hover:w-[100%] group-hover:opacity-100  ">Create New</span>
+            <span className="w-[0%] opacity-0 group-hover:w-[100%] group-hover:opacity-100">Create New</span>
         </Link>
     );
 }
