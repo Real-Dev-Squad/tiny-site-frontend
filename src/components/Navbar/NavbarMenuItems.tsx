@@ -9,7 +9,7 @@ interface NavbarMenuItemsProps {
 const NavbarMenuItems = ({ menuOpen }: NavbarMenuItemsProps) => {
     return (
         <ul
-            className={`${menuOpen ? 'block' : 'hidden'} absolute top-[10vh] right-0 bg-gray-800 p-2 z-10  
+            className={`${menuOpen ? 'block' : 'hidden'} absolute top-16 right-3 bg-gray-800 p-2 z-10  
             rounded-[8px] shadow-lg
             `}
             data-testid="navbar-menu-items"

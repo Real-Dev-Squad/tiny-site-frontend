@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import LoginModal from '@/components/LoginModal';
 import NavbarMenuItems from '@/components/Navbar/NavbarMenuItems';
@@ -32,13 +32,28 @@ const Navbar = () => {
                 lastName={lastName}
                 handleMenuClick={handleMenuClick}
                 setShowLoginModal={setShowLoginModal}
+                isMenuOpen={menuOpen}
             />
         );
     };
+    const navbarRef = useRef<HTMLDivElement>(null);
+
+    const handleOutsideClick = (event: MouseEvent) => {
+        if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
+            setMenuOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, []);
 
     return (
         <>
-            <nav className="bg-gray-900 p-4 h-[8vh]">
+            <nav ref={navbarRef} className="bg-gray-900 p-4 h-[8vh]">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex">
                         <Image src="/rdsli.png" alt="logo" width={30} height={30} className="mr-2 w-auto" />
@@ -46,7 +61,7 @@ const Navbar = () => {
                     </Link>
 
                     <ul className="lg:flex space-x-4">
-                        <li className="relative group">{renderUserProfile()}</li>
+                        <li className="relative group ">{renderUserProfile()}</li>
                         <NavbarMenuItems menuOpen={menuOpen} />
                     </ul>
                 </div>
@@ -54,7 +69,7 @@ const Navbar = () => {
             {showLoginModal && (
                 <LoginModal
                     onClose={() => setShowLoginModal(false)}
-                    children={<p className="text-white text-center mb-4">Sign to your account</p>}
+                    children={<p className="text-white text-center mb-4">Sign in to your account</p>}
                 />
             )}
         </>
