@@ -12,6 +12,8 @@ The Tiny Site Frontend uses the following technologies:
 - **Tailwind CSS(3.3.3)**: A utility-first CSS framework for rapid UI development.
 - **TypeScript(5.2.2)**: A superset of JavaScript that adds static types to the language.
 - **React Query(3.39.3)**: A library for managing, caching, and synchronizing data in React applications.
+- **Node.js (18.14.0)**: A JavaScript runtime environment that executes JavaScript code outside of a browser.
+- **Volta(Latest)**: A JavaScript tool manager that allows you to easily switch between different versions of Node.js and Yarn.
 
 ## Table of Contents
 
@@ -24,7 +26,7 @@ The Tiny Site Frontend uses the following technologies:
 ## Prerequisites
 
 Before you begin, ensure that you have the following installed on your system:
-
+- [Volta](https://docs.volta.sh/guide/getting-started): Volta is used for Node.js and Yarn version management.
 - [Yarn](https://yarnpkg.com/getting-started/install): Yarn is used for package management.
 
 ## Setup Instructions
@@ -86,3 +88,15 @@ The project is organized as follows:
    - **`types`**: Contains TypeScript types for the project.
    - **`utils`**: Contains utility functions for the project.
 
+## Useful Links
+
+- [Real Dev Squad Code Conventions](https://github.com/Real-Dev-Squad/docs/tree/main/docs/conventions)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [React Query Documentation](https://tanstack.com/query/v3/docs/react/overview)
+- [Node.js Documentation](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs)
+- [Volta Documentation](https://docs.volta.sh)
+- [Yarn Documentation](https://yarnpkg.com/getting-started)
+- [Go Documentation](https://golang.org/doc)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
