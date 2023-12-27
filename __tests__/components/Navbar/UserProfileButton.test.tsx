@@ -12,6 +12,7 @@ describe('UserProfileButton', () => {
                 lastName=""
                 handleMenuClick={() => jest.fn()}
                 setShowLoginModal={() => jest.fn()}
+                isMenuOpen={false}
             />
         );
         await waitFor(() => {
@@ -28,6 +29,7 @@ describe('UserProfileButton', () => {
                 lastName=""
                 handleMenuClick={() => jest.fn()}
                 setShowLoginModal={() => jest.fn()}
+                isMenuOpen={false}
             />
         );
         expect(screen.getByText('User')).toBeInTheDocument();
@@ -42,6 +44,7 @@ describe('UserProfileButton', () => {
                 lastName=""
                 handleMenuClick={() => jest.fn()}
                 setShowLoginModal={setShowLoginModal}
+                isMenuOpen={false}
             />
         );
         await waitFor(() => {
@@ -49,5 +52,20 @@ describe('UserProfileButton', () => {
             loginButton.click();
             expect(setShowLoginModal).toHaveBeenCalledTimes(1);
         });
+    });
+
+    it('should rotate arrow when menu is open', () => {
+        render(
+            <UserProfileButton
+                isLoggedIn={true}
+                firstName="User"
+                lastName=""
+                handleMenuClick={() => jest.fn()}
+                setShowLoginModal={() => jest.fn()}
+                isMenuOpen={true}
+            />
+        );
+        const arrow = screen.getByTestId('user-profile-button-arrow');
+        expect(arrow).toHaveClass('rotate-180');
     });
 });

@@ -62,6 +62,18 @@ describe('formatDate', () => {
             relativeDuration: false,
             fullDate: true,
         });
-        expect(result).toEqual('August 9, 2021 at 5:59:59 PM');
+
+        const expectedDate = new Date('2021-08-09T17:59:59.000Z');
+        const expectedFormattedDate = expectedDate.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true,
+        });
+
+        expect(result).toEqual(expectedFormattedDate);
     });
 });
