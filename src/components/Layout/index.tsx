@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import { FC, ReactNode } from 'react';
-import { FaPlus } from 'react-icons/fa';
 
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
@@ -32,16 +30,7 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 <meta property="og:type" content="website" />
             </Head>
             <Navbar />
-            <main className="bg-gray-900 ">
-                {children}
-                <Link
-                    className="fixed bottom-10 right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg cursor-pointer"
-                    data-testid="create-new-button-mobile"
-                    href="/"
-                >
-                    <FaPlus size={20} />
-                </Link>
-            </main>
+            <main className="bg-gray-900 ">{children}</main>
             <Footer />
         </>
     );

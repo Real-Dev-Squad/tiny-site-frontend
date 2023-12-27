@@ -1,4 +1,4 @@
-import { RxDropdownMenu } from 'react-icons/rx';
+import { IoMdArrowDropdown } from 'react-icons/io';
 
 import Button from '../Button';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
@@ -9,6 +9,7 @@ interface SignInButtonProps {
     lastName: string;
     handleMenuClick: () => void;
     setShowLoginModal: (value: boolean) => void;
+    isMenuOpen: boolean;
 }
 
 const UserProfileButton = ({
@@ -17,14 +18,20 @@ const UserProfileButton = ({
     lastName,
     handleMenuClick,
     setShowLoginModal,
+    isMenuOpen,
 }: SignInButtonProps) => {
     if (isLoggedIn) {
         return (
             <Button type="button" onClick={handleMenuClick} className="text-white focus:outline-none">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1">
                     <ProfileIcon firstName={firstName} lastName={lastName} />
                     <span> {firstName}</span>
-                    <RxDropdownMenu className="text-[2em]" />
+                    <IoMdArrowDropdown
+                        className={`text-[2em]
+"
+                    ${isMenuOpen ? 'rotate-180' : ''}`}
+                        data-testid="user-profile-button-arrow"
+                    />
                 </div>
             </Button>
         );
