@@ -92,8 +92,9 @@ describe('Dashboard', () => {
             userData: userData.data,
         });
         mockUseGetUrlsQuery.mockReturnValue({
+            data: { urls: [] },
             isLoading: false,
-            isError: true,
+            isError: false,
         });
         render(
             <QueryClientProvider client={queryClient}>
