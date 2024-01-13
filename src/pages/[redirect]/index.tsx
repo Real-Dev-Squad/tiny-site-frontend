@@ -11,7 +11,7 @@ import { useGetOriginalUrlQuery } from '@/services/api';
 const Redirect = () => {
     const router = useRouter();
     const { redirect: shortUrlCode } = router.query as { redirect: string };
-    const [timer, setTimer] = useState(5);
+    const [timer, setTimer] = useState(3);
     const [showTooltip, setShowTooltip] = useState(false);
     const isPremiumUser = false;
     const { data, isLoading, isError } = useGetOriginalUrlQuery(shortUrlCode, {
