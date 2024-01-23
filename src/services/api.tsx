@@ -29,6 +29,8 @@ const useAuthenticatedQuery = () => {
                 })
                 .then((res) => res.data),
         retry: false,
+        enabled: true,
+        staleTime: 60 * 60 * 1000,
     });
 };
 

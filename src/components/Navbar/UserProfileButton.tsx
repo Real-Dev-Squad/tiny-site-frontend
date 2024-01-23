@@ -1,6 +1,10 @@
+import Link from 'next/link';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
+import { TINY_API_GOOGLE_LOGIN } from '@/constants/url';
+
 import Button from '../Button';
+import GoogleIcon from '../icons/Google';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 interface SignInButtonProps {
@@ -12,14 +16,7 @@ interface SignInButtonProps {
     isMenuOpen: boolean;
 }
 
-const UserProfileButton = ({
-    isLoggedIn,
-    firstName,
-    lastName,
-    handleMenuClick,
-    setShowLoginModal,
-    isMenuOpen,
-}: SignInButtonProps) => {
+const UserProfileButton = ({ isLoggedIn, firstName, lastName, handleMenuClick, isMenuOpen }: SignInButtonProps) => {
     if (isLoggedIn) {
         return (
             <Button type="button" onClick={handleMenuClick} className="text-white focus:outline-none">
@@ -37,13 +34,14 @@ const UserProfileButton = ({
         );
     }
     return (
-        <Button
-            className="flex items-center space-x-2  text-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-700"
-            data-testid="google-login"
-            onClick={() => setShowLoginModal(true)}
+        <Link
+            href={TINY_API_GOOGLE_LOGIN}
+            data-testid="sign-in-with-google-button"
+            className="flex items-center space-x-2 bg-white px-4 py-2 rounded-md cursor-pointer hover:bg-white hover:bg-opacity-80"
         >
-            Sign In
-        </Button>
+            <span className="text-center mr-1">Sign in</span>
+            <GoogleIcon />
+        </Link>
     );
 };
 
