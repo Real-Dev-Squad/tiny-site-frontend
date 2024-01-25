@@ -7,11 +7,12 @@ import LoaderTimer from '@/components/Redirect/LoaderTimer';
 import RedirectFooter from '@/components/Redirect/RedirectFooter';
 import RedirectShimmer from '@/components/ShimmerEffect/RedirectShimmer';
 import { useGetOriginalUrlQuery } from '@/services/api';
+import { addProtocol } from '@/utils/addProtocol';
 
 const Redirect = () => {
     const router = useRouter();
     const { redirect: shortUrlCode } = router.query as { redirect: string };
-    const [timer, setTimer] = useState(5);
+    const [timer, setTimer] = useState(3);
     const [showTooltip, setShowTooltip] = useState(false);
     const isPremiumUser = false;
     const { data, isLoading, isError } = useGetOriginalUrlQuery(shortUrlCode, {
@@ -29,7 +30,7 @@ const Redirect = () => {
             const countdown = setTimeout(() => setTimer(timer - 1), 1000);
             return () => clearTimeout(countdown);
         } else if (timer === 0) {
-            router.push(data?.url.originalUrl);
+            router.push(addProtocol(data?.url.originalUrl));
         }
     };
 
