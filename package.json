@@ -30,8 +30,7 @@
         "react-dom": "18.2.0",
         "react-icons": "^4.11.0",
         "react-query": "^3.39.3",
-        "tailwindcss": "3.3.3",
-        "typescript": "5.2.2"
+        "tailwindcss": "3.3.3"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "5.17.0",
@@ -44,6 +43,7 @@
         "@types/react-dom": "18.2.4",
         "@typescript-eslint/eslint-plugin": "^5.59.7",
         "@typescript-eslint/parser": "^5.59.7",
+        "typescript": "5.2.2",
         "dotenv": "^16.3.1",
         "eslint": "8.41.0",
         "eslint-config-next": "13.4.4",

@@ -34,6 +34,24 @@ describe('UserProfileButton', () => {
         );
         expect(screen.getByText('User')).toBeInTheDocument();
     });
+    it('should show login modal when sign in button is clicked', async () => {
+        const setShowLoginModal = jest.fn();
+        render(
+            <UserProfileButton
+                isLoggedIn={false}
+                firstName="User"
+                lastName=""
+                handleMenuClick={() => jest.fn()}
+                setShowLoginModal={setShowLoginModal}
+                isMenuOpen={false}
+            />
+        );
+        await waitFor(() => {
+            const loginButton = screen.getByText(/sign in/i);
+            loginButton.click();
+            expect(setShowLoginModal).toHaveBeenCalledTimes(1);
+        });
+    });
 
     it('should rotate arrow when menu is open', () => {
         render(

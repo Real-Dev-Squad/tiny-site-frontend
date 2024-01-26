@@ -6,8 +6,8 @@ import ErrorPage from '@/components/Redirect/ErrorPage';
 import LoaderTimer from '@/components/Redirect/LoaderTimer';
 import RedirectFooter from '@/components/Redirect/RedirectFooter';
 import RedirectShimmer from '@/components/ShimmerEffect/RedirectShimmer';
+import { TINY_API_URL } from '@/constants/url';
 import { useGetOriginalUrlQuery } from '@/services/api';
-import { addProtocol } from '@/utils/addProtocol';
 
 const Redirect = () => {
     const router = useRouter();
@@ -30,13 +30,13 @@ const Redirect = () => {
             const countdown = setTimeout(() => setTimer(timer - 1), 1000);
             return () => clearTimeout(countdown);
         } else if (timer === 0) {
-            router.push(addProtocol(data?.url.originalUrl));
+            router.push(`${TINY_API_URL}/tinyurl/${shortUrlCode}`);
         }
     };
 
     const handleGoButtonClick = () => {
         if (isPremiumUser) {
-            router.push(data?.url.originalUrl);
+            router.push(`${TINY_API_URL}/tinyurl/${shortUrlCode}`);
         } else {
             setShowTooltip(true);
         }

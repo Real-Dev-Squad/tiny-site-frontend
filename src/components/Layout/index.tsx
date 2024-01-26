@@ -17,16 +17,16 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
                 <meta
                     name="description"
-                    content="Shorten and share URLs with rds.li, a simple and efficient URL shortener."
+                    content="Shorten and share URLs with Real Dev Squad, a simple and efficient URL shortener."
                 />
-                <meta name="keywords" content="URL shortener, rds.li, link shortener, short URLs" />
+                <meta name="keywords" content="URL shortener, Real Dev Squad, link shortener, short URLs" />
                 <meta name="author" content="Real Dev Squad" />
-                <meta property="og:title" content="rds.li - URL Shortener" />
+                <meta property="og:title" content="Real Dev Squad - URL Shortener" />
                 <meta
                     property="og:description"
-                    content="Shorten and share URLs with rds.li, a simple and efficient URL shortener."
+                    content="Shorten and share URLs with Real Dev Squad, a simple and efficient URL shortener."
                 />
-                <meta property="og:url" content="https://staging-tinysite.realdevsquad.com/" />
+                <meta property="og:url" content="https://rds.realdevsquad.com/" />
                 <meta property="og:type" content="website" />
             </Head>
             <Navbar />
