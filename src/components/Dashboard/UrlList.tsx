@@ -1,4 +1,3 @@
-import NoUrlFound from '@/components/Dashboard/NoUrlFound';
 import UrlListItem from '@/components/Dashboard/UrlListItem';
 import { UrlType } from '@/types/url.types';
 
@@ -8,9 +7,6 @@ interface UrlListProps {
 }
 
 const UrlList = ({ urls, copyButtonHandler }: UrlListProps) => {
-    if (!urls.length) {
-        return <NoUrlFound />;
-    }
     return (
         <ul className="flex flex-col justify-center items-center w-full mt-10">
             <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-8 text-white font-semibold">Your URLs</h1>

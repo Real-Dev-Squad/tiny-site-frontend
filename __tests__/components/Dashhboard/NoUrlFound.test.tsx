@@ -1,11 +1,19 @@
 import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import NoUrlFound from '@/components/Dashboard/NoUrlFound';
 
 describe('NoUrlFound', () => {
     test('renders NoUrlFound component', () => {
-        render(<NoUrlFound />);
-        const noUrlFound = screen.getByText(/No URLs found/i);
-        expect(noUrlFound).toBeInTheDocument();
+        const queryClient = new QueryClient();
+        render(
+            <QueryClientProvider client={queryClient}>
+                <NoUrlFound />
+            </QueryClientProvider>
+        );
+        const noUrlFoundText = screen.getByText(/No URLs found/i);
+        expect(noUrlFoundText).toBeInTheDocument();
+        const createOneButton = screen.getByText(/Create one/i);
+        expect(createOneButton).toBeInTheDocument();
     });
 });

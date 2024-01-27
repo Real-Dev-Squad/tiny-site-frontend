@@ -1,3 +1,4 @@
+import NoUrlFound from '@/components/Dashboard/NoUrlFound';
 import UrlList from '@/components/Dashboard/UrlList';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
@@ -10,7 +11,11 @@ import { useGetUrlsQuery } from '@/services/api';
 const Dashboard = () => {
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
-    const { data: urls, isLoading } = useGetUrlsQuery(userData?.data?.id, {
+    const {
+        data: urls,
+        isLoading,
+        isError,
+    } = useGetUrlsQuery(userData?.data?.id, {
         enabled: !!userData?.data?.id,
     });
 
@@ -21,9 +26,13 @@ const Dashboard = () => {
 
     return (
         <Layout title="Dashboard | URL Shortener">
-            <div className="w-full flex flex-col justify-center items-center p-4 text-white bg-gray-900 min-h-[86vh]">
+            <div className="w-full flex flex-col items-center p-4 text-white bg-gray-900 min-h-[86vh]">
                 {isLoading && <DashboardShimmer />}
-                {urls && <UrlList urls={urls.urls} copyButtonHandler={copyButtonHandler} />}
+                {isError || !urls?.urls?.length ? (
+                    <NoUrlFound />
+                ) : (
+                    <>{urls && <UrlList urls={urls.urls} copyButtonHandler={copyButtonHandler} />}</>
+                )}
                 {toasts.map((toast) => (
                     <Toast key={toast.id} {...toast} />
                 ))}

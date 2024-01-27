@@ -31,12 +31,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
 
     return (
         <dialog
-            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50"
+            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm z-50"
             data-testid="login-modal"
         >
             <div
                 ref={modalRef}
-                className="bg-gray-800 p-8 rounded-md w-[330px] relative flex flex-col justify-center items-center border border-gray-500"
+                className="bg-gray-800 p-8 rounded-md w-[330px] relative flex flex-col justify-center items-center shadow-lg"
             >
                 <Button className="absolute top-2 right-2 text-white" testId="close-login-modal" onClick={onClose}>
                     <IoCloseSharp style={{ fontSize: '1.5em' }} />

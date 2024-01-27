@@ -32,7 +32,8 @@ describe('Redirect Component', () => {
             </QueryClientProvider>
         );
 
-        expect(screen.getByText('Loading...')).toBeInTheDocument();
+        const redirectShimmer = screen.getByTestId('redirect-shimmer');
+        expect(redirectShimmer).toBeInTheDocument();
     });
 
     test('renders not found message', async () => {
@@ -44,10 +45,8 @@ describe('Redirect Component', () => {
             </QueryClientProvider>
         );
 
-        const error = screen.getByText('404 - Not Found');
+        const error = screen.getByText('Something went wrong. Please try again.');
         expect(error).toBeInTheDocument();
-        const createNew = screen.getByText('Create New Short URL');
-        expect(createNew).toBeInTheDocument();
     });
 
     test('renders redirect information and timer', async () => {
@@ -82,7 +81,7 @@ describe('Redirect Component', () => {
             </QueryClientProvider>
         );
 
-        expect(screen.getByTestId('loader')).toHaveTextContent('5');
+        expect(screen.getByTestId('loader')).toHaveTextContent('3');
         jest.advanceTimersByTime(5000);
         await waitFor(() => {
             const redirectUrl = screen.getByText(urlDetails.url.originalUrl);
