@@ -80,4 +80,18 @@ const useShortenUrlMutation = () => {
     );
 };
 
-export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
+const useDeleteUrlMutation = () => {
+    return useMutation(
+        async (shortUrlCode: string) => {
+            const response = await axios.delete(`${TINY_API_URL}/tinyurl/${shortUrlCode}`, {
+                withCredentials: true,
+            });
+            return response.data as ShortenUrlResponse;
+        },
+        {
+            retry: false,
+        }
+    );
+};
+
+export { useAuthenticatedQuery, useDeleteUrlMutation, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };

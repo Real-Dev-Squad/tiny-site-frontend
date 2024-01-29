@@ -3,7 +3,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useAuthenticated from '@/hooks/useAuthenticated';
-import { useGetUrlsQuery } from '@/services/api';
+import { useDeleteUrlMutation, useGetUrlsQuery } from '@/services/api';
 
 import { urls } from '../../__mocks__/db/urls';
 import userData from '../../__mocks__/db/user';
@@ -17,6 +17,10 @@ jest.mock('../../src/hooks/useAuthenticated', () => ({
     __esModule: true,
     default: jest.fn(),
 }));
+
+(useDeleteUrlMutation as jest.Mock).mockReturnValue({
+    mutateAsync: jest.fn(),
+});
 
 describe('Dashboard', () => {
     const queryClient = new QueryClient();
