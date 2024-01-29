@@ -30,13 +30,13 @@ const Redirect = () => {
             const countdown = setTimeout(() => setTimer(timer - 1), 1000);
             return () => clearTimeout(countdown);
         } else if (timer === 0) {
-            router.push(`${TINY_API_URL}/tinyurl/${shortUrlCode}`);
+            router.push(`${TINY_API_URL}/redirect/${shortUrlCode}`);
         }
     };
 
     const handleGoButtonClick = () => {
         if (isPremiumUser) {
-            router.push(`${TINY_API_URL}/tinyurl/${shortUrlCode}`);
+            router.push(`${TINY_API_URL}/redirect/${shortUrlCode}`);
         } else {
             setShowTooltip(true);
         }

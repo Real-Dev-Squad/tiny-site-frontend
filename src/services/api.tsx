@@ -48,7 +48,7 @@ const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
         queryKey: ['urls'],
         queryFn: () =>
             axios
-                .get(`${TINY_API_URL}/user/${userId}/urls`, {
+                .get(`${TINY_API_URL}/urls/self`, {
                     withCredentials: true,
                 })
                 .then((res) => res.data),
