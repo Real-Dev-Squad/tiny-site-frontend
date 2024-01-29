@@ -62,7 +62,9 @@ const App = () => {
             setShowLoginModal(true);
             if (url) localStorage.setItem('url', url);
         } else {
-            generateShortUrl(url);
+            if (!shortenUrlMutation.isLoading) {
+                generateShortUrl(url);
+            }
         }
     };
 
