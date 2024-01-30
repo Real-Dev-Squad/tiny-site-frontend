@@ -5,41 +5,19 @@ import QRCodeModal from '@/components/QRCodeModal';
 describe('QRCodeModal Component', () => {
     const onClose = jest.fn();
 
-    test('renders the QRCodeModal component with close button', () => {
+    test('renders the QRCodeModal component', () => {
         render(
             <QRCodeModal
                 onClose={() => {
                     onClose();
                 }}
-                value="https://www.rds.com"
+                shortUrl="https://www.rds.com"
             />
         );
         const closeButton = screen.getByTestId('close-qrcode-modal');
         expect(closeButton).toBeInTheDocument();
-    });
-
-    test('renders the QRCodeModal component with download button', () => {
-        render(
-            <QRCodeModal
-                onClose={() => {
-                    onClose();
-                }}
-                value="https://www.rds.com"
-            />
-        );
         const downloadButton = screen.getByTestId('download-qr-code');
         expect(downloadButton).toBeInTheDocument();
-    });
-
-    test('renders the QRCodeModal component with qrcode', () => {
-        render(
-            <QRCodeModal
-                onClose={() => {
-                    onClose();
-                }}
-                value="https://www.rds.com"
-            />
-        );
         const qrcodeCanvas = screen.getByTestId('qrcode');
         expect(qrcodeCanvas).toBeInTheDocument();
     });
@@ -50,7 +28,7 @@ describe('QRCodeModal Component', () => {
                 onClose={() => {
                     onClose();
                 }}
-                value="https://www.rds.com"
+                shortUrl="https://www.rds.com"
             />
         );
         const modal = screen.getByTestId('qrcode-modal');
@@ -66,7 +44,7 @@ describe('QRCodeModal Component', () => {
                 onClose={() => {
                     onClose();
                 }}
-                value="https://www.rds.com"
+                shortUrl="https://www.rds.com"
             />
         );
 

@@ -7,11 +7,11 @@ import Button from '@/components/Button';
 const RDSIcon = '_next/image?url=%2Frds.png&w=64&q=75';
 
 interface QRCodeModalProps {
-    value: string;
+    shortUrl: string;
     onClose: () => void;
 }
 
-const QRCodeModal: React.FC<QRCodeModalProps> = ({ value, onClose }) => {
+const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,7 +34,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ value, onClose }) => {
             const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
             const downloadLink = document.createElement('a');
             downloadLink.href = pngUrl;
-            downloadLink.download = 'qr-code.png';
+            downloadLink.download = `${shortUrl}.png`;
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
@@ -56,7 +56,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ value, onClose }) => {
                 <QRCode
                     data-testid="qrcode"
                     id="qr-code"
-                    value={`URL: ${value}`}
+                    value={`URL: ${shortUrl}`}
                     size={256}
                     includeMargin={true}
                     imageSettings={{

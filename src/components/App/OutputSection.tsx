@@ -90,7 +90,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({
                     Create New
                 </Button>
             </section>
-            {showQRCodeModal && <QRCodeModal value={shortUrl} onClose={() => setShowQRCodeModal(false)} />}
+            {showQRCodeModal && <QRCodeModal shortUrl={shortUrl} onClose={() => setShowQRCodeModal(false)} />}
         </>
     );
 };
