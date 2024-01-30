@@ -34,7 +34,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
             const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
             const downloadLink = document.createElement('a');
             downloadLink.href = pngUrl;
-            downloadLink.download = `${shortUrl}.png`;
+            downloadLink.download = `${shortUrl.split('/').pop()}.png`;
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
