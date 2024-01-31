@@ -12,12 +12,7 @@ import { useDeleteUrlMutation } from '@/services/api';
 const Dashboard = () => {
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
-    const {
-        data: urls,
-        isLoading,
-        isError,
-        refetch,
-    } = useGetUrlsQuery(userData?.data?.id, { enabled: !!userData?.data?.id });
+    const { data: urls, isLoading, isError, refetch } = useGetUrlsQuery({ enabled: !!userData?.data?.id });
     const { mutateAsync: deleteUrl } = useDeleteUrlMutation();
 
     const deleteUrlHandler = async (shortUrl: string) => {
