@@ -5,12 +5,12 @@ import { TINY_API_URL } from '@/constants/url';
 import { urlDetails, urls } from '../db/urls';
 
 const getAllUrlHandler = [
-    rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
+    rest.get(`${TINY_API_URL}/urls/self`, (_, res, ctx) => {
         return res(ctx.status(200), ctx.json(urls));
     }),
 ];
 
-const notFoundAllUrlHandler = rest.get(`${TINY_API_URL}/user/1/urls`, (_, res, ctx) => {
+const notFoundAllUrlHandler = rest.get(`${TINY_API_URL}/urls/self`, (_, res, ctx) => {
     return res(
         ctx.status(404),
         ctx.json({
