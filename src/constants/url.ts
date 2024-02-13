@@ -5,4 +5,4 @@ export const TINY_API_URL = API_BASE_URL;
 export const TINY_API_GOOGLE_LOGIN = `${API_BASE_URL}/auth/google/login`;
 export const TINY_API_LOGOUT = `${API_BASE_URL}/auth/logout`;
 export const TINY_API_URL_DETAIL = `${TINY_API_URL}/urls`;
-export const TINY_API_REDIRECT = `${TINY_API_URL}/tinyurl`;
+export const TINY_API_REDIRECT = `${TINY_API_URL}/redirect`;
