@@ -30,7 +30,7 @@ const useAuthenticatedQuery = () => {
                 .then((res) => res.data),
         retry: false,
         enabled: true,
-        staleTime: 60 * 60 * 1000,
+        refetchOnWindowFocus: false,
     });
 };
 
@@ -40,10 +40,11 @@ const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolea
         queryFn: () => axios.get(`${TINY_API_URL_DETAIL}/${shortUrlCode}`).then((res) => res.data),
         ...options,
         retry: false,
+        refetchOnWindowFocus: false,
     });
 };
 
-const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
+const useGetUrlsQuery = (options: { enabled: boolean }) => {
     return useQuery({
         queryKey: ['urls'],
         queryFn: () =>
@@ -54,6 +55,7 @@ const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
                 .then((res) => res.data),
         ...options,
         retry: false,
+        refetchOnWindowFocus: false,
     });
 };
 
@@ -80,4 +82,18 @@ const useShortenUrlMutation = () => {
     );
 };
 
-export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
+const useDeleteUrlMutation = () => {
+    return useMutation(
+        async (shortUrlCode: string) => {
+            const response = await axios.delete(`${TINY_API_URL}/tinyurl/${shortUrlCode}`, {
+                withCredentials: true,
+            });
+            return response.data as ShortenUrlResponse;
+        },
+        {
+            retry: false,
+        }
+    );
+};
+
+export { useAuthenticatedQuery, useDeleteUrlMutation, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
