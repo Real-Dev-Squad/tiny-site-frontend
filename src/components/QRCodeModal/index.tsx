@@ -63,7 +63,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                         src: RDSIcon,
                         height: 50,
                         width: 50,
-                        excavate: true,
+                        excavate: false,
                     }}
                     renderAs="canvas"
                     level="L"
