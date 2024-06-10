@@ -4,6 +4,7 @@ import { FcDownload } from 'react-icons/fc';
 import { IoCloseSharp } from 'react-icons/io5';
 
 import Button from '@/components/Button';
+const RDSIcon = '_next/image?url=%2Frds.png&w=64&q=75';
 
 interface QRCodeModalProps {
     shortUrl: string;
@@ -58,6 +59,12 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                     value={`URL: ${shortUrl}`}
                     size={256}
                     includeMargin={true}
+                    imageSettings={{
+                        src: RDSIcon,
+                        height: 50,
+                        width: 50,
+                        excavate: false,
+                    }}
                     level="L"
                 />
                 <Button
