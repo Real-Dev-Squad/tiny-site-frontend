@@ -63,6 +63,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                         src: RDSIcon,
                         height: 50,
                         width: 50,
+                        // TODO: Find the reason to excavate false to work QR Code
                         excavate: false,
                     }}
                     level="L"
