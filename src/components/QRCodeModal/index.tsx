@@ -56,13 +56,13 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                 <QRCode
                     data-testid="qrcode"
                     id="qr-code"
-                    value={shortUrl}
+                    value={`URL: ${shortUrl}`}
                     size={256}
                     includeMargin={true}
                     imageSettings={{
                         src: RDSIcon,
-                        height: 35,
-                        width: 35,
+                        height: 50,
+                        width: 50,
                         excavate: true,
                     }}
                     renderAs="canvas"
