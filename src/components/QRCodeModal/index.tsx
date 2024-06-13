@@ -1,4 +1,4 @@
-import { QRCodeCanvas } from 'qrcode.react';
+import QRCode from 'qrcode.react';
 import React, { useEffect, useRef } from 'react';
 import { FcDownload } from 'react-icons/fc';
 import { IoCloseSharp } from 'react-icons/io5';
@@ -53,19 +53,19 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                 <Button className="absolute top-2 right-2 text-white" testId="close-qrcode-modal" onClick={onClose}>
                     <IoCloseSharp style={{ fontSize: '1.5em' }} />
                 </Button>
-                <QRCodeCanvas
+                <QRCode
                     data-testid="qrcode"
                     id="qr-code"
-                    value={`URL: ${shortUrl}`}
+                    value={shortUrl}
                     size={256}
                     includeMargin={true}
                     imageSettings={{
                         src: RDSIcon,
-                        height: 50,
-                        width: 50,
-                        // TODO: Find the reason to excavate false to work QR Code
-                        excavate: false,
+                        height: 35,
+                        width: 35,
+                        excavate: true,
                     }}
+                    renderAs="canvas"
                     level="L"
                 />
                 <Button
