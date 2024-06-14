@@ -1,13 +1,17 @@
 import { Tooltip } from '@nextui-org/react';
 import Link from 'next/link';
 import { MdOutlineContentCopy } from 'react-icons/md';
-import { TbWorldWww } from 'react-icons/tb';
+import { TbTrash, TbWorldWww } from 'react-icons/tb';
+import { useMutation } from 'react-query';
 
 import { TINY_SITE } from '@/constants/url';
+import { queryClient } from '@/pages/_app';
+import { deleteUrlApi } from '@/services/api';
 import { UrlType } from '@/types/url.types';
 import formatDate from '@/utils/formatDate';
 
 import Button from '../Button';
+import { Loader } from '../Loader';
 
 interface UrlListItemProps {
     url: UrlType;
@@ -15,8 +19,19 @@ interface UrlListItemProps {
 }
 
 const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
+    const deleteMutation = useMutation({
+        mutationFn: deleteUrlApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['urls']);
+        },
+        onError: (error) => {
+            window.alert('Error deleting URL');
+            console.error(error);
+        },
+    });
+
     return (
-        <li className="flex m-1 border-gray-50 rounded-lg border-2 bg-white  w-[100%] sm:w-[60%] sm:m-2 px-2 py-2 sm:px-4 sm:py-2">
+        <li className="flex m-1 border-gray-50 rounded-lg border-2 bg-white  w-[100%] sm:w-[60%] sm:m-2 px-2 py-2 sm:px-4 sm:py-2 items-center">
             <div className="mr-2 flex items-center justify-center">
                 <TbWorldWww className="text-black text-opacity-70 text-4xl" />
             </div>
@@ -62,6 +77,21 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         {formatDate({ inputDate: url.createdAt as string, relativeDuration: true, fullDate: false })}
                     </p>
                 </Tooltip>
+            </div>
+
+            <div>
+                <Button
+                    disabled={deleteMutation.isLoading}
+                    onClick={() => deleteMutation.mutate({ id: url.id })}
+                    className={`w-8 grid place-items-center h-8 rounded transition -mr-8 active:scale-95 ${
+                        deleteMutation.isLoading
+                            ? 'text-gray-600 bg-gray-100'
+                            : 'text-red-500 hover:text-red-600 hover:bg-red-100'
+                    }`}
+                >
+                    {!deleteMutation.isLoading && <TbTrash className="w-5 h-5" />}
+                    {deleteMutation.isLoading && <Loader className="w-5 h-5 text-gray-400" />}
+                </Button>
             </div>
         </li>
     );

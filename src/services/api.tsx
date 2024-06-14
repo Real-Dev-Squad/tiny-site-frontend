@@ -80,4 +80,9 @@ const useShortenUrlMutation = () => {
     );
 };
 
-export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
+const deleteUrlApi = async ({ id }: { id: number }) => {
+    const { status } = await axios.delete(`${TINY_API_URL}/urls/${id}`, { withCredentials: true });
+    return status;
+};
+
+export { deleteUrlApi, useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
