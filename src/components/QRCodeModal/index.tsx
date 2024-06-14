@@ -56,17 +56,17 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                 <QRCode
                     data-testid="qrcode"
                     id="qr-code"
-                    value={`URL: ${shortUrl}`}
+                    value={shortUrl}
                     size={256}
                     includeMargin={true}
                     imageSettings={{
                         src: RDSIcon,
-                        height: 50,
-                        width: 50,
+                        height: 35,
+                        width: 35,
                         excavate: true,
                     }}
                     renderAs="canvas"
-                    level="L"
+                    level="M"
                 />
                 <Button
                     className="px-4 py-2 bg-white rounded-md mt-4 hover:bg-gray-100 text-gray-800"
