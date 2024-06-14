@@ -34,14 +34,19 @@ const App = () => {
     const generateShortUrl = async (url: string) => {
         if (!validateUrl(url, showToast)) return;
 
-        const newShortUrl = await shortenUrlMutation.mutateAsync({
-            originalUrl: url,
-            userData: userData,
-        });
+        try {
+            const newShortUrl = await shortenUrlMutation.mutateAsync({
+                originalUrl: url,
+                userData: userData,
+            });
 
-        const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
-        setShortUrl(fullShortUrl);
-        setShowInputBox(false);
+            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
+            setShortUrl(fullShortUrl);
+            setShowInputBox(false);
+        } catch (e) {
+            window.alert('Url limit reached, please delete some urls to create new!');
+            setUrl('');
+        }
     };
 
     const handleCopyUrl = () => {
