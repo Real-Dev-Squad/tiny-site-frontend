@@ -95,7 +95,7 @@ const useDeleteUrlMutation = () => {
         onError: (error) => {
             window.alert('Error deleting URL');
             console.error(error);
-        }
+        },
     });
 };
 
