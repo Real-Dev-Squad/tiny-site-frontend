@@ -81,22 +81,9 @@ const useShortenUrlMutation = () => {
     );
 };
 
-const deleteUrl = async ({ id }: { id: number }) => {
+const deleteUrlApi = async ({ id }: { id: number }) => {
     const { status } = await axios.delete(`${TINY_API_URL}/urls/${id}`, { withCredentials: true });
     return status;
 };
 
-const useDeleteUrlMutation = () => {
-    return useMutation({
-        mutationFn: deleteUrl,
-        onSuccess: () => {
-            queryClient.invalidateQueries(['urls']);
-        },
-        onError: (error) => {
-            window.alert('Error deleting URL');
-            console.error(error);
-        },
-    });
-};
-
-export { useAuthenticatedQuery, useDeleteUrlMutation, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
+export { deleteUrlApi, useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
