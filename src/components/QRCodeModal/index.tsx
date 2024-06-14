@@ -66,7 +66,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({ shortUrl, onClose }) => {
                         excavate: true,
                     }}
                     renderAs="canvas"
-                    level="L"
+                    level="M"
                 />
                 <Button
                     className="px-4 py-2 bg-white rounded-md mt-4 hover:bg-gray-100 text-gray-800"
