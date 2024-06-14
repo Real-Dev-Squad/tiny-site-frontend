@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
+import { queryClient } from '@/pages/_app';
 import { User } from '@/types/user.types';
 
 interface ShortenUrlRequest {
@@ -80,4 +81,22 @@ const useShortenUrlMutation = () => {
     );
 };
 
-export { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
+const deleteUrl = async ({ id }: { id: number }) => {
+    const { status } = await axios.delete(`${TINY_API_URL}/urls/${id}`, { withCredentials: true });
+    return status;
+};
+
+const useDeleteUrlMutation = () => {
+    return useMutation({
+        mutationFn: deleteUrl,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['urls']);
+        },
+        onError: (error) => {
+            window.alert('Error deleting URL');
+            console.error(error);
+        }
+    });
+};
+
+export { useAuthenticatedQuery, useDeleteUrlMutation, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };
