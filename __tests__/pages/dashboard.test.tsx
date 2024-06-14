@@ -101,8 +101,8 @@ describe('Dashboard', () => {
                 <Dashboard />
             </QueryClientProvider>
         );
-        expect(screen.getByText('No URLs found')).toBeInTheDocument();
-        expect(screen.getByText('Create one')).toBeInTheDocument();
+        expect(screen.getByText('Oops! We couldn\'t find any URLs.')).toBeInTheDocument();
+        expect(screen.getByText('Create a URL')).toBeInTheDocument();
     });
 
     it('shows toast message when copy button is clicked', () => {

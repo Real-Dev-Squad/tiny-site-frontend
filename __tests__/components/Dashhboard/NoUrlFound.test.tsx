@@ -11,7 +11,7 @@ describe('NoUrlFound', () => {
                 <NoUrlFound />
             </QueryClientProvider>
         );
-        const noUrlFoundText = screen.getByText(/No URLs found/i);
+        const noUrlFoundText = screen.getByText(/Oops! We couldn't find any URLs/i);
         expect(noUrlFoundText).toBeInTheDocument();
         const createOneButton = screen.getByText(/Create one/i);
         expect(createOneButton).toBeInTheDocument();
