@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
-import { queryClient } from '@/pages/_app';
 import { User } from '@/types/user.types';
 
 interface ShortenUrlRequest {
