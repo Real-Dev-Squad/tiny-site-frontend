@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
+import { UrlType } from '@/types/url.types';
 import { User } from '@/types/user.types';
 
 interface ShortenUrlRequest {
@@ -43,17 +44,19 @@ const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolea
     });
 };
 
-const useGetUrlsQuery = (userId: string, options: { enabled: boolean }) => {
+const getUrlsApi = async (): Promise<{ message: string; urls: UrlType[] }> => {
+    const { data } = await axios.get(`${TINY_API_URL}/urls/self`, {
+        withCredentials: true,
+    });
+
+    return data;
+};
+
+const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
     return useQuery({
         queryKey: ['urls'],
-        queryFn: () =>
-            axios
-                .get(`${TINY_API_URL}/urls/self`, {
-                    withCredentials: true,
-                })
-                .then((res) => res.data),
-        ...options,
-        retry: false,
+        enabled: enabled,
+        queryFn: getUrlsApi,
     });
 };
 
