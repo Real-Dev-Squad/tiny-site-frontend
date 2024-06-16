@@ -56,7 +56,7 @@ const Navbar = () => {
             <nav ref={navbarRef} className="bg-gray-900 p-4 h-[8vh]">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex">
-                        <Image src="/rds.png" alt="logo" width={30} height={30} className="mr-2 w-auto" />
+                      <Image src="/rds.png" alt="logo" width={30} height={30} className="mr-2 w-30" />
                         <span className="text-white text-2xl font-bold">RDS</span>
                     </Link>
 
