@@ -69,16 +69,14 @@ describe('useGetOriginalUrlQuery', () => {
 });
 
 describe('useGetUrlsQuery', () => {
-    const userId = user.data.id.toString();
-
     it('returns isLoading as true by default', () => {
-        const { result } = renderHook(() => useGetUrlsQuery(userId, { enabled: true }), { wrapper });
+        const { result } = renderHook(() => useGetUrlsQuery({ enabled: true }), { wrapper });
 
         expect(result.current.isLoading).toBe(true);
     });
 
     it('returns isLoading as false and data as urls data when urls are found', async () => {
-        const { result, waitFor } = renderHook(() => useGetUrlsQuery(userId, { enabled: true }), {
+        const { result, waitFor } = renderHook(() => useGetUrlsQuery({ enabled: true }), {
             wrapper,
         });
 
@@ -94,7 +92,7 @@ describe('useGetUrlsQuery', () => {
 
     it('returns isLoading as false and isError as true when urls are not found', async () => {
         server.use(...notFoundAllUrlHandler);
-        const { result, waitFor } = renderHook(() => useGetUrlsQuery('123', { enabled: true }), {
+        const { result, waitFor } = renderHook(() => useGetUrlsQuery({ enabled: true }), {
             wrapper,
         });
 
