@@ -72,7 +72,7 @@ const useShortenUrlMutation = () => {
                     withCredentials: true,
                 }
             );
-            return response.data.shortUrl as ShortenUrlResponse;
+            return response.data as ShortenUrlResponse;
         },
         {
             retry: false,
