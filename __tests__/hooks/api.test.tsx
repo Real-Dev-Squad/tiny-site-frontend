@@ -101,21 +101,22 @@ describe('useGetUrlsQuery', () => {
 
 describe('useShortenUrlMutation', () => {
     it('should return data after successfully shortening the URL', async () => {
-        const userData = user.data;
+        const userData = user;
         const originalUrl = urlDetails.url.originalUrl;
 
         server.use(...handlers);
         const { result, waitFor } = renderHook(() => useShortenUrlMutation(), { wrapper });
 
-        act(() => {
+        await act(async () => {
             result.current.mutate({ originalUrl, userData });
         });
 
         await waitFor(() => result.current.isSuccess);
 
-        await waitFor(() => {
-            expect(result.current.data).toEqual(urlDetails.url.shortUrl);
-            expect(result.current.isSuccess).toBe(true);
-        });
+        const shortUrlFromApi = result.current.data?.shortUrl;
+
+        expect(shortUrlFromApi).toBeDefined();
+        expect(shortUrlFromApi).toEqual(urlDetails.url.shortUrl);
+        expect(result.current.isSuccess).toBe(true);
     });
 });
