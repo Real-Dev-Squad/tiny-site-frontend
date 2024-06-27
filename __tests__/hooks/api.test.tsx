@@ -1,10 +1,16 @@
 import { act, renderHook } from '@testing-library/react-hooks';
+import axios from 'axios';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation } from '@/services/api';
+import {
+    deleteUrlApi,
+    useAuthenticatedQuery,
+    useGetOriginalUrlQuery,
+    useGetUrlsQuery,
+    useShortenUrlMutation,
+} from '@/services/api';
 
-import { urlDetails } from '../../__mocks__/db/urls';
-import { urls } from '../../__mocks__/db/urls';
+import { urlDetails, urls } from '../../__mocks__/db/urls';
 import user from '../../__mocks__/db/user';
 import notFoundOriginalUrlHandler from '../../__mocks__/handler';
 import notFoundAllUrlHandler from '../../__mocks__/handler';
@@ -118,5 +124,20 @@ describe('useShortenUrlMutation', () => {
         expect(shortUrlFromApi).toBeDefined();
         expect(shortUrlFromApi).toEqual(urlDetails.url.shortUrl);
         expect(result.current.isSuccess).toBe(true);
+    });
+});
+
+describe('deleteUrlApi', () => {
+    it('should delete URL successfully', async () => {
+        server.use(...handlers);
+
+        const id = 1;
+        const userId = user.data.id;
+
+        await act(async () => {
+            const result = await deleteUrlApi({ id, userId });
+            expect(result).toBeDefined();
+            expect(result.success).toBe(true);
+        });
     });
 });
