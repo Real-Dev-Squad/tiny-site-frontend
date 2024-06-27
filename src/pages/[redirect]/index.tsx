@@ -51,7 +51,7 @@ const Redirect = () => {
                 <title>Redirecting...</title>
                 <meta name="robots" content="noindex" />
             </Head>
-            <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+            <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-custom-purple text-white p-4">
                 <p className="text-lg">You are being redirected to:</p>
                 <p className="text-blue-500 text-xl font-bold w-1/2 text-center truncate xl:w-1/2">
                     {data?.url.originalUrl}

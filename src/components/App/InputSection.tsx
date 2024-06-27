@@ -17,9 +17,12 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
         }}
         data-testid="input-section"
     >
-        <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-4 text-white font-semibold">
-            Enter a URL to shorten
+        <h1 className="text-4xl md:text-6xl xl:text-7xl text-center mb-4 text-white font-semibold font-outline-1">
+            Shorten URL
         </h1>
+        <h3 className="text-1xl md:text-2xl xl:text-3xl text-center  my-3 text-white font-outline-1">
+            Tiny links for big wins
+        </h3>
 
         <div className="flex flex-col sm:flex-row items-center justify-center mt-5 sm:mt-10 w-full">
             <div className="bg-gray-200 flex items-center rounded-2xl w-full  sm:w-2/4">

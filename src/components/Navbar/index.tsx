@@ -53,7 +53,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav ref={navbarRef} className="bg-gray-900 p-4 h-[8vh]">
+            <nav ref={navbarRef} className="bg-custom-purple p-4 h-[8vh]">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex">
                         <Image src="/rds.png" alt="logo" width={30} height={30} className="mr-2 w-30" />
