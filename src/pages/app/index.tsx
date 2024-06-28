@@ -108,10 +108,9 @@ const App = () => {
                         <Image
                             src={footerCartoon1}
                             alt="Footer Cartoon"
-                            layout="intrinsic"
                             width={88}
                             height={136}
-                            objectFit="contain"
+                            style={{ objectFit: 'contain' }}
                         />
                     </div>
                     <div className="absolute bottom-0 right-7">
