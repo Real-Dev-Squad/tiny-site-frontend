@@ -30,7 +30,7 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 <meta property="og:type" content="website" />
             </Head>
             <Navbar />
-            <main className="bg-gray-900 ">{children}</main>
+            <main className="bg-custom-purple ">{children}</main>
             <Footer />
         </>
     );

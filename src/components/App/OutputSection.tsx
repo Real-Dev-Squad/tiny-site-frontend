@@ -51,7 +51,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({
                     <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-2xl px-2">
                         <Link
                             type="button"
-                            className="bg-gray-900 p-[6px] sm:p-[10px]  hover:bg-gray-800 w-[50%] rounded-l-2xl after:content-['Visit'] md:after:content-[''] flex justify-center items-center"
+                            className="background-purple p-[6px] sm:p-[10px]  hover:bg-gray-800 w-[50%] rounded-l-2xl after:content-['Visit'] md:after:content-[''] flex justify-center items-center"
                             href={shortUrl}
                             target="_blank"
                             data-testid="share-button"
@@ -63,7 +63,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({
 
                         <Button
                             type="button"
-                            className="bg-gray-900  p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%]  md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-['']"
+                            className="bg-custom-purple  p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%]  md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-['']"
                             testId="copy-button"
                             onClick={handleCopyUrl}
                         >
@@ -73,7 +73,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({
 
                         <Button
                             type="button"
-                            className="bg-gray-900 md:rounded-r-2xl p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['QR'] md:after:content-['']"
+                            className="bg-custom-purple md:rounded-r-2xl p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['QR'] md:after:content-['']"
                             testId="qr-code-button"
                             onClick={() => setShowQRCodeModal(!showQRCodeModal)}
                         >

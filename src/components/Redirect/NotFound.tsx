@@ -3,7 +3,7 @@ import React from 'react';
 
 const NotFound = () => {
     return (
-        <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+        <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-custom-purple text-white p-4">
             <p className="text-4xl font-bold">404 - Not Found</p>
             <p className="text-lg mt-2">The requested URL was not found.</p>
             <Link href="/">

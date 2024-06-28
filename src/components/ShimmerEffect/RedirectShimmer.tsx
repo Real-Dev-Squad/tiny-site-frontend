@@ -3,7 +3,7 @@ import React from 'react';
 const RedirectShimmer = () => {
     return (
         <section
-            className="w-screen min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4"
+            className="w-screen min-h-screen flex flex-col items-center justify-center bg-custom-purple text-white p-4"
             data-testid="redirect-shimmer"
         >
             <div className="text-lg animate-pulse bg-gray-800 h-6 w-2/3 rounded mb-2"></div>

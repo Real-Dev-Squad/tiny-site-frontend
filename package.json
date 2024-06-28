@@ -20,6 +20,7 @@
         "lint-fix": "eslint . --fix"
     },
     "dependencies": {
+        "@next/codemod": "14.2.4",
         "@nextui-org/react": "^2.2.9",
         "autoprefixer": "10.4.15",
         "axios": "^1.6.2",

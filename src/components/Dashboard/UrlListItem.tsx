@@ -65,7 +65,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         {url.originalUrl}
                     </Link>
                     <Tooltip
-                        className="bg-gray-900 text-white py-1 px-2 rounded-lg"
+                        className="bg-custom-purple text-white py-1 px-2 rounded-lg"
                         placement="right"
                         color="primary"
                         content={formatDate({
