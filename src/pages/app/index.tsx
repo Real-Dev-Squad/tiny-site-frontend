@@ -118,13 +118,17 @@ const App = () => {
                         <Image
                             src={footerPlant}
                             alt="Footer Cartoon"
-                            layout="intrinsic"
                             width={80}
                             height={109}
-                            objectFit="contain"
+                            style={{ objectFit: 'contain' }}
                         />
                     </div>
-                    <Image src={footerBorder} alt="Footer Border" layout="responsive" objectFit="contain" />
+                    <Image
+                        src={footerBorder}
+                        alt="Footer Border"
+                        style={{ objectFit: 'contain' }}
+                        layout="responsive"
+                    />
                 </div>
             </div>
         </Layout>
