@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import axios from 'axios';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
