@@ -75,7 +75,7 @@ const useShortenUrlMutation = () => {
                     withCredentials: true,
                 }
             );
-            return response.data.shortUrl as ShortenUrlResponse;
+            return response.data as ShortenUrlResponse;
         },
         {
             retry: false,
@@ -83,9 +83,12 @@ const useShortenUrlMutation = () => {
     );
 };
 
-const deleteUrlApi = async ({ id }: { id: number }) => {
-    const { status } = await axios.delete(`${TINY_API_URL}/urls/${id}`, { withCredentials: true });
-    return status;
+const deleteUrlApi = async ({ id, userId }: { id: number; userId: number }) => {
+    const { data } = await axios.delete(`${TINY_API_URL}/urls/${id}`, {
+        withCredentials: true,
+        data: { user_id: userId },
+    });
+    return data;
 };
 
 export { deleteUrlApi, useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };

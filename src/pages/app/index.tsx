@@ -9,6 +9,7 @@ import { TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
 import useToast from '@/hooks/useToast';
 import { useShortenUrlMutation } from '@/services/api';
+import { ErrorResponse } from '@/types/url.types';
 import validateUrl from '@/utils/validateUrl';
 
 const App = () => {
@@ -35,16 +36,21 @@ const App = () => {
         if (!validateUrl(url, showToast)) return;
 
         try {
-            const newShortUrl = await shortenUrlMutation.mutateAsync({
+            const response = await shortenUrlMutation.mutateAsync({
                 originalUrl: url,
                 userData: userData,
             });
 
-            const fullShortUrl = `${TINY_SITE}/${newShortUrl}`;
+            const fullShortUrl = `${TINY_SITE}/${response.shortUrl}`;
             setShortUrl(fullShortUrl);
             setShowInputBox(false);
         } catch (e) {
-            window.alert('Url limit reached, please delete some urls to create new!');
+            const error = e as ErrorResponse;
+            if (error.response && error.response.data && error.response.data.message) {
+                showToast(error.response.data.message, 3000, 'error');
+            } else {
+                showToast('An unexpected error occurred', 3000, 'error');
+            }
             setUrl('');
         }
     };

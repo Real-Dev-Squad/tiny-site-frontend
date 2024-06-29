@@ -5,6 +5,7 @@ import { TbTrash, TbWorldWww } from 'react-icons/tb';
 import { useMutation } from 'react-query';
 
 import { TINY_SITE } from '@/constants/url';
+import useAuthenticated from '@/hooks/useAuthenticated';
 import { queryClient } from '@/pages/_app';
 import { deleteUrlApi } from '@/services/api';
 import { UrlType } from '@/types/url.types';
@@ -29,6 +30,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
             console.error(error);
         },
     });
+    const { userData } = useAuthenticated();
 
     return (
         <li className="rounded-lg grid grid-cols-1 sm:grid-cols-[1fr,32px] bg-white w-full px-2 py-2 sm:px-4 sm:py-2 items-center flex-wrap">
@@ -89,7 +91,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
             <div className="w-full grid place-items-center pt-5 sm:pt-0">
                 <Button
                     disabled={deleteMutation.isLoading}
-                    onClick={() => deleteMutation.mutate({ id: url.id })}
+                    onClick={() => deleteMutation.mutate({ id: url.id, userId: userData?.data?.id })}
                     className={`flex items-center justify-center gap-2 w-full sm:w-8 h-8 rounded transition active:scale-95 ${
                         deleteMutation.isLoading
                             ? 'text-gray-600 bg-gray-100'
@@ -100,7 +102,6 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         {!deleteMutation.isLoading && <TbTrash className="w-4 h-4 sm:w-5 sm:h-5" />}
                         {deleteMutation.isLoading && <Loader className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />}
                     </div>
-
                     <span className="text-xs font-medium sm:hidden">Delete</span>
                 </Button>
             </div>
