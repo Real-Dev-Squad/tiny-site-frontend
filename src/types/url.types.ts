@@ -13,3 +13,11 @@ export interface UrlResponseTypes {
     message: string;
     url: UrlType;
 }
+
+export interface ErrorResponse {
+    response: {
+        data: {
+            message: string;
+        };
+    };
+}

@@ -40,7 +40,14 @@ const shortenUrlHandler = [
     }),
 ];
 
+const deleteUrlHandler = [
+    rest.delete(`${TINY_API_URL}/urls/:id`, (_, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ success: true }));
+    }),
+];
+
 export {
+    deleteUrlHandler,
     getAllUrlHandler,
     getOriginalUrlHandler,
     notFoundAllUrlHandler,
