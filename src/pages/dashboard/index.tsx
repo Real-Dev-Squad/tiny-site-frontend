@@ -14,6 +14,7 @@ const Dashboard = () => {
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
     const { data, isLoading, isError } = useGetUrlsQuery({ enabled: !!userData?.data?.id });
+    const urls = data?.urls ?? [];
 
     const copyButtonHandler = (url: string) => {
         navigator.clipboard.writeText(url);
@@ -67,7 +68,7 @@ const Dashboard = () => {
         );
     }
 
-    if (!data?.urls.length) {
+    if (urls.length === 0) {
         return (
             <Layout title="Dashboard | URL Shortener">
                 <NoUrlFound />

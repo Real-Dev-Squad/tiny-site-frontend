@@ -14,7 +14,7 @@ export const DashboardLayout = ({ remainingUrls, children }: DashboardLayoutProp
                 <div className="flex items-center pb-8 w-full justify-between">
                     <h1 className="text-3xl md:text-4xl xl:text-4xl text-center text-white font-semibold">Your URLs</h1>
 
-                    {remainingUrls && (
+                    {remainingUrls !== undefined && (
                         <h4>
                             Remaining: {remainingUrls} / {MAX_URLS}
                         </h4>
