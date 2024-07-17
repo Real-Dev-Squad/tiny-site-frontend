@@ -71,24 +71,27 @@ const Dashboard = () => {
     if (urls.length === 0) {
         return (
             <Layout title="Dashboard | URL Shortener">
-                <NoUrlFound />
+                <DashboardLayout remainingUrls={0}>
+                    <NoUrlFound />
+                </DashboardLayout>
             </Layout>
         );
     }
 
     return (
         <Layout title="Dashboard | URL Shortener">
-            <div className="w-full flex flex-col items-center p-4 text-white bg-gray-900 min-h-[86vh]">
-                <ul className="w-full space-y-3">
-                    {data.urls.map((url) => (
-                        <UrlListItem key={url.shortUrl} url={url} copyButtonHandler={copyButtonHandler} />
-                    ))}
-                </ul>
-
+            <DashboardLayout remainingUrls={urls.length}>
+                <div className="w-full flex flex-col items-center p-4 text-white bg-gray-900 min-h-[86vh]">
+                    <ul className="w-full space-y-3">
+                        {urls.map((url) => (
+                            <UrlListItem key={url.shortUrl} url={url} copyButtonHandler={copyButtonHandler} />
+                        ))}
+                    </ul>
+                </div>
                 {toasts.map((toast) => (
                     <Toast key={toast.id} {...toast} />
                 ))}
-            </div>
+            </DashboardLayout>
         </Layout>
     );
 };

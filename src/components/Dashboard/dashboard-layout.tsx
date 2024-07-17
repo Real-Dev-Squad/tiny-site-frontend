@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type DashboardLayoutProps = {
     remainingUrls?: number;
@@ -15,7 +15,7 @@ export const DashboardLayout = ({ remainingUrls, children }: DashboardLayoutProp
                     <h1 className="text-3xl md:text-4xl xl:text-4xl text-center text-white font-semibold">Your URLs</h1>
 
                     {remainingUrls !== undefined && (
-                        <h4>
+                        <h4 className="text-white">
                             Remaining: {remainingUrls} / {MAX_URLS}
                         </h4>
                     )}
