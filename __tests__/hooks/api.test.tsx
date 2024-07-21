@@ -1,10 +1,15 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation } from '@/services/api';
+import {
+    deleteUrlApi,
+    useAuthenticatedQuery,
+    useGetOriginalUrlQuery,
+    useGetUrlsQuery,
+    useShortenUrlMutation,
+} from '@/services/api';
 
-import { urlDetails } from '../../__mocks__/db/urls';
-import { urls } from '../../__mocks__/db/urls';
+import { urlDetails, urls } from '../../__mocks__/db/urls';
 import user from '../../__mocks__/db/user';
 import notFoundOriginalUrlHandler from '../../__mocks__/handler';
 import notFoundAllUrlHandler from '../../__mocks__/handler';
@@ -63,16 +68,14 @@ describe('useGetOriginalUrlQuery', () => {
 });
 
 describe('useGetUrlsQuery', () => {
-    const userId = user.data.id.toString();
-
     it('returns isLoading as true by default', () => {
-        const { result } = renderHook(() => useGetUrlsQuery(userId, { enabled: true }), { wrapper });
+        const { result } = renderHook(() => useGetUrlsQuery({ enabled: true }), { wrapper });
 
         expect(result.current.isLoading).toBe(true);
     });
 
     it('returns isLoading as false and data as urls data when urls are found', async () => {
-        const { result, waitFor } = renderHook(() => useGetUrlsQuery(userId, { enabled: true }), {
+        const { result, waitFor } = renderHook(() => useGetUrlsQuery({ enabled: true }), {
             wrapper,
         });
 
@@ -88,7 +91,7 @@ describe('useGetUrlsQuery', () => {
 
     it('returns isLoading as false and isError as true when urls are not found', async () => {
         server.use(...notFoundAllUrlHandler);
-        const { result, waitFor } = renderHook(() => useGetUrlsQuery('123', { enabled: true }), {
+        const { result, waitFor } = renderHook(() => useGetUrlsQuery({ enabled: true }), {
             wrapper,
         });
 
@@ -101,21 +104,37 @@ describe('useGetUrlsQuery', () => {
 
 describe('useShortenUrlMutation', () => {
     it('should return data after successfully shortening the URL', async () => {
-        const userData = user.data;
+        const userData = user;
         const originalUrl = urlDetails.url.originalUrl;
 
         server.use(...handlers);
         const { result, waitFor } = renderHook(() => useShortenUrlMutation(), { wrapper });
 
-        act(() => {
+        await act(async () => {
             result.current.mutate({ originalUrl, userData });
         });
 
         await waitFor(() => result.current.isSuccess);
 
-        await waitFor(() => {
-            expect(result.current.data).toEqual(urlDetails.url.shortUrl);
-            expect(result.current.isSuccess).toBe(true);
+        const shortUrlFromApi = result.current.data?.shortUrl;
+
+        expect(shortUrlFromApi).toBeDefined();
+        expect(shortUrlFromApi).toEqual(urlDetails.url.shortUrl);
+        expect(result.current.isSuccess).toBe(true);
+    });
+});
+
+describe('deleteUrlApi', () => {
+    it('should delete URL successfully', async () => {
+        server.use(...handlers);
+
+        const id = 1;
+        const userId = user.data.id;
+
+        await act(async () => {
+            const result = await deleteUrlApi({ id, userId });
+            expect(result).toBeDefined();
+            expect(result.success).toBe(true);
         });
     });
 });
