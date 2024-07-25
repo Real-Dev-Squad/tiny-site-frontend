@@ -1,3 +1,4 @@
+import Image from 'next/legacy/image';
 import React, { useEffect, useState } from 'react';
 
 import InputSection from '@/components/App/InputSection';
@@ -10,6 +11,10 @@ import useAuthenticated from '@/hooks/useAuthenticated';
 import useToast from '@/hooks/useToast';
 import { useShortenUrlMutation } from '@/services/api';
 import validateUrl from '@/utils/validateUrl';
+
+import footerBorder from '../../assets/svgs/footer.svg';
+import footerCartoon1 from '../../assets/svgs/footercartoon1.svg';
+import footerPlant from '../../assets/svgs/footerplant.svg';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
@@ -98,6 +103,32 @@ const App = () => {
                         children={<p className="text-white text-center mb-4">Log in to generate short links</p>}
                     />
                 )}
+                <div className="w-full absolute bottom-12">
+                    <div className="ml-7">
+                        <Image
+                            src={footerCartoon1}
+                            alt="Footer Cartoon"
+                            width={88}
+                            height={136}
+                            style={{ objectFit: 'contain' }}
+                        />
+                    </div>
+                    <div className="absolute bottom-0 right-7 top-16">
+                        <Image
+                            src={footerPlant}
+                            alt="Footer Cartoon"
+                            width={80}
+                            height={109}
+                            style={{ objectFit: 'contain' }}
+                        />
+                    </div>
+                    <Image
+                        src={footerBorder}
+                        alt="Footer Border"
+                        style={{ objectFit: 'contain' }}
+                        layout="responsive"
+                    />
+                </div>
             </div>
         </Layout>
     );
