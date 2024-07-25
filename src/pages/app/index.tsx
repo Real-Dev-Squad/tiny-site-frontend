@@ -113,7 +113,7 @@ const App = () => {
                             style={{ objectFit: 'contain' }}
                         />
                     </div>
-                    <div className="absolute bottom-0 right-7">
+                    <div className="absolute bottom-0 right-7 top-16">
                         <Image
                             src={footerPlant}
                             alt="Footer Cartoon"
