@@ -56,7 +56,6 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
     return useQuery({
         queryKey: ['urls'],
         enabled: enabled,
-        refetchOnWindowFocus: false,
         queryFn: getUrlsApi,
     });
 };
