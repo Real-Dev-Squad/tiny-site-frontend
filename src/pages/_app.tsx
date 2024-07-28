@@ -11,7 +11,7 @@ interface MyAppProps {
     pageProps: AppProps;
 }
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             retry: 3,
