@@ -1,11 +1,10 @@
 import Link from 'next/link';
+import QRCode from 'qrcode.react';
 import React from 'react';
-import { AiOutlineArrowDown } from 'react-icons/ai';
+import { HiOutlineDownload } from 'react-icons/hi';
 import { IoIosCopy, IoIosShareAlt } from 'react-icons/io';
-import { LuQrCode } from 'react-icons/lu';
 
 import Button from '@/components/Button';
-import QRCodeModal from '@/components/QRCodeModal';
 import { removeProtocol } from '@/constants/constants';
 
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
@@ -18,67 +17,71 @@ interface OutputSectionProps {
     handleCopyUrl: () => void;
 }
 
-const OutputSection: React.FC<OutputSectionProps> = ({
-    shortUrl,
-    originalUrl,
-    isLoaded,
-    handleCopyUrl,
-    handleCreateNew,
-}) => {
-    const [showQRCodeModal, setShowQRCodeModal] = React.useState<boolean>(false);
+const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handleCopyUrl, handleCreateNew }) => {
     if (!isLoaded) {
         return <OutputSectionShimmer />;
     }
 
+    const handleDownload = () => {
+        const canvas = document.getElementById('qr-code') as HTMLCanvasElement;
+        if (canvas) {
+            const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pngUrl;
+            downloadLink.download = `${shortUrl.split('/').pop()}.png`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    };
+
     return (
         <>
             <section
-                className="flex flex-col justify-between items-center  rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400"
+                className="flex flex-col justify-between items-center rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400"
                 data-testid="output-section"
             >
-                <h1 className="text-2xl md:text-3xl xl:text-3xl text-center mb-2 text-white font-semibold">
-                    Your Tiny URL is ready! 🎉🎉
+                <h1 className="text-xl md:text-2xl xl:text-2xl text-center mb-2 text-white font-semibold">
+                    Your shortened URL is ready!
                 </h1>
-                <span className="ml-2 p-4 text-center w-full sm:w-[60%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {originalUrl}
-                </span>
-                <AiOutlineArrowDown style={{ fontSize: '5rem', paddingBottom: '15px' }} />
-
-                <div className="text-white flex flex-col md:flex-row justify-center items-center  rounded-2xl w-auto bg-black p-2">
+                <QRCode
+                    data-testid="qrcode"
+                    id="qr-code"
+                    value={shortUrl}
+                    size={110}
+                    includeMargin={true}
+                    className="my-4"
+                />
+                <Button
+                    className="bg-gray-900 flex items-center gap-1 p-[6px] sm:p-[10px] rounded-2xl text-white mb-4"
+                    onClick={handleDownload}
+                >
+                    <HiOutlineDownload />
+                    Download
+                </Button>
+                <div className="text-white flex flex-col md:flex-row justify-center items-center rounded-2xl w-auto bg-black p-2">
                     <span className="ml-2 p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-2xl md:text-3xl xl:text-3xl">
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
                     <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-2xl px-2">
                         <Link
                             type="button"
-                            className="bg-gray-900 p-[6px] sm:p-[10px]  hover:bg-gray-800 w-[50%] rounded-l-2xl after:content-['Visit'] md:after:content-[''] flex justify-center items-center"
+                            className="bg-gray-900 p-[6px] sm:p-[10px] hover:bg-gray-800 w-[50%] rounded-l-2xl flex justify-center items-center"
                             href={shortUrl}
                             target="_blank"
                             data-testid="share-button"
                             rel="noopener noreferrer"
                         >
-                            <IoIosShareAlt className="text-4xl sm:text-[2.5rem] " />
-                            &nbsp;
+                            <IoIosShareAlt className="text-4xl sm:text-[2.5rem]" />
                         </Link>
 
                         <Button
                             type="button"
-                            className="bg-gray-900  p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%]  md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-['']"
+                            className="bg-gray-900 p-[6px] sm:p-[10px] hover:bg-gray-800 w-[50%] md:rounded-none flex justify-center items-center"
                             testId="copy-button"
                             onClick={handleCopyUrl}
                         >
-                            <IoIosCopy className="text-4xl sm:text-[2.5rem] " />
-                            &nbsp;
-                        </Button>
-
-                        <Button
-                            type="button"
-                            className="bg-gray-900 md:rounded-r-2xl p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['QR'] md:after:content-['']"
-                            testId="qr-code-button"
-                            onClick={() => setShowQRCodeModal(!showQRCodeModal)}
-                        >
-                            <LuQrCode className="text-4xl sm:text-[2.5rem] " />
-                            &nbsp;
+                            <IoIosCopy className="text-4xl sm:text-[2.5rem]" />
                         </Button>
                     </div>
                 </div>
@@ -90,7 +93,6 @@ const OutputSection: React.FC<OutputSectionProps> = ({
                     Create New
                 </Button>
             </section>
-            {showQRCodeModal && <QRCodeModal shortUrl={shortUrl} onClose={() => setShowQRCodeModal(false)} />}
         </>
     );
 };
