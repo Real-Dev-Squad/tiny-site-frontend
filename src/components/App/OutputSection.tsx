@@ -10,6 +10,8 @@ import { removeProtocol } from '@/constants/constants';
 
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
 
+const RDSIcon = '_next/image?url=%2Frds.png&w=64&q=75';
+
 interface OutputSectionProps {
     originalUrl: string;
     shortUrl: string;
@@ -39,32 +41,39 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
     return (
         <>
             <section
-                className="flex flex-col justify-between items-center rounded-lg mt-5 sm:mt-10 w-[80%] text-gray-400"
+                className="flex flex-col items-center rounded-lg w-[80%] relative bottom-6"
                 data-testid="output-section"
             >
-                <h1 className="text-xl md:text-2xl xl:text-2xl text-center mb-2 text-white font-semibold">
+                <h1 className="text-xl md:text-2xl xl:text-2xl text-center mb-9 font-semibold">
                     Your shortened URL is ready!
                 </h1>
                 <QRCode
                     data-testid="qrcode"
                     id="qr-code"
                     value={shortUrl}
-                    size={110}
+                    size={112}
                     includeMargin={true}
-                    className="my-4"
+                    imageSettings={{
+                        src: RDSIcon,
+                        height: 35,
+                        width: 35,
+                        excavate: true,
+                    }}
+                    renderAs="canvas"
+                    level="M"
                 />
                 <Button
-                    className="bg-gray-900 flex items-center gap-1 p-[6px] sm:p-[10px] rounded-2xl text-white mb-4 xl:w-36 justify-center"
+                    className="bg-gray-900 flex items-center gap-1 p-[6px] sm:p-[10px] rounded-2xl text-white my-4 xl:w-36 justify-center"
                     onClick={handleDownload}
                 >
                     <HiOutlineDownload />
                     Download
                 </Button>
-                <div className="text-white flex flex-col md:flex-row justify-center items-center rounded-2xl w-auto p-2 border-2 h-11">
+                <div className="flex flex-col md:flex-row justify-center items-center rounded-lg w-auto p-2 border-2 border-gray-500 h-11">
                     <span className="ml-2 p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-2xl md:text-3xl xl:text-3xl">
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
-                    <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-2xl px-2">
+                    <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-lg px-2">
                         <Link
                             type="button"
                             className=" p-[6px] sm:p-[10px] w-[50%] rounded-l-2xl flex justify-center items-center"
@@ -87,7 +96,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                     </div>
                 </div>
                 <Button
-                    className="mt-10 text-white p-3 rounded-full shadow-lg cursor-pointer hover:underline text-[20px]"
+                    className="mt-10 p-3 rounded-full shadow-lg cursor-pointer hover:underline text-[20px]"
                     testId="create-new-button"
                     onClick={handleCreateNew}
                 >

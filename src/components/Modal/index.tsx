@@ -33,10 +33,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px'
         >
             <div
                 ref={modalRef}
-                className={'bg-gray-800 p-8 rounded-md relative flex flex-col justify-center items-center shadow-lg'}
+                className={'bg-white p-8 rounded-md relative flex flex-col justify-center items-center shadow-lg'}
                 style={{ width: width, height: height }}
             >
-                <button className="absolute top-2 right-2 text-white" data-testid="close-modal" onClick={onClose}>
+                <button className="absolute top-2 right-2" data-testid="close-modal" onClick={onClose}>
                     <IoCloseSharp style={{ fontSize: '1.5em' }} />
                 </button>
                 {title && <h2 className="text-2xl font-bold mb-4 text-white">{title}</h2>}
