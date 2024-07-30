@@ -6,8 +6,7 @@ import SignInWithGoogleIcon from '@/components/icons/signWithGoogle';
 import Layout from '@/components/Layout';
 import Modal from '@/components/Modal';
 import Toast from '@/components/Toast';
-import { TINY_SITE } from '@/constants/url';
-import { TINY_API_GOOGLE_LOGIN } from '@/constants/url';
+import { TINY_API_GOOGLE_LOGIN, TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
 import useToast from '@/hooks/useToast';
 import { useShortenUrlMutation } from '@/services/api';
@@ -17,7 +16,6 @@ import validateUrl from '@/utils/validateUrl';
 const App = () => {
     const [url, setUrl] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
-    const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [showOutputModal, setShowOutputModal] = useState<boolean>(false);
 
@@ -27,7 +25,6 @@ const App = () => {
 
     useEffect(() => {
         const localUrl = localStorage.getItem('url');
-
         if (isLoggedIn && localUrl) {
             setUrl(localUrl);
             generateShortUrl(localUrl);
@@ -37,16 +34,13 @@ const App = () => {
 
     const generateShortUrl = async (url: string) => {
         if (!validateUrl(url, showToast)) return;
-
         try {
             const response = await shortenUrlMutation.mutateAsync({
                 originalUrl: url,
                 userData: userData,
             });
-
             const fullShortUrl = `${TINY_SITE}/${response.shortUrl}`;
             setShortUrl(fullShortUrl);
-            setShowInputBox(false);
             setShowOutputModal(true);
         } catch (e) {
             const error = e as ErrorResponse;
@@ -69,7 +63,6 @@ const App = () => {
     const createNewHandler = () => {
         setUrl('');
         setShortUrl('');
-        setShowInputBox(true);
         setShowOutputModal(false);
     };
 
@@ -87,8 +80,8 @@ const App = () => {
     return (
         <Layout title="Home | URL Shortener">
             <div className="flex justify-center items-center h-[86vh]">
-                <div className="flex flex-col justify-center items-center m-4  w-[100%]">
-                    {showInputBox && <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />}
+                <div className="flex flex-col justify-center items-center m-4 w-[100%]">
+                    <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
                 </div>
                 {toasts.map((toast) => (
                     <Toast key={toast.id} {...toast} />
@@ -106,7 +99,7 @@ const App = () => {
                     </Modal>
                 )}
                 {showOutputModal && (
-                    <Modal onClose={() => setShowOutputModal(false)} width="400px" height="400px">
+                    <Modal onClose={() => { setShowOutputModal(false); setUrl(''); }} width="550px" height="560px">
                         <OutputSection
                             shortUrl={shortUrl}
                             isLoaded={!!shortUrl}

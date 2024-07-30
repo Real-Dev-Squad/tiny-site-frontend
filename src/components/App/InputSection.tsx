@@ -10,7 +10,7 @@ interface InputSectionProps {
 
 const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
     <form
-        className="flex flex-col items-center rounded-2xl w-full text-gray-400"
+        className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center"
         onSubmit={(e: FormEvent) => {
             e.preventDefault();
             handleUrl();
@@ -27,11 +27,11 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
 
         <p className="text-xl ">Ready to shorten your URL? Enter your URL below</p>
 
-        <div className="flex flex-col items-center justify-center mt-5 sm:mt-10 w-full gap-5">
+        <div className="flex flex-col items-center justify-center mt-5 sm:mt-10 w-full gap-5 ">
             <div className="flex items-center justify-center rounded-lg w-full  sm:w-2/4">
                 <input
                     type="text"
-                    className="bg-gray-200 text-black p-4 rounded-lg focus:outline-none w-96"
+                    className="bg-gray-200 text-black p-4 rounded-lg focus:outline-none w-96 h-11"
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
                     value={url}
                     placeholder="Enter the URL"
@@ -40,7 +40,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             </div>
             <Button
                 type="submit"
-                className="bg-gray-300 text-black text-lg rounded-lg py-2 sm:py-4 px-8 hover:bg-gray-400 mt-2 sm:mt-0 sm:ml-2"
+                className="bg-gray-300 text-black text-lg rounded-lg px-8 hover:bg-gray-400 mt-2 sm:mt-0 sm:ml-2 h-9"
                 testId="shorten-button"
                 onClick={handleUrl}
             >
