@@ -99,7 +99,14 @@ const App = () => {
                     </Modal>
                 )}
                 {showOutputModal && (
-                    <Modal onClose={() => { setShowOutputModal(false); setUrl(''); }} width="550px" height="560px">
+                    <Modal
+                        onClose={() => {
+                            setShowOutputModal(false);
+                            setUrl('');
+                        }}
+                        width="550px"
+                        height="560px"
+                    >
                         <OutputSection
                             shortUrl={shortUrl}
                             isLoaded={!!shortUrl}
