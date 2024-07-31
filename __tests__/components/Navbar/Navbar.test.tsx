@@ -94,7 +94,7 @@ describe('Navbar', () => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
 
-            const closeButton = screen.getByTestId('close-modal');
+            const closeButton = screen.getByTestId('close-login-modal');
             fireEvent.click(closeButton);
 
             const modal = screen.queryByText('Sign to your account');
@@ -130,7 +130,7 @@ describe('Navbar', () => {
             const originalIsLoggedIn = screen.getByText('Sign In');
             fireEvent.click(originalIsLoggedIn);
 
-            const closeButton = screen.getByTestId('close-modal');
+            const closeButton = screen.getByTestId('close-login-modal');
             fireEvent.click(closeButton);
 
             expect(mockSetShowLoginModal).toHaveBeenCalled();

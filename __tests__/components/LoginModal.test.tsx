@@ -13,7 +13,7 @@ describe('LoginModal Component', () => {
                 }}
             />
         );
-        const closeButton = screen.getByTestId('close-modal');
+        const closeButton = screen.getByTestId('close-login-modal');
         expect(closeButton).toBeInTheDocument();
     });
 

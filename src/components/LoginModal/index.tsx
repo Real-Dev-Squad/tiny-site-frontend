@@ -38,7 +38,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
                 ref={modalRef}
                 className="bg-gray-800 p-8 rounded-md w-[330px] relative flex flex-col justify-center items-center shadow-lg"
             >
-                <Button className="absolute top-2 right-2 text-white" testId="close-modal" onClick={onClose}>
+                <Button className="absolute top-2 right-2 text-white" testId="close-login-modal" onClick={onClose}>
                     <IoCloseSharp style={{ fontSize: '1.5em' }} />
                 </Button>
                 <h2 className="text-2xl font-bold mb-4 text-white">Please log in</h2>

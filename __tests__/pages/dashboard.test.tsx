@@ -82,7 +82,7 @@ describe('Dashboard', () => {
         );
         expect(screen.getByTestId('login-modal')).toBeInTheDocument();
         expect(screen.getByText('Login to view your URLs and create new ones')).toBeInTheDocument();
-        const closeButton = screen.getByTestId('close-modal');
+        const closeButton = screen.getByTestId('close-login-modal');
         closeButton.click();
     });
 
