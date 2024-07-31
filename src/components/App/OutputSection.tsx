@@ -5,10 +5,9 @@ import { IoIosCopy, IoIosShareAlt } from 'react-icons/io';
 import { LuQrCode } from 'react-icons/lu';
 
 import Button from '@/components/Button';
-// import QRCodeModal from '@/components/QRCodeModal';
+import QRCodeModal from '@/components/QRCodeModal';
 import { removeProtocol } from '@/constants/constants';
 
-import QRCodeModal from '../QRCodeModal.tsx';
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
 
 interface OutputSectionProps {
