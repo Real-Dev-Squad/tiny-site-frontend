@@ -10,25 +10,28 @@ interface InputSectionProps {
 
 const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
     <form
-        className="flex flex-col items-center rounded-2xl mt-5 sm:mt-10 w-full text-gray-400"
+        className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center"
         onSubmit={(e: FormEvent) => {
             e.preventDefault();
             handleUrl();
         }}
         data-testid="input-section"
     >
-        <h1 className="text-3xl md:text-4xl xl:text-4xl text-center mb-4 text-white font-semibold">
-            Enter a URL to shorten
+        <h1 className="text-3xl md:text-6xl xl:text-80px xl:leading-custom-100px text-center text-white font-semibold">
+            Shorten Your URL
         </h1>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center mt-5 sm:mt-10 w-full">
-            <div className="bg-gray-200 flex items-center rounded-2xl w-full  sm:w-2/4">
-                <label htmlFor="url-input" className="ml-2">
-                    🔗
-                </label>
+        <h3 className="text-2xl md:text-4xl md:leading-10 xl:text-5xl xl:leading-custom-60px text-center md:my-4 text-white font-semibold">
+            Perfect Links Every Time
+        </h3>
+
+        <p className="text-xl ">Ready to shorten your URL? Enter your URL below</p>
+
+        <div className="flex flex-col items-center justify-center mt-5 sm:mt-10 w-full gap-5 ">
+            <div className="flex items-center justify-center rounded-lg w-full  sm:w-2/4">
                 <input
                     type="text"
-                    className="bg-gray-200 text-black p-4 rounded-2xl focus:outline-none w-full"
+                    className="bg-gray-200 text-black p-4 rounded-lg focus:outline-none w-96 h-11"
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
                     value={url}
                     placeholder="Enter the URL"
@@ -37,7 +40,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             </div>
             <Button
                 type="submit"
-                className="bg-gray-300 text-black text-lg rounded-2xl py-2 sm:py-4 px-8 hover:bg-gray-400 mt-2 sm:mt-0 sm:ml-2"
+                className="bg-gray-300 text-black text-lg rounded-lg px-8 hover:bg-gray-400 mt-2 sm:mt-0 sm:ml-2 h-9"
                 testId="shorten-button"
                 onClick={handleUrl}
             >
