@@ -22,6 +22,9 @@ const config: Config = {
                 'custom-120px': '100px',
                 'custom-60px': '60px',
             },
+            colors: {
+                'custom-blue': '#1A56DB',
+            },
         },
     },
     plugins: [],

@@ -63,7 +63,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                     level="M"
                 />
                 <Button
-                    className="bg-gray-900 flex items-center gap-1 p-[6px] sm:p-[10px] rounded-2xl text-white my-4 xl:w-36 justify-center"
+                    className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-2xl text-white my-4 xl:w-36 justify-center"
                     onClick={handleDownload}
                 >
                     <HiOutlineDownload />
