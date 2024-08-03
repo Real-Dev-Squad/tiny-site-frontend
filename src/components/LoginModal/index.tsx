@@ -1,11 +1,9 @@
 import Link from 'next/link';
-import React, { useEffect, useRef } from 'react';
-import { IoCloseSharp } from 'react-icons/io5';
+import React from 'react';
 
+import SignInWithGoogleIcon from '@/components/icons/signWithGoogle';
+import Modal from '@/components/Modal';
 import { TINY_API_GOOGLE_LOGIN } from '@/constants/url';
-
-import Button from '../Button';
-import SignInWithGoogleIcon from '../icons/signWithGoogle';
 
 interface LoginModalProps {
     onClose: () => void;
@@ -13,45 +11,17 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
-    const modalRef = useRef<HTMLDivElement>(null);
-
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            onClose();
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [onClose]);
-
     return (
-        <dialog
-            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-transparent backdrop-blur-sm z-50"
-            data-testid="login-modal"
-        >
-            <div
-                ref={modalRef}
-                className="bg-gray-800 p-8 rounded-md w-[330px] relative flex flex-col justify-center items-center shadow-lg"
+        <Modal onClose={onClose} title="Please log in" width="330px">
+            {children || <h2 className="text-2xl font-bold mb-4 text-black">Please log in</h2>}
+            <Link
+                href={TINY_API_GOOGLE_LOGIN}
+                data-testid="sign-in-with-google-button"
+                className="flex items-center justify-center"
             >
-                <Button className="absolute top-2 right-2 text-white" testId="close-modal" onClick={onClose}>
-                    <IoCloseSharp style={{ fontSize: '1.5em' }} />
-                </Button>
-                <h2 className="text-2xl font-bold mb-4 text-white">Please log in</h2>
-                {children}
-                <Link
-                    href={TINY_API_GOOGLE_LOGIN}
-                    data-testid="sign-in-with-google-button"
-                    className="flex items-center justify-center"
-                >
-                    <SignInWithGoogleIcon />
-                </Link>
-            </div>
-        </dialog>
+                <SignInWithGoogleIcon />
+            </Link>
+        </Modal>
     );
 };
 

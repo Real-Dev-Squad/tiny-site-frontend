@@ -29,12 +29,9 @@ const Dashboard = () => {
         return (
             <Layout title="Dashboard | URL Shortener">
                 <div className="min-h-[calc(100vh-145px)]">
-                    <LoginModal
-                        onClose={() => void 0}
-                        children={
-                            <p className="text-white text-center mb-4">Login to view your URLs and create new ones</p>
-                        }
-                    />
+                    <LoginModal onClose={() => void 0}>
+                        <p className="text-black text-center mb-4">Login to view your URLs and create new ones</p>
+                    </LoginModal>
                 </div>
             </Layout>
         );

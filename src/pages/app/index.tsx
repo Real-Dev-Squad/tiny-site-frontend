@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import InputSection from '@/components/App/InputSection';
 import OutputSection from '@/components/App/OutputSection';
-import SignInWithGoogleIcon from '@/components/icons/signWithGoogle';
 import Layout from '@/components/Layout';
+import LoginModal from '@/components/LoginModal';
 import Modal from '@/components/Modal';
 import Toast from '@/components/Toast';
-import { TINY_API_GOOGLE_LOGIN, TINY_SITE } from '@/constants/url';
+import { TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
 import useToast from '@/hooks/useToast';
 import { useShortenUrlMutation } from '@/services/api';
@@ -87,16 +87,9 @@ const App = () => {
                     <Toast key={toast.id} {...toast} />
                 ))}
                 {showLoginModal && (
-                    <Modal onClose={() => setShowLoginModal(false)} title="Please log in">
-                        <p className="text-white text-center mb-4">Log in to generate short links</p>
-                        <a
-                            href={TINY_API_GOOGLE_LOGIN}
-                            data-testid="sign-in-with-google-button"
-                            className="flex items-center justify-center"
-                        >
-                            <SignInWithGoogleIcon />
-                        </a>
-                    </Modal>
+                    <LoginModal onClose={() => setShowLoginModal(false)}>
+                        <p className="text-black text-center mb-4">Log in to generate short links</p>
+                    </LoginModal>
                 )}
                 {showOutputModal && (
                     <Modal

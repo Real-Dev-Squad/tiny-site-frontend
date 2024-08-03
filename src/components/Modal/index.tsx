@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px'
                 <button className="absolute top-2 right-2" data-testid="close-modal" onClick={onClose}>
                     <IoCloseSharp style={{ fontSize: '1.5em' }} />
                 </button>
-                {title && <h2 className="text-2xl font-bold mb-4 text-white">{title}</h2>}
+                {title && <h2 className="text-2xl font-bold mb-4 text-black">{title}</h2>}
                 {children}
             </div>
         </dialog>

@@ -67,10 +67,9 @@ const Navbar = () => {
                 </div>
             </nav>
             {showLoginModal && (
-                <LoginModal
-                    onClose={() => setShowLoginModal(false)}
-                    children={<p className="text-white text-center mb-4">Sign in to your account</p>}
-                />
+                <LoginModal onClose={() => setShowLoginModal(false)}>
+                    <p className="text-black text-center mb-4">Sign in to your account</p>
+                </LoginModal>
             )}
         </>
     );
