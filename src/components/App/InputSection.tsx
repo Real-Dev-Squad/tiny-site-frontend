@@ -25,7 +25,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             Perfect Links Every Time
         </h3>
 
-        <p className="text-xl ">Ready to shorten your URL? Enter your URL below</p>
+        <p className="text-xl text-white">Ready to shorten your URL? Enter your URL below</p>
 
         <div className="flex flex-col items-center justify-center mt-5 sm:mt-10 w-full gap-5 ">
             <div className="flex items-center justify-center rounded-lg w-full  sm:w-2/4">

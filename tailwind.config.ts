@@ -8,6 +8,9 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                body: ['Space Mono', 'monospace'],
+            },
             backgroundImage: {
                 'custom-gradient':
                     'linear-gradient(to bottom, rgba(30, 66, 159, 1), rgba(26, 86, 219, 1), rgba(118, 169, 250, 1), rgba(240, 245, 255, 1))',
