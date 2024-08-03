@@ -9,8 +9,8 @@ const config: Config = {
     theme: {
         extend: {
             backgroundImage: {
-                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                'custom-gradient':
+                    'linear-gradient(to bottom, rgba(30, 66, 159, 1), rgba(26, 86, 219, 1), rgba(118, 169, 250, 1), rgba(240, 245, 255, 1))',
             },
             fontSize: {
                 '80px': '80px',
@@ -23,4 +23,5 @@ const config: Config = {
     },
     plugins: [],
 };
+
 export default config;
