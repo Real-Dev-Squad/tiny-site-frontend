@@ -84,7 +84,12 @@ const Dashboard = () => {
                 <div className="w-full flex flex-col items-center p-4 text-white bg-gray-900 min-h-[86vh]">
                     <ul className="w-full space-y-3">
                         {urls.map((url) => (
-                            <UrlListItem key={url.shortUrl} url={url} copyButtonHandler={copyButtonHandler} />
+                            <UrlListItem
+                                key={url.shortUrl}
+                                url={url}
+                                originalUrl={url.originalUrl}
+                                copyButtonHandler={copyButtonHandler}
+                            />
                         ))}
                     </ul>
                 </div>

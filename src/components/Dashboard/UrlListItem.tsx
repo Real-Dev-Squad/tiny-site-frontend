@@ -1,5 +1,7 @@
 import { Tooltip } from '@nextui-org/react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { LuQrCode } from 'react-icons/lu';
 import { MdOutlineContentCopy } from 'react-icons/md';
 import { TbTrash, TbWorldWww } from 'react-icons/tb';
 import { useMutation } from 'react-query';
@@ -13,13 +15,16 @@ import formatDate from '@/utils/formatDate';
 
 import Button from '../Button';
 import { Loader } from '../Loader';
+import QRCodeModal from '../QRCodeModal';
 
 interface UrlListItemProps {
     url: UrlType;
+    originalUrl?: string;
     copyButtonHandler: (url: string) => void;
 }
 
-const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
+const UrlListItem = ({ url, originalUrl, copyButtonHandler }: UrlListItemProps) => {
+    const [showQRCodeModal, setShowQRCodeModal] = useState<boolean>(false);
     const deleteMutation = useMutation({
         mutationFn: deleteUrlApi,
         onSuccess: () => {
@@ -36,7 +41,18 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
         <li className="rounded-lg grid grid-cols-1 sm:grid-cols-[1fr,32px] bg-white w-full px-2 py-2 sm:px-4 sm:py-2 items-center flex-wrap">
             <div className="flex items-center gap-2">
                 <div className="mr-2 flex items-center justify-center">
-                    <TbWorldWww className="text-black text-opacity-70 text-4xl" />
+                    {originalUrl ? (
+                        <img
+                            src={`https://www.google.com/s2/favicons?domain=${originalUrl}&sz=256`}
+                            alt="favicon"
+                            className="w-12 rounded-full"
+                            data-testid="original-url-favicon"
+                            width={100}
+                            height={100}
+                        />
+                    ) : (
+                        <TbWorldWww className="text-black text-opacity-70 text-4xl" />
+                    )}
                 </div>
 
                 <div className="flex flex-col w-[85%]">
@@ -56,6 +72,14 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         >
                             <span className="sr-only">Copy</span>
                             <MdOutlineContentCopy className="text-black" />
+                        </Button>
+                        <Button
+                            type="button"
+                            className="rounded-full bg-gray-100 p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
+                            testId="qr-code-button"
+                            onClick={() => setShowQRCodeModal(!showQRCodeModal)}
+                        >
+                            <LuQrCode className="text-black" />
                         </Button>
                     </div>
                     <Link
@@ -105,6 +129,9 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                     <span className="text-xs font-medium sm:hidden">Delete</span>
                 </Button>
             </div>
+            {showQRCodeModal && (
+                <QRCodeModal shortUrl={`${TINY_SITE}/${url.shortUrl}`} onClose={() => setShowQRCodeModal(false)} />
+            )}
         </li>
     );
 };
