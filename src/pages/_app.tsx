@@ -11,7 +11,14 @@ interface MyAppProps {
     pageProps: AppProps;
 }
 
-export const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 3 } } });
+export const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: 3,
+            refetchOnWindowFocus: false,
+        },
+    },
+});
 
 export default function MyApp({ Component, pageProps }: MyAppProps) {
     return (
