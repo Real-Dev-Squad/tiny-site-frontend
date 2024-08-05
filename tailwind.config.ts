@@ -8,12 +8,26 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                body: ['Space Mono', 'monospace'],
+            },
             backgroundImage: {
-                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                'custom-gradient':
+                    'linear-gradient(to bottom, rgba(30, 66, 159, 1), rgba(26, 86, 219, 1), rgba(118, 169, 250, 1), rgba(240, 245, 255, 1))',
+            },
+            fontSize: {
+                '80px': '80px',
+            },
+            lineHeight: {
+                'custom-120px': '100px',
+                'custom-60px': '60px',
+            },
+            colors: {
+                'custom-blue': '#1A56DB',
             },
         },
     },
     plugins: [],
 };
+
 export default config;
