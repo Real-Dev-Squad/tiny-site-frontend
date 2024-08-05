@@ -1,34 +1,23 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-import { TINY_API_LOGOUT } from '@/constants/url';
+const NavbarMenuItems = () => {
+    const router = useRouter();
 
-interface NavbarMenuItemsProps {
-    menuOpen: boolean;
-}
-
-const NavbarMenuItems = ({ menuOpen }: NavbarMenuItemsProps) => {
     return (
-        <ul
-            className={`${menuOpen ? 'block' : 'hidden'} absolute top-16 right-3 bg-gray-800 p-2 z-10  
-            rounded-[8px] shadow-lg
-            `}
-            data-testid="navbar-menu-items"
-        >
-            <li>
-                <Link href="/" className="text-white hover:bg-gray-700 block w-full px-4 py-2">
-                    Create New
-                </Link>
-            </li>
-            <li>
-                <Link href="/dashboard" className="text-white hover:bg-gray-700 block px-4 py-2">
-                    Dashboard
-                </Link>
-            </li>
-            <li>
-                <Link href={TINY_API_LOGOUT} className="text-white hover:bg-gray-700 block px-4 py-2">
-                    Sign Out
-                </Link>
-            </li>
+        <ul className="flex gap-14 items-center" data-testid="navbar-menu-items">
+            <>
+                <li className={`relative ${router.pathname === '/' ? 'border-b-2 border-white' : ''}`}>
+                    <Link href="/" className="text-white hover:text-gray-300">
+                        Home
+                    </Link>
+                </li>
+                <li className={`relative ${router.pathname === '/dashboard' ? 'border-b-2 border-white' : ''}`}>
+                    <Link href="/dashboard" className="text-white hover:text-gray-300">
+                        Dashboard
+                    </Link>
+                </li>
+            </>
         </ul>
     );
 };
