@@ -20,7 +20,7 @@ const Redirect = () => {
     });
 
     useEffect(() => {
-        if (shortUrlCode && data?.url.originalUrl) {
+        if (shortUrlCode && `${TINY_API_URL}/redirect/${shortUrlCode}`) {
             startTimer();
         }
     }, [timer, data]);
