@@ -110,7 +110,7 @@ describe('App Component', () => {
         const generateButton = screen.getByText('Shorten');
         fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
         fireEvent.click(generateButton);
-        const closeButton = await screen.findByTestId('close-modal');
+        const closeButton = await screen.findByTestId('close-login-modal');
         fireEvent.click(closeButton);
         const loginModal = screen.queryByText('Log in to generate short links');
         expect(loginModal).not.toBeInTheDocument();
