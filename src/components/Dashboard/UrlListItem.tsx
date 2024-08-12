@@ -84,7 +84,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
             <hr className="my-2 border-t border-gray-300" />
 
             <p className="text-sm text-gray-500 flex items-center gap-2">
-                <LiaStopwatchSolid className='text-lg'/>
+                <LiaStopwatchSolid className="text-lg" />
                 {formatDate({
                     inputDate: url.createdAt as string,
                     relativeDuration: false,

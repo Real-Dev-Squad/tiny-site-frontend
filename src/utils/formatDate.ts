@@ -32,11 +32,13 @@ function formatDate({ inputDate, relativeDuration = false, fullDate = false }: F
             year: 'numeric',
         });
 
-        const timePart = fullDate ? dateToFormat.toLocaleTimeString('en-GB', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        }) : '';
+        const timePart = fullDate
+            ? dateToFormat.toLocaleTimeString('en-GB', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+              })
+            : '';
 
         return fullDate ? `${datePart} ${timePart}` : datePart;
     }
