@@ -7,7 +7,7 @@ interface ModalProps {
     title?: string;
     width?: string;
     height?: string;
-    padding?: string
+    padding?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px', height = 'auto', padding = '' }) => {
