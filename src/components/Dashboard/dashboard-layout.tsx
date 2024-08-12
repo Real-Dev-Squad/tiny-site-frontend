@@ -11,7 +11,7 @@ export const DashboardLayout = ({ remainingUrls, children }: DashboardLayoutProp
     return (
         <div className="min-h-screen">
             <div className="w-full flex flex-col justify-center items-center max-w-3xl mx-auto">
-                <div className="flex items-center pb-8 w-full justify-between">
+                <div className="flex items-center py-8 w-full justify-between">
                     <h1 className="text-3xl md:text-4xl xl:text-4xl text-center text-white font-semibold">Your URLs</h1>
 
                     {remainingUrls !== undefined && (

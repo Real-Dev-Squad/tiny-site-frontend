@@ -26,16 +26,19 @@ function formatDate({ inputDate, relativeDuration = false, fullDate = false }: F
             return `${days}d ago`;
         }
     } else {
-        const options: Intl.DateTimeFormatOptions = {
-            year: 'numeric',
+        const datePart = dateToFormat.toLocaleDateString('en-GB', {
+            day: '2-digit',
             month: 'long',
-            day: 'numeric',
-            hour: fullDate ? 'numeric' : undefined,
-            minute: fullDate ? 'numeric' : undefined,
-            second: fullDate ? 'numeric' : undefined,
-        };
+            year: 'numeric',
+        });
 
-        return dateToFormat.toLocaleDateString('en-US', options);
+        const timePart = fullDate ? dateToFormat.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        }) : '';
+
+        return fullDate ? `${datePart} ${timePart}` : datePart;
     }
 }
 
