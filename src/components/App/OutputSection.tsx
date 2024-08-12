@@ -1,12 +1,19 @@
 import Link from 'next/link';
 import QRCode from 'qrcode.react';
-import React from 'react';
-import { FaRegCopy } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaCheck, FaRegCopy } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin, FaSquareWhatsapp, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { IoIosShareAlt } from 'react-icons/io';
 
 import Button from '@/components/Button';
-import { removeProtocol } from '@/constants/constants';
+import {
+    facebookShareUrl,
+    linkedinShareUrl,
+    removeProtocol,
+    twitterShareUrl,
+    whatsappShareUrl,
+} from '@/constants/constants';
 
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
 
@@ -20,7 +27,9 @@ interface OutputSectionProps {
     handleCopyUrl: () => void;
 }
 
-const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handleCopyUrl, handleCreateNew }) => {
+const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handleCopyUrl }) => {
+    const [downloaded, setDownloaded] = useState(false);
+
     if (!isLoaded) {
         return <OutputSectionShimmer />;
     }
@@ -35,16 +44,17 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
+            setDownloaded(true);
         }
     };
 
     return (
         <>
             <section
-                className="flex flex-col items-center rounded-lg w-[80%] relative bottom-6"
+                className="flex flex-col items-center rounded-lg w-[80%] relative gap-8"
                 data-testid="output-section"
             >
-                <h1 className="text-xl md:text-2xl xl:text-2xl text-center mb-9 font-semibold">
+                <h1 className="text-lg md:text-xl xl:text-xl text-center font-semibold">
                     Your shortened URL is ready!
                 </h1>
                 <QRCode
@@ -63,20 +73,22 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                     level="M"
                 />
                 <Button
-                    className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-2xl text-white my-4 xl:w-36 justify-center"
+                    className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-lg text-white xl:w-40 md:w-40 justify-center"
                     onClick={handleDownload}
                 >
-                    <HiOutlineDownload />
-                    Download
+                    <span className={'transition-transform duration-500 ease-in-out transform'}>
+                        {downloaded ? <FaCheck /> : <HiOutlineDownload />}
+                    </span>
+                    {downloaded ? 'Downloaded' : 'Download'}
                 </Button>
-                <div className="flex flex-col md:flex-row justify-center items-center rounded-lg w-auto p-2 border-2 border-gray-500 h-11">
-                    <span className="ml-2 p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-2xl md:text-3xl xl:text-3xl">
+                <div className="flex flex-row justify-center items-center rounded-lg w-auto p-2 border-2 border-gray-500 h-11">
+                    <span className="p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-sm  xl:text-base font-semibold">
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
                     <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-lg px-2">
                         <Link
                             type="button"
-                            className=" p-[6px] sm:p-[10px] w-[50%] rounded-l-2xl flex justify-center items-center"
+                            className="p-[6px] sm:p-[10px] w-[50%] rounded-l-2xl flex justify-center items-center"
                             href={shortUrl}
                             target="_blank"
                             data-testid="share-button"
@@ -87,7 +99,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
 
                         <Button
                             type="button"
-                            className=" p-[6px] sm:p-[10px] w-[50%] md:rounded-none flex justify-center items-center"
+                            className="p-[6px] sm:p-[10px] w-[50%] md:rounded-none flex justify-center items-center"
                             testId="copy-button"
                             onClick={handleCopyUrl}
                         >
@@ -95,13 +107,41 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                         </Button>
                     </div>
                 </div>
-                <Button
-                    className="mt-10 p-3 rounded-full shadow-lg cursor-pointer hover:underline text-[20px]"
-                    testId="create-new-button"
-                    onClick={handleCreateNew}
-                >
-                    Create New
-                </Button>
+                <p className="text-slate-500 text-base">Or share via</p>
+                <div className="flex space-x-4 justify-between w-full">
+                    <a
+                        href={twitterShareUrl(shortUrl)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-custom-blue"
+                    >
+                        <FaXTwitter className="text-5xl" />
+                    </a>
+                    <a
+                        href={facebookShareUrl(shortUrl)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-custom-blue"
+                    >
+                        <FaFacebook className="text-5xl" />
+                    </a>
+                    <a
+                        href={linkedinShareUrl(shortUrl)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-custom-blue"
+                    >
+                        <FaLinkedin className="text-5xl" />
+                    </a>
+                    <a
+                        href={whatsappShareUrl(shortUrl)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-custom-blue"
+                    >
+                        <FaSquareWhatsapp className="text-5xl" />
+                    </a>
+                </div>
             </section>
         </>
     );
