@@ -33,9 +33,9 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
     const { userData } = useAuthenticated();
 
     return (
-        <li className="rounded-xl bg-white w-full px-2 py-2 sm:pl-4 sm:pr-10 sm:py-4 flex flex-col">
+        <li className="rounded-xl bg-white px-2 py-2 sm:pl-4 sm:pr-10 sm:py-4 flex flex-col overflow-hidden">
             <div className="flex items-center gap-2 w-full">
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full max-w-[calc(100%-4rem)] sm:max-w-[calc(100%-5rem)]">
                     <Link
                         href={`${TINY_SITE}/${url.shortUrl}`}
                         target="_blank"
@@ -53,7 +53,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         {url.originalUrl}
                     </Link>
                 </div>
-                <div className="hidden sm:flex gap-2 ml-auto">
+                <div className="hidden sm:flex flex-shrink-0 gap-2 ml-auto">
                     <Button
                         className="rounded-full p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
                         onClick={() => copyButtonHandler(`${TINY_SITE}/${url.shortUrl}`)}
@@ -69,7 +69,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         className={`flex items-center justify-center w-8 h-8 rounded transition active:scale-95 ${
                             deleteMutation.isLoading
                                 ? 'text-gray-600 bg-gray-100'
-                                : 'text-red-500 hover:text-red-600 hover:bg-red-100 bg-red-50 sm:bg-transparent'
+                                : 'text-red-500 hover:text-red-600 hover:bg-red-100'
                         }`}
                     >
                         {!deleteMutation.isLoading ? (
@@ -108,7 +108,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         className={`flex items-center justify-center w-8 h-8 rounded transition active:scale-95 ${
                             deleteMutation.isLoading
                                 ? 'text-gray-600 bg-gray-100'
-                                : 'text-red-500 hover:text-red-600 hover:bg-red-100 bg-red-50 sm:bg-transparent'
+                                : 'text-red-500 hover:text-red-600 hover:bg-red-100 '
                         }`}
                     >
                         {!deleteMutation.isLoading ? (
