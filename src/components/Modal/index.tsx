@@ -7,9 +7,10 @@ interface ModalProps {
     title?: string;
     width?: string;
     height?: string;
+    padding?: string
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px', height = 'auto' }) => {
+const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px', height = 'auto', padding = '' }) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -33,8 +34,8 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px'
         >
             <div
                 ref={modalRef}
-                className={'bg-white p-8 rounded-md relative flex flex-col justify-center items-center shadow-lg'}
-                style={{ width: width, height: height }}
+                className={'bg-white rounded-md relative flex flex-col justify-center items-center shadow-lg'}
+                style={{ width: width, height: height, padding: padding }}
             >
                 <button className="absolute top-2 right-2" data-testid="close-modal" onClick={onClose}>
                     <IoCloseSharp style={{ fontSize: '1.5em' }} />

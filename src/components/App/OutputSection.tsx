@@ -61,8 +61,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                     data-testid="qrcode"
                     id="qr-code"
                     value={shortUrl}
-                    size={112}
-                    includeMargin={true}
+                    size={130}
                     imageSettings={{
                         src: RDSIcon,
                         height: 35,
