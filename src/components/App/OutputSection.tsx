@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { FaCheck, FaRegCopy } from 'react-icons/fa';
 import { FaFacebook, FaLinkedin, FaSquareWhatsapp, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDownload } from 'react-icons/hi';
-import { IoIosShareAlt } from 'react-icons/io';
+import { PiShareFatBold } from 'react-icons/pi';
 
 import Button from '@/components/Button';
 import {
@@ -24,11 +24,11 @@ interface OutputSectionProps {
     shortUrl: string;
     isLoaded: boolean;
     handleCreateNew: () => void;
-    handleCopyUrl: () => void;
 }
 
-const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handleCopyUrl }) => {
+const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => {
     const [downloaded, setDownloaded] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     if (!isLoaded) {
         return <OutputSectionShimmer />;
@@ -48,6 +48,13 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
         }
     };
 
+    const handleCopyUrl = () => {
+        if (shortUrl) {
+            navigator.clipboard.writeText(shortUrl);
+            setCopied(true);
+        }
+    };
+
     return (
         <>
             <section
@@ -61,7 +68,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                     data-testid="qrcode"
                     id="qr-code"
                     value={shortUrl}
-                    size={130}
+                    size={150}
                     imageSettings={{
                         src: RDSIcon,
                         height: 35,
@@ -75,16 +82,16 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                     className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-lg text-white xl:w-40 md:w-40 justify-center"
                     onClick={handleDownload}
                 >
-                    <span className={'transition-transform duration-500 ease-in-out transform'}>
+                    <span className="transition-transform duration-500 ease-in-out transform">
                         {downloaded ? <FaCheck /> : <HiOutlineDownload />}
                     </span>
                     {downloaded ? 'Downloaded' : 'Download'}
                 </Button>
-                <div className="flex flex-row justify-center items-center rounded-lg w-auto p-2 border-2 border-gray-500 h-11">
-                    <span className="p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-sm  xl:text-base font-semibold">
+                <div className="flex flex-row justify-center items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12	">
+                    <span className=" w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-sm xl:text-base font-semibold">
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
-                    <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-lg px-2">
+                    <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-lg ">
                         <Link
                             type="button"
                             className="p-[6px] sm:p-[10px] w-[50%] rounded-l-2xl flex justify-center items-center"
@@ -93,7 +100,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                             data-testid="share-button"
                             rel="noopener noreferrer"
                         >
-                            <IoIosShareAlt className="text-2xl sm:text-[1.5rem]" />
+                            <PiShareFatBold className="text-2xl sm:text-[1.5rem]" />
                         </Link>
 
                         <Button
@@ -102,7 +109,9 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded, handl
                             testId="copy-button"
                             onClick={handleCopyUrl}
                         >
-                            <FaRegCopy className="text-2xl sm:text-[1.5rem]" />
+                            <span className="transition-transform duration-700 ease-in-out transform">
+                                {copied ? <FaCheck /> : <FaRegCopy className="text-2xl sm:text-[1.5rem]" />}
+                            </span>
                         </Button>
                     </div>
                 </div>

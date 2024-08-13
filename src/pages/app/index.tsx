@@ -53,13 +53,6 @@ const App = () => {
         }
     };
 
-    const handleCopyUrl = () => {
-        if (shortUrl) {
-            navigator.clipboard.writeText(shortUrl);
-            showToast('Copied to clipboard', 3000, 'success');
-        }
-    };
-
     const createNewHandler = () => {
         setUrl('');
         setShortUrl('');
@@ -79,8 +72,8 @@ const App = () => {
 
     return (
         <Layout title="Home | URL Shortener">
-            <div className="flex justify-center items-center h-[86vh]">
-                <div className="flex flex-col justify-center items-center m-4 w-[100%]">
+            <div className="flex justify-center h-[90vh]">
+                <div className="flex flex-col w-[100%]">
                     <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
                 </div>
                 {toasts.map((toast) => (
@@ -104,7 +97,6 @@ const App = () => {
                             shortUrl={shortUrl}
                             isLoaded={!!shortUrl}
                             originalUrl={url}
-                            handleCopyUrl={handleCopyUrl}
                             handleCreateNew={createNewHandler}
                         />
                     </Modal>

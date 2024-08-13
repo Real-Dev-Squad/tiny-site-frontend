@@ -11,7 +11,7 @@ interface InputSectionProps {
 
 const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
     <form
-        className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3"
+        className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3 absolute top-48"
         onSubmit={(e: FormEvent) => {
             e.preventDefault();
             handleUrl();
@@ -22,7 +22,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             Shorten Your URL
         </h1>
 
-        <h3 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center md:my-2 text-white font-semibold">
+        <h3 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center text-white font-semibold">
             Perfect Links Every Time
         </h3>
 
@@ -32,7 +32,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             <div className="flex items-center justify-center rounded-lg w-full sm:w-2/4">
                 <input
                     type="text"
-                    className="text-black p-4 rounded-lg focus:outline-none w-10/12 sm:w-96 h-11"
+                    className="text-black p-5 rounded-lg focus:outline-none w-10/12 sm:w-96 h-11"
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
                     value={url}
                     placeholder="Enter the URL"

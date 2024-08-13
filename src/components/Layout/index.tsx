@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { FC, ReactNode } from 'react';
 
-import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
 type LayoutProps = {
@@ -31,7 +30,6 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
             </Head>
             <Navbar />
             <main>{children}</main>
-            <Footer />
         </>
     );
 };
