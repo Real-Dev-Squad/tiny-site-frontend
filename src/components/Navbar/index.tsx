@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { LiaHomeSolid } from 'react-icons/lia';
 import { MdOutlineLogout } from 'react-icons/md';
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { RiMacbookLine } from 'react-icons/ri';
 
 import LoginModal from '@/components/LoginModal';
@@ -76,18 +77,14 @@ const Navbar = () => {
                 </div>
             )}
 
-            {/* Mobile Menu */}
             <div
-                className={`fixed top-5 right-0 w-[200px] h-[250px] bg-white p-4 z-50 rounded-lg  transform transition-transform duration-300 ease-in-out 
+                className={`fixed top-5 right-0 w-[200px] h-[240px] bg-white p-4 z-50 rounded-lg  transform transition-transform duration-300 ease-in-out 
                     ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
             >
-                <button
-                    onClick={toggleMobileMenu}
-                    className="absolute top-2 right-2 text-gray-600 focus:outline-none z-50"
-                >
-                    <FaTimes size={24} />
+                <button onClick={toggleMobileMenu} className="absolute top-3 text-gray-600 focus:outline-none z-50">
+                    <MdOutlineKeyboardArrowRight className="text-3xl font-semibold	" />
                 </button>
-                <div className="flex flex-col mt-8 items-center">
+                <div className="flex flex-col mt-4 items-center">
                     <UserProfileButton
                         isLoggedIn={isLoggedIn}
                         firstName={firstName}
@@ -120,7 +117,7 @@ const Navbar = () => {
                                 Dashboard
                             </Link>
                         </li>
-                        <li className="mt-2">
+                        <li>
                             <Link
                                 href={TINY_API_LOGOUT}
                                 className="gap-3 text-slate-500 w-full flex items-center text-base font-medium"
