@@ -29,4 +29,19 @@ describe('InputSection component', () => {
         fireEvent.click(generateButton);
         expect(mockHandleUrl).toHaveBeenCalled();
     });
+
+    it('renders the heading correctly', () => {
+        render(<InputSection url={testUrl} setUrl={jest.fn()} handleUrl={jest.fn()} />);
+        expect(screen.getByText('Shorten Your URL')).toBeInTheDocument();
+    });
+
+    it('renders the subheading correctly', () => {
+        render(<InputSection url={testUrl} setUrl={jest.fn()} handleUrl={jest.fn()} />);
+        expect(screen.getByText('Perfect Links Every Time')).toBeInTheDocument();
+    });
+
+    it('renders the paragraph text correctly', () => {
+        render(<InputSection url={testUrl} setUrl={jest.fn()} handleUrl={jest.fn()} />);
+        expect(screen.getByText(/Ready to shorten your URL\? Enter your/i)).toBeInTheDocument();
+    });
 });

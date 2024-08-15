@@ -31,7 +31,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
     const [copied, setCopied] = useState(false);
 
     if (!isLoaded) {
-        return <OutputSectionShimmer />;
+        return <OutputSectionShimmer data-testid="output-section-shimmer" />;
     }
 
     const handleDownload = () => {
@@ -61,7 +61,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 className="flex flex-col items-center rounded-lg w-[80%] relative gap-8"
                 data-testid="output-section"
             >
-                <h1 className="text-lg md:text-xl xl:text-xl text-center font-semibold">
+                <h1 className="text-lg md:text-xl xl:text-xl text-center font-semibold" data-testid="output-heading">
                     Your shortened URL is ready!
                 </h1>
                 <QRCode
@@ -81,13 +81,17 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 <Button
                     className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-lg text-white xl:w-40 md:w-40 justify-center"
                     onClick={handleDownload}
+                    data-testid="download-button"
                 >
                     <span className="transition-transform duration-500 ease-in-out transform">
                         {downloaded ? <FaCheck /> : <HiOutlineDownload />}
                     </span>
                     {downloaded ? 'Downloaded' : 'Download'}
                 </Button>
-                <div className="flex justify-between items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12">
+                <div
+                    className="flex justify-between items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12"
+                    data-testid="url-container"
+                >
                     <span className="w-[70%] ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
@@ -121,13 +125,16 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                     </div>
                 </div>
 
-                <p className="text-slate-500 text-base">Or share via</p>
-                <div className="flex space-x-4 justify-between w-full">
+                <p className="text-slate-500 text-base" data-testid="share-text">
+                    Or share via
+                </p>
+                <div className="flex space-x-4 justify-between w-full" data-testid="social-links">
                     <a
                         href={twitterShareUrl(shortUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-custom-blue"
+                        data-testid="twitter-share"
                     >
                         <FaXTwitter className="text-5xl" />
                     </a>
@@ -136,6 +143,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-custom-blue"
+                        data-testid="discord-share"
                     >
                         <FaDiscord className="text-5xl" />
                     </a>
@@ -144,6 +152,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-custom-blue"
+                        data-testid="linkedin-share"
                     >
                         <FaLinkedin className="text-5xl" />
                     </a>
@@ -152,6 +161,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-custom-blue"
+                        data-testid="whatsapp-share"
                     >
                         <FaSquareWhatsapp className="text-5xl" />
                     </a>
