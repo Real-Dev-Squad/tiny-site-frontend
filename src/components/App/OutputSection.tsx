@@ -2,13 +2,13 @@ import Link from 'next/link';
 import QRCode from 'qrcode.react';
 import React, { useState } from 'react';
 import { FaCheck, FaRegCopy } from 'react-icons/fa';
-import { FaFacebook, FaLinkedin, FaSquareWhatsapp, FaXTwitter } from 'react-icons/fa6';
+import { FaDiscord, FaLinkedin, FaSquareWhatsapp, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { PiShareFatBold } from 'react-icons/pi';
 
 import Button from '@/components/Button';
 import {
-    facebookShareUrl,
+    discordShareUrl,
     linkedinShareUrl,
     removeProtocol,
     twitterShareUrl,
@@ -87,34 +87,40 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                     </span>
                     {downloaded ? 'Downloaded' : 'Download'}
                 </Button>
-                <div className="flex flex-row justify-center items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12	">
-                    <span className=" w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-sm xl:text-base font-semibold">
+                <div className="flex justify-between items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12">
+                    <span className="w-[70%] ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
-                    <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-lg ">
+
+                    <div className="flex w-[30%] justify-end items-center space-x-2 rounded-lg">
                         <Link
                             type="button"
-                            className="p-[6px] sm:p-[10px] w-[50%] rounded-l-2xl flex justify-center items-center"
+                            className="p-[4px] sm:p-[10px] flex justify-center items-center"
                             href={shortUrl}
                             target="_blank"
                             data-testid="share-button"
                             rel="noopener noreferrer"
                         >
-                            <PiShareFatBold className="text-2xl sm:text-[1.5rem]" />
+                            <PiShareFatBold className="text-xl sm:text-[1.5rem]" />
                         </Link>
 
                         <Button
                             type="button"
-                            className="p-[6px] sm:p-[10px] w-[50%] md:rounded-none flex justify-center items-center"
+                            className="p-[4px] sm:p-[10px] flex justify-center items-center"
                             testId="copy-button"
                             onClick={handleCopyUrl}
                         >
                             <span className="transition-transform duration-700 ease-in-out transform">
-                                {copied ? <FaCheck /> : <FaRegCopy className="text-2xl sm:text-[1.5rem]" />}
+                                {copied ? (
+                                    <FaCheck className="text-xl sm:text-[1.5rem]" />
+                                ) : (
+                                    <FaRegCopy className="text-xl sm:text-[1.5rem]" />
+                                )}
                             </span>
                         </Button>
                     </div>
                 </div>
+
                 <p className="text-slate-500 text-base">Or share via</p>
                 <div className="flex space-x-4 justify-between w-full">
                     <a
@@ -126,12 +132,12 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         <FaXTwitter className="text-5xl" />
                     </a>
                     <a
-                        href={facebookShareUrl(shortUrl)}
+                        href={discordShareUrl(shortUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-custom-blue"
                     >
-                        <FaFacebook className="text-5xl" />
+                        <FaDiscord className="text-5xl" />
                     </a>
                     <a
                         href={linkedinShareUrl(shortUrl)}

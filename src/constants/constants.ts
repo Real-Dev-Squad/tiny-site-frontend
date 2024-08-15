@@ -13,9 +13,9 @@ export const removeProtocol = /(^\w+:|^)\/\//;
 
 export const twitterShareUrl = (url: string) => `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;
 
-export const facebookShareUrl = (url: string) => `https://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`;
+export const discordShareUrl = (url: string) => `https://discord.com/channels/@me?content=${encodeURIComponent(url)}`;
 
 export const linkedinShareUrl = (url: string) =>
-    `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=bun`;
+    `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
 
 export const whatsappShareUrl = (url: string) => `https://wa.me/?text=${encodeURIComponent(url)}`;
