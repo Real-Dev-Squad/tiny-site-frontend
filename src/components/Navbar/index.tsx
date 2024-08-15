@@ -41,7 +41,7 @@ const Navbar = () => {
                     <Image src="/rds.png" alt="logo" width={30} height={30} className="mr-2 w-30" />
                     <span className="text-white text-2xl font-bold">RDS</span>
                 </Link>
-                <div className="block sm:hidden">
+                <div className="block sm:hidden z-50">
                     <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
                         {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                     </button>
@@ -63,67 +63,76 @@ const Navbar = () => {
                     </li>
                 </ul>
             </nav>
+
             {showSignOutButton && (
-                <div className="absolute top-20 right-10 bg-white p-1 rounded-lg shadow-lg">
-                    <Link href={TINY_API_LOGOUT} className="text-black flex items-center h-8 w-24 text-sm gap-4">
+                <div className="absolute top-20 right-10 bg-white p-2 rounded-lg shadow-lg">
+                    <Link
+                        href={TINY_API_LOGOUT}
+                        className="text-black flex items-center h-8 w-24 text-sm gap-4 font-medium"
+                    >
                         SignOut
                         <MdOutlineLogout className="h-5 w-5" />
                     </Link>
                 </div>
             )}
 
-            {isMobileMenuOpen && (
-                <div className="absolute top-5 right-2 bg-white p-4 rounded-lg shadow-lg z-50 sm:hidden w-[200px] h-[250px]">
-                    <button
-                        onClick={toggleMobileMenu}
-                        className="absolute top-2 right-2 text-gray-600 focus:outline-none"
-                    >
-                        <FaTimes size={20} />
-                    </button>
-                    <div className="flex flex-col mt-4 items-center">
-                        <UserProfileButton
-                            isLoggedIn={isLoggedIn}
-                            firstName={firstName}
-                            lastName={lastName}
-                            handleProfileClick={handleProfileClick}
-                            setShowLoginModal={setShowLoginModal}
-                        />
-                        <ul className="flex flex-col gap-4 mt-6 w-full">
-                            <li>
-                                <Link
-                                    href="/"
-                                    className={`gap-3 pl-4  w-full flex items-center text-base font-medium ${
-                                        router.pathname === '/' ? 'text-custom-blue' : 'text-slate-500'
-                                    }`}
-                                >
-                                    <LiaHomeSolid />
-                                    Home
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/dashboard"
-                                    className={`pl-4 gap-3  w-full flex items-center text-base font-medium ${
-                                        router.pathname === '/dashboard' ? 'text-custom-blue' : 'text-slate-500'
-                                    }`}
-                                >
-                                    <RiMacbookLine />
-                                    Dashboard
-                                </Link>
-                            </li>
-                            <li className="mt-2">
-                                <Link
-                                    href={TINY_API_LOGOUT}
-                                    className="gap-3 pl-4 text-slate-500 w-full flex items-center text-base font-medium"
-                                >
-                                    <MdOutlineLogout />
-                                    Signout
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
+            {/* Mobile Menu */}
+            <div
+                className={`fixed top-5 right-0 w-[200px] h-[250px] bg-white p-4 z-50 rounded-lg  transform transition-transform duration-300 ease-in-out 
+                    ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+            >
+                <button
+                    onClick={toggleMobileMenu}
+                    className="absolute top-2 right-2 text-gray-600 focus:outline-none z-50"
+                >
+                    <FaTimes size={24} />
+                </button>
+                <div className="flex flex-col mt-8 items-center">
+                    <UserProfileButton
+                        isLoggedIn={isLoggedIn}
+                        firstName={firstName}
+                        lastName={lastName}
+                        handleProfileClick={handleProfileClick}
+                        setShowLoginModal={setShowLoginModal}
+                    />
+                    <ul className="flex flex-col gap-4 mt-6 w-full">
+                        <li>
+                            <Link
+                                href="/"
+                                className={`gap-3 w-full flex items-center text-base font-medium ${
+                                    router.pathname === '/' ? 'text-custom-blue' : 'text-slate-500'
+                                }`}
+                                onClick={toggleMobileMenu}
+                            >
+                                <LiaHomeSolid />
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/dashboard"
+                                className={`gap-3 w-full flex items-center text-base font-medium ${
+                                    router.pathname === '/dashboard' ? 'text-custom-blue' : 'text-slate-500'
+                                }`}
+                                onClick={toggleMobileMenu}
+                            >
+                                <RiMacbookLine />
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li className="mt-2">
+                            <Link
+                                href={TINY_API_LOGOUT}
+                                className="gap-3 text-slate-500 w-full flex items-center text-base font-medium"
+                                onClick={toggleMobileMenu}
+                            >
+                                <MdOutlineLogout />
+                                Signout
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
-            )}
+            </div>
 
             {showLoginModal && (
                 <LoginModal onClose={() => setShowLoginModal(false)}>
