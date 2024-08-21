@@ -10,7 +10,7 @@ const validateUrl = (
     }
 
     if (!urlRegex.test(url)) {
-        showToast('Enter a valid URL', 3000, 'info');
+        showToast('Enter a valid URL', 3000, 'error');
         return false;
     }
     return true;

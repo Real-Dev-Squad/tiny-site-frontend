@@ -18,6 +18,7 @@ const App = () => {
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [showOutputModal, setShowOutputModal] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
 
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
@@ -33,7 +34,10 @@ const App = () => {
     }, [isLoggedIn]);
 
     const generateShortUrl = async (url: string) => {
-        if (!validateUrl(url, showToast)) return;
+        if (!validateUrl(url, showToast)) {
+            setHasError(true);
+            return;
+        }
         try {
             const response = await shortenUrlMutation.mutateAsync({
                 originalUrl: url,
@@ -42,6 +46,7 @@ const App = () => {
             const fullShortUrl = `${TINY_SITE}/${response.shortUrl}`;
             setShortUrl(fullShortUrl);
             setShowOutputModal(true);
+            setHasError(false);
         } catch (e) {
             const error = e as ErrorResponse;
             if (error.response && error.response.data && error.response.data.message) {
@@ -70,11 +75,21 @@ const App = () => {
         }
     };
 
+    const clearError = () => {
+        setHasError(false);
+    };
+
     return (
         <Layout title="Home | URL Shortener">
             <div className="flex justify-center h-[90vh]">
                 <div className="flex flex-col w-[100%]">
-                    <InputSection url={url} setUrl={setUrl} handleUrl={handleUrl} />
+                    <InputSection
+                        url={url}
+                        setUrl={setUrl}
+                        handleUrl={handleUrl}
+                        hasError={hasError}
+                        clearError={clearError}
+                    />
                 </div>
                 {toasts.map((toast) => (
                     <Toast key={toast.id} {...toast} />

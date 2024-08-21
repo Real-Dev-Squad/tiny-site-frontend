@@ -7,9 +7,11 @@ interface InputSectionProps {
     url: string;
     setUrl: (url: string) => void;
     handleUrl: () => void;
+    hasError: boolean;
+    clearError: () => void;
 }
 
-const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) => (
+const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl, hasError, clearError }) => (
     <form
         className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3 absolute top-44"
         onSubmit={(e: FormEvent) => {
@@ -31,12 +33,17 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl }) =
             <br className="sm:hidden" /> URL below
         </p>
 
-        <div className="flex flex-col items-center justify-center mt-5 sm:mt-6 w-full gap-5 ">
+        <div className="flex flex-col items-center justify-center mt-5 sm:mt-6 w-full gap-5">
             <div className="flex items-center justify-center rounded-lg w-full sm:w-2/4">
                 <input
                     type="text"
-                    className="text-black p-5 rounded-lg focus:outline-none w-10/12 vsm:w-96 h-11"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+                    className={`text-black p-5 rounded-lg focus:outline-none w-10/12 vsm:w-96 h-11 ${
+                        hasError ? 'border-2 border-red-500' : ''
+                    }`}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        setUrl(e.target.value);
+                        clearError();
+                    }}
                     value={url}
                     placeholder="Enter the URL"
                     name="URL"
