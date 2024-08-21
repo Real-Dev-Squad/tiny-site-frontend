@@ -40,7 +40,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         href={`${TINY_SITE}/${url.shortUrl}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="truncate text-sm font-semibold text-black sm:text-base"
+                        className="truncate text-sm font-semibold text-black sm:text-base underline-offset-2  hover:underline"
                     >
                         {TINY_SITE}/{url.shortUrl}
                     </Link>
@@ -48,7 +48,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         href={url.originalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="truncate text-sm font-medium text-gray-700 underline-offset-2 hover:underline mt-1"
+                        className="truncate text-sm font-medium text-gray-700 mt-1"
                     >
                         {url.originalUrl}
                     </Link>
