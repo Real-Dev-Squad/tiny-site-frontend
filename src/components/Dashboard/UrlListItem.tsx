@@ -33,7 +33,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
     const { userData } = useAuthenticated();
 
     return (
-        <li className="rounded-xl bg-white px-2 py-2 sm:pl-4 sm:pr-10 sm:py-4 flex flex-col overflow-hidden">
+        <li className="rounded-xl bg-white px-2 py-2 sm:pl-4 sm:py-4 flex flex-col overflow-hidden">
             <div className="flex items-center gap-2 w-full">
                 <div className="flex flex-col w-full max-w-[calc(100%-4rem)] sm:max-w-[calc(100%-5rem)]">
                     <Link
@@ -48,7 +48,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         href={url.originalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="truncate text-sm font-medium text-gray-700 mt-1"
+                        className="truncate text-sm font-medium text-gray-700 mt-1.5"
                     >
                         {url.originalUrl}
                     </Link>
@@ -81,7 +81,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                 </div>
             </div>
 
-            <hr className="my-2 border-t border-gray-300" />
+            <hr className="my-3 border-t border-gray-300" />
 
             <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500 flex items-center gap-2">
@@ -92,7 +92,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                         fullDate: true,
                     })}
                 </p>
-                <div className="flex sm:hidden gap-2 ml-auto">
+                <div className="flex sm:hidden gap-1 ml-auto">
                     <Button
                         className="rounded-full p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
                         onClick={() => copyButtonHandler(`${TINY_SITE}/${url.shortUrl}`)}

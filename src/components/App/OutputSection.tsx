@@ -92,7 +92,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         {shortUrl.replace(removeProtocol, '')}
                     </span>
 
-                    <div className="flex w-[30%] justify-end items-center space-x-2 rounded-lg">
+                    <div className="flex w-[30%] justify-end items-center rounded-lg">
                         <Link
                             type="button"
                             className="p-[4px] sm:p-[10px] flex justify-center items-center"
@@ -101,7 +101,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                             data-testid="share-button"
                             rel="noopener noreferrer"
                         >
-                            <PiShareFatBold className="text-xl sm:text-[1.5rem]" />
+                            <PiShareFatBold className="text-lg sm:text-xl" />
                         </Link>
 
                         <Button
@@ -112,9 +112,9 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         >
                             <span className="transition-transform duration-700 ease-in-out transform">
                                 {copied ? (
-                                    <FaCheck className="text-xl sm:text-[1.5rem]" />
+                                    <FaCheck className="text-lg sm:text-xl" />
                                 ) : (
-                                    <FaRegCopy className="text-xl sm:text-[1.5rem]" />
+                                    <FaRegCopy className="text-lg sm:text-xl" />
                                 )}
                             </span>
                         </Button>
