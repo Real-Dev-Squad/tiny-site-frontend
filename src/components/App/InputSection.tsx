@@ -24,6 +24,8 @@ interface InputSectionProps {
 }
 
 // TODO - @vinit717 : Add a loading spinner when the user clicks the shorten button
+// TODO - @vinit717 : give this a better name
+// TODO - @vinit717 : move the headings outside the form
 const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, onSubmit, error, clearError }) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
