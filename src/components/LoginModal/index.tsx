@@ -12,8 +12,8 @@ interface LoginModalProps {
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose, children }) => {
     return (
-        <Modal onClose={onClose} title="Please log in" width="400px" padding="34px">
-            {children || <h2 className="text-2xl font-bold mb-4 text-black p-10">Please log in</h2>}
+        <Modal onClose={onClose} title="Please log in" width="400px" padding="34px" data-testid="modal">
+            {children}
             <Link
                 href={TINY_API_GOOGLE_LOGIN}
                 data-testid="sign-in-with-google-button"
