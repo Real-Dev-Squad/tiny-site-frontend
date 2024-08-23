@@ -65,24 +65,27 @@ const Navbar = () => {
                 </ul>
             </nav>
 
-            {showSignOutButton && (
-                <div className="absolute top-20 right-20 bg-white p-2 rounded-lg shadow-lg">
-                    <Link
-                        href={TINY_API_LOGOUT}
-                        className="text-black flex items-center h-7 w-20 text-sm gap-2 font-medium"
-                    >
-                        SignOut
-                        <MdOutlineLogout className="h-5 w-5" />
-                    </Link>
-                </div>
-            )}
+            <div
+                className={`fixed top-20 right-20 bg-white p-2 rounded-lg shadow-lg transition-transform transform ${
+                    showSignOutButton ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+                } ease-in-out duration-300`}
+            >
+                <Link
+                    href={TINY_API_LOGOUT}
+                    className="text-black flex items-center h-7 w-20 text-sm gap-2 font-medium"
+                >
+                    SignOut
+                    <MdOutlineLogout className="h-5 w-5" />
+                </Link>
+            </div>
 
             <div
-                className={`fixed top-5 right-0 w-[200px] h-[240px] bg-white p-4 z-50 rounded-lg  transform transition-transform duration-300 ease-in-out 
-                    ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-5 right-0 w-[200px] h-[240px] bg-white p-4 z-50 rounded-lg transition-transform transform ${
+                    isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                } ease-in-out duration-300`}
             >
                 <button onClick={toggleMobileMenu} className="absolute top-3 text-gray-600 focus:outline-none z-50">
-                    <MdOutlineKeyboardArrowRight className="text-3xl font-semibold	" />
+                    <MdOutlineKeyboardArrowRight className="text-3xl font-semibold" />
                 </button>
                 <div className="flex flex-col mt-4 items-center">
                     <UserProfileButton
