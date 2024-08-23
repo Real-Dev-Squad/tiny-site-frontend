@@ -20,13 +20,19 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl, err
         }}
         data-testid="input-section"
     >
-        <h1 className="text-3xl md:text-6xl xl:text-80px sm:text-5xl text-center text-white font-semibold">
+        <h1
+            className="text-3xl md:text-6xl xl:text-80px sm:text-5xl text-center text-white font-semibold"
+            data-testid="heading"
+        >
             Shorten Your URL
         </h1>
-        <h3 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center text-white font-semibold">
+        <h3
+            className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center text-white font-semibold"
+            data-testid="subheading"
+        >
             Perfect Links Every Time
         </h3>
-        <p className="xl:text-xl text-base text-white mt-5">
+        <p className="xl:text-xl text-base text-white mt-5" data-testid="paragraph">
             Ready to shorten your URL? Enter your
             <br className="sm:hidden" /> URL below
         </p>
@@ -45,8 +51,16 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl, err
                     placeholder="Enter the URL"
                     name="URL"
                     required
+                    data-testid="url-input"
                 />
-                {error && <p className="text-black font-semibold text-base mt-1 w-10/12 vsm:w-96 text-left">{error}</p>}
+                {error && (
+                    <p
+                        className="text-black font-semibold text-base mt-1 w-10/12 vsm:w-96 text-left"
+                        data-testid="error-message"
+                    >
+                        {error}
+                    </p>
+                )}
             </div>
             <Button
                 type="submit"
