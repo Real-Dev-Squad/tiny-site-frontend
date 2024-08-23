@@ -5,12 +5,11 @@ import OutputSection from '@/components/App/OutputSection';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import Modal from '@/components/Modal';
-import Toast from '@/components/Toast';
 import { TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
-import useToast from '@/hooks/useToast';
 import { useShortenUrlMutation } from '@/services/api';
 import { ErrorResponse } from '@/types/url.types';
+import { formatUrl } from '@/utils/formatUrl';
 import validateUrl from '@/utils/validateUrl';
 
 const App = () => {
@@ -18,9 +17,9 @@ const App = () => {
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [showOutputModal, setShowOutputModal] = useState<boolean>(false);
-    const [hasError, setHasError] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-    const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
     const shortenUrlMutation = useShortenUrlMutation();
 
@@ -34,10 +33,17 @@ const App = () => {
     }, [isLoggedIn]);
 
     const generateShortUrl = async (url: string) => {
-        if (!validateUrl(url, showToast)) {
-            setHasError(true);
+        if (!url) {
+            setIsProcessing(false);
             return;
         }
+        const validationError = validateUrl(url);
+        if (validationError) {
+            setError(validationError);
+            setIsProcessing(false);
+            return;
+        }
+
         try {
             const response = await shortenUrlMutation.mutateAsync({
                 originalUrl: url,
@@ -46,15 +52,16 @@ const App = () => {
             const fullShortUrl = `${TINY_SITE}/${response.shortUrl}`;
             setShortUrl(fullShortUrl);
             setShowOutputModal(true);
-            setHasError(false);
+            setError(null);
         } catch (e) {
             const error = e as ErrorResponse;
             if (error.response && error.response.data && error.response.data.message) {
-                showToast(error.response.data.message, 3000, 'error');
+                setError(error.response.data.message);
             } else {
-                showToast('An unexpected error occurred', 3000, 'error');
+                setError('An unexpected error occurred');
             }
-            setUrl('');
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -62,22 +69,26 @@ const App = () => {
         setUrl('');
         setShortUrl('');
         setShowOutputModal(false);
+        setError(null);
     };
 
     const handleUrl = () => {
+        if (isProcessing) return;
         if (!isLoggedIn) {
             setShowLoginModal(true);
             if (url) localStorage.setItem('url', url);
         } else {
-            if (!shortenUrlMutation.isLoading) {
-                generateShortUrl(url);
+            setIsProcessing(true);
+            const formattedUrl = formatUrl(url);
+            if (url) {
+                generateShortUrl(formattedUrl);
+            } else {
+                setIsProcessing(false);
             }
         }
     };
 
-    const clearError = () => {
-        setHasError(false);
-    };
+    const clearError = () => setError(null);
 
     return (
         <Layout title="Home | URL Shortener">
@@ -87,13 +98,10 @@ const App = () => {
                         url={url}
                         setUrl={setUrl}
                         handleUrl={handleUrl}
-                        hasError={hasError}
+                        error={error}
                         clearError={clearError}
                     />
                 </div>
-                {toasts.map((toast) => (
-                    <Toast key={toast.id} {...toast} />
-                ))}
                 {showLoginModal && (
                     <LoginModal onClose={() => setShowLoginModal(false)}>
                         <p className="text-black text-center mb-4">Log in to generate short links</p>
