@@ -81,7 +81,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 <Button
                     className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-lg text-white xl:w-40 md:w-40 justify-center"
                     onClick={handleDownload}
-                    data-testid="download-button"
+                    testId="download-button"
                 >
                     <span className="transition-transform duration-500 ease-in-out transform">
                         {downloaded ? <FaCheck /> : <HiOutlineDownload />}
