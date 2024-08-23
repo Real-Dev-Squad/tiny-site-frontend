@@ -66,9 +66,9 @@ const Navbar = () => {
             </nav>
 
             <div
-                className={`fixed top-20 right-20 bg-white p-2 rounded-lg shadow-lg transition-transform transform ${
-                    showSignOutButton ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-                } ease-in-out duration-300`}
+                className={`absolute top-20 right-20 bg-white p-2 rounded-lg shadow-lg transition-opacity duration-500 ease-in-out ${
+                    showSignOutButton ? 'opacity-100' : 'opacity-0'
+                }`}
             >
                 <Link
                     href={TINY_API_LOGOUT}
