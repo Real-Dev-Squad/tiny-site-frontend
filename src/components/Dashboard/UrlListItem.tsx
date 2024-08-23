@@ -110,6 +110,7 @@ const UrlListItem = ({ url, copyButtonHandler }: UrlListItemProps) => {
                                 ? 'text-gray-600 bg-gray-100'
                                 : 'text-red-500 hover:text-red-600 hover:bg-red-100 '
                         }`}
+                        testId="delete-button"
                     >
                         {!deleteMutation.isLoading ? (
                             <TbTrash className="w-5 h-5" />

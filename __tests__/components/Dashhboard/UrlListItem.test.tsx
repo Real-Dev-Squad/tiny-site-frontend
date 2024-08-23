@@ -7,20 +7,33 @@ import { deleteUrlApi } from '@/services/api';
 
 import { urls } from '../../../__mocks__/db/urls';
 
-jest.mock('@/hooks/useAuthenticated');
-jest.mock('@/services/api');
+jest.mock('@/hooks/useAuthenticated', () => ({
+    __esModule: true,
+    default: jest.fn(),
+}));
+
+jest.mock('@/services/api', () => ({
+    deleteUrlApi: jest.fn(),
+}));
 
 describe('UrlListItem', () => {
     const queryClient = new QueryClient();
     const url = urls.urls[0];
-    const copyButtonHandler = (url) => {
+    const copyButtonHandler = (url: string) => {
         navigator.clipboard.writeText(url);
     };
+
     const mockWriteText = jest.fn();
-    global.navigator.clipboard = { writeText: mockWriteText };
+    beforeAll(() => {
+        Object.defineProperty(navigator, 'clipboard', {
+            value: {
+                writeText: mockWriteText,
+            },
+        });
+    });
 
     beforeEach(() => {
-        useAuthenticated.mockReturnValue({
+        (useAuthenticated as jest.Mock).mockReturnValue({
             userData: { data: { id: 'user123' } },
         });
     });
@@ -28,48 +41,33 @@ describe('UrlListItem', () => {
     test('renders UrlListItem component', () => {
         render(
             <QueryClientProvider client={queryClient}>
-                <UrlListItem
-                    url={url}
-                    copyButtonHandler={() => {
-                        copyButtonHandler(url.originalUrl);
-                    }}
-                />
+                <UrlListItem url={url} copyButtonHandler={copyButtonHandler} />
             </QueryClientProvider>
         );
-        const linkElement = screen.getByText(`${url.originalUrl}`);
-        expect(linkElement).toBeInTheDocument();
+        const originalUrlElement = screen.getByText(url.originalUrl);
+        expect(originalUrlElement).toBeInTheDocument();
     });
 
     test('copy button works', () => {
         render(
             <QueryClientProvider client={queryClient}>
-                <UrlListItem
-                    url={url}
-                    copyButtonHandler={() => {
-                        copyButtonHandler(url.originalUrl);
-                    }}
-                />
+                <UrlListItem url={url} copyButtonHandler={copyButtonHandler} />
             </QueryClientProvider>
         );
-        const copyButton = screen.getByTestId('copy-button');
+        const copyButton = screen.getAllByTestId('copy-button')[0];
         fireEvent.click(copyButton);
-        expect(mockWriteText).toHaveBeenCalledWith(url.originalUrl);
+        expect(mockWriteText).toHaveBeenCalledWith(`https://staging-tinysite.realdevsquad.com/${url.shortUrl}`);
     });
 
     test('delete button works', async () => {
-        deleteUrlApi.mockResolvedValueOnce({});
+        (deleteUrlApi as jest.Mock).mockResolvedValueOnce({});
 
         render(
             <QueryClientProvider client={queryClient}>
-                <UrlListItem
-                    url={url}
-                    copyButtonHandler={() => {
-                        copyButtonHandler(url.originalUrl);
-                    }}
-                />
+                <UrlListItem url={url} copyButtonHandler={copyButtonHandler} />
             </QueryClientProvider>
         );
-        const deleteButton = screen.getByText('Delete');
+        const deleteButton = screen.getByTestId('delete-button');
         fireEvent.click(deleteButton);
 
         await waitFor(() => {
@@ -79,19 +77,14 @@ describe('UrlListItem', () => {
 
     test('shows error on delete failure', async () => {
         const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => 'Alert called');
-        deleteUrlApi.mockRejectedValueOnce(new Error('Error deleting URL'));
+        (deleteUrlApi as jest.Mock).mockRejectedValueOnce(new Error('Error deleting URL'));
 
         render(
             <QueryClientProvider client={queryClient}>
-                <UrlListItem
-                    url={url}
-                    copyButtonHandler={() => {
-                        copyButtonHandler(url.originalUrl);
-                    }}
-                />
+                <UrlListItem url={url} copyButtonHandler={copyButtonHandler} />
             </QueryClientProvider>
         );
-        const deleteButton = screen.getByText('Delete');
+        const deleteButton = screen.getByTestId('delete-button');
         fireEvent.click(deleteButton);
 
         await waitFor(() => {
