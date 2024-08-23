@@ -66,10 +66,10 @@ const Navbar = () => {
             </nav>
 
             {showSignOutButton && (
-                <div className="absolute top-20 right-10 bg-white p-2 rounded-lg shadow-lg">
+                <div className="absolute top-20 right-20 bg-white p-2 rounded-lg shadow-lg">
                     <Link
                         href={TINY_API_LOGOUT}
-                        className="text-black flex items-center h-8 w-24 text-sm gap-4 font-medium"
+                        className="text-black flex items-center h-7 w-20 text-sm gap-2 font-medium"
                     >
                         SignOut
                         <MdOutlineLogout className="h-5 w-5" />

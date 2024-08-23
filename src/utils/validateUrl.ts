@@ -1,19 +1,11 @@
 import { urlRegex } from '@/constants/constants';
 
-const validateUrl = (
-    url: string,
-    showToast: (message: string, duration?: number, type?: 'success' | 'info' | 'error') => void
-) => {
-    if (!url) {
-        showToast('Enter the URL', 3000, 'error');
-        return false;
+const validateUrl = (url: string): string | null => {
+    if (!urlRegex.test(url)) {
+        return 'Enter a valid URL';
     }
 
-    if (!urlRegex.test(url)) {
-        showToast('Enter a valid URL', 3000, 'error');
-        return false;
-    }
-    return true;
+    return null;
 };
 
 export default validateUrl;
