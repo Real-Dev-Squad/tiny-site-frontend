@@ -5,12 +5,12 @@ import ProfileIcon from '@/components/ProfileIcon/ProfileIcon';
 
 describe('ProfileIcon', () => {
     it('should have the correct initials', () => {
-        const { container } = render(<ProfileIcon firstName="Sunny" lastName="Sahsi" />);
-        expect(container).toHaveTextContent('SS');
+        const { container } = render(<ProfileIcon firstName="Ankush" lastName="Dharkar" />);
+        expect(container).toHaveTextContent('AD');
     });
 
     it('should have the correct initials if no last name is provided', () => {
-        const { container } = render(<ProfileIcon firstName="Sunny" />);
-        expect(container).toHaveTextContent('S');
+        const { container } = render(<ProfileIcon firstName="Ankush" />);
+        expect(container).toHaveTextContent('A');
     });
 });
