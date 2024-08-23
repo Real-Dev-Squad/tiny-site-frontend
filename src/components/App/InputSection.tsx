@@ -46,11 +46,19 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, handleUrl, err
                     name="URL"
                     required
                 />
-                {error && <p className="text-black font-semibold text-base mt-1 w-10/12 vsm:w-96 text-left">{error}</p>}
+                {error && (
+                    <p
+                        className={`text-black font-semibold text-base mt-1 w-10/12 vsm:w-96 text-left transition-opacity duration-500 ease-in-out ${
+                            error ? 'opacity-100' : 'opacity-0'
+                        }`}
+                    >
+                        {error}
+                    </p>
+                )}
             </div>
             <Button
                 type="submit"
-                className="bg-white text-black text-lg rounded-lg mt-2 h-10 w-36 flex items-center justify-center space-x-2"
+                className="bg-white text-black text-lg rounded-lg mt-2 h-10 w-32 flex items-center justify-center space-x-2 transform transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
                 testId="shorten-button"
                 onClick={handleUrl}
             >
