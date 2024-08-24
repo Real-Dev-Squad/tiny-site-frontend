@@ -109,7 +109,7 @@ describe('Dashboard', () => {
                 <Dashboard />
             </QueryClientProvider>
         );
-        expect(screen.getByText('Oops! We couldn\'t find any URLs.')).toBeInTheDocument();
+        expect(screen.getByText("Oops! We couldn't find any URLs.")).toBeInTheDocument();
         expect(screen.getByText('Create a URL')).toBeInTheDocument();
     });
 
