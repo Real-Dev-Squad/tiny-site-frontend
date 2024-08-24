@@ -9,7 +9,7 @@ interface ErrorMessage {
 
 const ErrorMessage: React.FC<ErrorMessage> = ({ message }) => {
     return (
-        <p className="text-black font-semibold text-base mt-1 w-10/12 vsm:w-96 text-left transition-opacity duration-500 ease-in-out">
+        <p className="text-black font-semibold text-base mt-1 w-10/12 mobile:w-96 text-left transition-opacity duration-500 ease-in-out">
             {message}
         </p>
     );
@@ -46,7 +46,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, onSubmit, erro
             className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3"
         >
             <div className="pb-2 lg:pb-4">
-                <h1 className="text-3xl md:text-6xl xl:text-80px sm:text-5xl text-center text-white font-semibold pb-2 lg:pb-4">
+                <h1 className="text-3xl md:text-6xl xl:text-7xl sm:text-5xl text-center text-white font-semibold pb-2 lg:pb-4">
                     Shorten Your URL
                 </h1>
 
@@ -69,7 +69,7 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, onSubmit, erro
                         value={url}
                         placeholder="Enter the URL"
                         onChange={handleUrlChange}
-                        className={`text-black p-5 rounded-lg focus:outline-none w-10/12 vsm:w-96 h-11 ${
+                        className={`text-black p-5 rounded-lg focus:outline-none w-10/12 mobile:w-96 h-11 ${
                             error ? 'border-2 border-red-500' : ''
                         }`}
                     />

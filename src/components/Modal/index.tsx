@@ -34,7 +34,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title, width = '330px'
         >
             <div
                 ref={modalRef}
-                className={'bg-white rounded-md relative flex flex-col justify-center items-center shadow-lg'}
+                className='bg-white rounded-md relative flex flex-col justify-center items-center shadow-lg'
                 style={{ width: width, height: height, padding: padding }}
             >
                 <button className="absolute top-3 right-3" data-testid="close-modal" onClick={onClose}>

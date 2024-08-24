@@ -12,21 +12,14 @@ const config: Config = {
                 body: ['Space Mono', 'monospace'],
             },
             backgroundImage: {
-                'custom-gradient':
+                'blue-gradient':
                     'linear-gradient(to bottom, rgba(30, 66, 159, 1), rgba(26, 86, 219, 1), rgba(118, 169, 250, 1), rgba(142, 194, 250, 1))',
-            },
-            fontSize: {
-                '80px': '80px',
-            },
-            lineHeight: {
-                'custom-120px': '100px',
-                'custom-60px': '60px',
             },
             colors: {
                 'custom-blue': '#1A56DB',
             },
             screens: {
-                vsm: '420px',
+                mobile: '420px',
             },
         },
     },

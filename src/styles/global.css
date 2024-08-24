@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    @apply bg-custom-gradient;
+    @apply bg-blue-gradient;
 }
