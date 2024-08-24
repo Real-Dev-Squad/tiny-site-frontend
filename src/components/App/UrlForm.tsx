@@ -15,7 +15,7 @@ const ErrorMessage: React.FC<ErrorMessage> = ({ message }) => {
     );
 };
 
-interface InputSectionProps {
+interface UrlFormProps {
     url: string;
     error: string | null;
     clearError: () => void;
@@ -23,7 +23,7 @@ interface InputSectionProps {
     onSubmit: (url: string) => void;
 }
 
-const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, onSubmit, error, clearError }) => {
+const UrlForm: React.FC<UrlFormProps> = ({ url, setUrl, onSubmit, error, clearError }) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -42,24 +42,9 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, onSubmit, erro
     return (
         <form
             onSubmit={handleSubmit}
-            data-testid="input-section"
+            data-testid="url-form"
             className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3"
         >
-            <div className="pb-2 lg:pb-4">
-                <h1 className="text-3xl md:text-6xl xl:text-7xl sm:text-5xl text-center text-white font-semibold pb-2 lg:pb-4">
-                    Shorten Your URL
-                </h1>
-
-                <h3 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center text-white font-semibold">
-                    Perfect Links Every Time
-                </h3>
-            </div>
-
-            <p className="xl:text-xl text-base text-white">
-                Ready to shorten your URL? Enter your
-                <br className="sm:hidden" /> URL below
-            </p>
-
             <div className="flex flex-col items-center justify-center mt-5 sm:mt-6 w-full gap-5">
                 <div className="flex flex-col items-center justify-center rounded-lg w-full sm:w-2/4">
                     <input
@@ -90,4 +75,4 @@ const InputSection: React.FC<InputSectionProps> = ({ url, setUrl, onSubmit, erro
     );
 };
 
-export default InputSection;
+export default UrlForm;
