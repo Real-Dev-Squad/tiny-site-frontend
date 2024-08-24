@@ -3,14 +3,20 @@ import { FC, ReactNode } from 'react';
 
 import Navbar from '@/components/Navbar';
 
+type TClassNames = {
+    main: string;
+    container: string;
+};
+
 type LayoutProps = {
     title: string;
     children: ReactNode;
+    classNames?: Partial<TClassNames>;
 };
 
-const Layout: FC<LayoutProps> = ({ title, children }) => {
+const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
     return (
-        <>
+        <div className={classNames?.container}>
             <Head>
                 <title>{title}</title>
                 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -28,9 +34,11 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 <meta property="og:url" content="https://rds.realdevsquad.com/" />
                 <meta property="og:type" content="website" />
             </Head>
+
             <Navbar />
-            <main>{children}</main>
-        </>
+
+            <main className={classNames?.main}>{children}</main>
+        </div>
     );
 };
 

@@ -60,7 +60,12 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
     });
 };
 
-const useShortenUrlMutation = () => {
+type useShortenUrlMutationArgs = {
+    onSuccess?: (data: ShortenUrlResponse) => void;
+    onError?: (error: any) => void;
+};
+
+const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}) => {
     return useMutation(
         async ({ originalUrl, userData }: MutationParams) => {
             const response = await axios.post(
@@ -79,6 +84,8 @@ const useShortenUrlMutation = () => {
         },
         {
             retry: false,
+            onSuccess,
+            onError,
         }
     );
 };

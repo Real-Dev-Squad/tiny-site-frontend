@@ -2,7 +2,8 @@ import Link from 'next/link';
 import QRCode from 'qrcode.react';
 import React, { useState } from 'react';
 import { FaCheck, FaRegCopy } from 'react-icons/fa';
-import { FaDiscord, FaLinkedin, FaSquareWhatsapp, FaXTwitter } from 'react-icons/fa6';
+import { FaWhatsapp } from 'react-icons/fa6';
+import { FaDiscord, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { PiShareFatBold } from 'react-icons/pi';
 
@@ -29,6 +30,8 @@ interface OutputSectionProps {
 const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => {
     const [downloaded, setDownloaded] = useState(false);
     const [copied, setCopied] = useState(false);
+
+    const CopyActionIcon = copied ? FaCheck : FaRegCopy;
 
     if (!isLoaded) {
         return <OutputSectionShimmer data-testid="output-section-shimmer" />;
@@ -99,7 +102,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                     <div className="flex w-[30%] justify-end items-center rounded-lg">
                         <Link
                             type="button"
-                            className="p-[4px] sm:p-[10px] flex justify-center items-center"
+                            className="p-1 sm:p-2.5 flex justify-center items-center"
                             href={shortUrl}
                             target="_blank"
                             data-testid="share-button"
@@ -110,16 +113,12 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
 
                         <Button
                             type="button"
-                            className="p-[4px] sm:p-[10px] flex justify-center items-center"
+                            className="p-1 sm:p-2.5 flex justify-center items-center"
                             testId="copy-button"
                             onClick={handleCopyUrl}
                         >
                             <span className="transition-transform duration-700 ease-in-out transform">
-                                {copied ? (
-                                    <FaCheck className="text-lg sm:text-xl" />
-                                ) : (
-                                    <FaRegCopy className="text-lg sm:text-xl" />
-                                )}
+                                <CopyActionIcon />
                             </span>
                         </Button>
                     </div>
@@ -129,7 +128,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                     Or share via
                 </p>
                 <div className="flex space-x-4 justify-between w-full" data-testid="social-links">
-                    <a
+                    <Link
                         href={twitterShareUrl(shortUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -137,8 +136,8 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         data-testid="twitter-share"
                     >
                         <FaXTwitter className="text-5xl" />
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                         href={discordShareUrl(shortUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -146,8 +145,8 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         data-testid="discord-share"
                     >
                         <FaDiscord className="text-5xl" />
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                         href={linkedinShareUrl(shortUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -155,16 +154,16 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                         data-testid="linkedin-share"
                     >
                         <FaLinkedin className="text-5xl" />
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                         href={whatsappShareUrl(shortUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-custom-blue"
                         data-testid="whatsapp-share"
                     >
-                        <FaSquareWhatsapp className="text-5xl" />
-                    </a>
+                        <FaWhatsapp className="text-5xl" />
+                    </Link>
                 </div>
             </section>
         </>
