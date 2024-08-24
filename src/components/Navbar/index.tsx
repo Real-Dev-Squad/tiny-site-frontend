@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FaBars, FaRegUser,FaTimes } from 'react-icons/fa';
+import { FaBars, FaRegUser, FaTimes } from 'react-icons/fa';
 
 import LoginModal from '@/components/LoginModal';
 import useAuthenticated from '@/hooks/useAuthenticated';
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
         }
     };
 
-    const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
+    const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
     return (
         <nav className="p-4 h-[8vh] mt-3.5 flex items-center justify-between">

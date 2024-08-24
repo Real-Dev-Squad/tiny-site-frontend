@@ -38,13 +38,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 <MdOutlineKeyboardArrowRight className="text-3xl font-semibold" />
             </button>
             <div className="flex flex-col mt-4 items-center">
-                    <UserProfileButton
-                        isLoggedIn={isLoggedIn}
-                        firstName={firstName}
-                        lastName={lastName}
-                        handleProfileClick={handleProfileClick}
-                        setShowLoginModal={setShowLoginModal}
-                    />
+                <UserProfileButton
+                    isLoggedIn={isLoggedIn}
+                    firstName={firstName}
+                    lastName={lastName}
+                    handleProfileClick={handleProfileClick}
+                    setShowLoginModal={setShowLoginModal}
+                />
                 <ul className="flex flex-col gap-4 mt-6 w-full">
                     <li>
                         <Link
@@ -70,16 +70,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                             Dashboard
                         </Link>
                     </li>
-                        <li>
-                            <Link
-                                href={TINY_API_LOGOUT}
-                                className="gap-3 text-slate-500 w-full flex items-center text-base font-medium"
-                                onClick={toggleMobileMenu}
-                            >
-                                <MdOutlineLogout />
-                                Signout
-                            </Link>
-                        </li>
+                    <li>
+                        <Link
+                            href={TINY_API_LOGOUT}
+                            className="gap-3 text-slate-500 w-full flex items-center text-base font-medium"
+                            onClick={toggleMobileMenu}
+                        >
+                            <MdOutlineLogout />
+                            Signout
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>
