@@ -21,9 +21,10 @@ interface UrlFormProps {
     clearError: () => void;
     setUrl: (url: string) => void;
     onSubmit: (url: string) => void;
+    loading: boolean;
 }
 
-const UrlForm: React.FC<UrlFormProps> = ({ url, setUrl, onSubmit, error, clearError }) => {
+const UrlForm: React.FC<UrlFormProps> = ({ url, setUrl, onSubmit, error, clearError, loading }) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -67,7 +68,18 @@ const UrlForm: React.FC<UrlFormProps> = ({ url, setUrl, onSubmit, error, clearEr
                     testId="shorten-button"
                     className="bg-white text-black text-lg rounded-lg mt-2 h-10 w-32 flex items-center justify-center space-x-2 transform transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
                 >
-                    <FaLink />
+                    {loading ? (
+                        <div
+                            className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-gray-600"
+                            role="status"
+                        >
+                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                Loading...
+                            </span>
+                        </div>
+                    ) : (
+                        <FaLink />
+                    )}
                     <span className="font-medium">Shorten</span>
                 </Button>
             </div>

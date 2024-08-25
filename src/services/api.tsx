@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useMutation, useQuery } from 'react-query';
+import axios, { AxiosError } from 'axios';
+import { useMutation, UseMutationResult, useQuery } from 'react-query';
 
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
 import { UrlType } from '@/types/url.types';
@@ -11,13 +11,20 @@ interface ShortenUrlRequest {
     CreatedBy: string;
     UserId: number;
 }
+
+interface ShortenUrlResponse {
+    shortUrl: string;
+}
+
 interface MutationParams {
     originalUrl: string;
     userData: User;
 }
 
-interface ShortenUrlResponse {
-    shortUrl: string;
+export interface ApiError {
+    message: string;
+    statusCode: number;
+    details?: string;
 }
 
 const useAuthenticatedQuery = () => {
@@ -62,10 +69,14 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
 
 type useShortenUrlMutationArgs = {
     onSuccess?: (data: ShortenUrlResponse) => void;
-    onError?: (error: any) => void;
+    onError?: (error: AxiosError<ApiError>) => void;
 };
 
-const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}) => {
+const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}): UseMutationResult<
+    ShortenUrlResponse,
+    AxiosError<ApiError>,
+    MutationParams
+> => {
     return useMutation(
         async ({ originalUrl, userData }: MutationParams) => {
             const response = await axios.post(

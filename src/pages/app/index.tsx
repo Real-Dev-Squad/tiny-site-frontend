@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import HomeText from '@/components/App/HomeText';
@@ -8,8 +9,7 @@ import LoginModal from '@/components/LoginModal';
 import Modal from '@/components/Modal';
 import { TINY_SITE } from '@/constants/url';
 import useAuthenticated from '@/hooks/useAuthenticated';
-import { useShortenUrlMutation } from '@/services/api';
-import { ErrorResponse } from '@/types/url.types';
+import { ApiError, useShortenUrlMutation } from '@/services/api';
 import { formatUrl } from '@/utils/formatUrl';
 import validateUrl from '@/utils/validateUrl';
 
@@ -22,20 +22,20 @@ const App = () => {
 
     const { isLoggedIn, userData } = useAuthenticated();
 
-    const shortenUrlMutation = useShortenUrlMutation({
-        onSuccess: (res) => {
+    const mutation = useShortenUrlMutation({
+        onSuccess: (res: { shortUrl: string }) => {
             setError(null);
             const fullShortUrl = `${TINY_SITE}/${res.shortUrl}`;
             setShortUrl(fullShortUrl);
             setShowOutputModal(true);
             localStorage.removeItem('url');
         },
-        onError: (error: ErrorResponse) => {
-            if (error.response && error.response.data && error.response.data.message) {
+        onError: (error: AxiosError<ApiError>) => {
+            if (error.response?.data?.message) {
                 setError(error.response.data.message);
-                return;
+            } else {
+                setError('An unexpected error occurred');
             }
-            setError('An unexpected error occurred');
         },
     });
 
@@ -61,7 +61,7 @@ const App = () => {
         }
 
         const formattedUrl = formatUrl(url);
-        shortenUrlMutation.mutate({ originalUrl: formattedUrl, userData });
+        mutation.mutate({ originalUrl: formattedUrl, userData });
     };
 
     const clearError = () => setError(null);
@@ -86,6 +86,7 @@ const App = () => {
                     setUrl={setUrl}
                     clearError={clearError}
                     onSubmit={createShortenedUrl}
+                    loading={mutation.status === 'loading'}
                 />
             </div>
 
