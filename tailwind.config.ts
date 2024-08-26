@@ -18,9 +18,6 @@ const config: Config = {
             colors: {
                 'custom-blue': '#1A56DB',
             },
-            screens: {
-                vsm: '420px',
-            },
         },
     },
     plugins: [],

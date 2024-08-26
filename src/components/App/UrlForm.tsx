@@ -47,7 +47,7 @@ const UrlForm: React.FC<UrlFormProps> = ({ url, setUrl, onSubmit, error, clearEr
             className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3"
         >
             <div className="flex flex-col items-center justify-center mt-5 sm:mt-6 w-full gap-5">
-                <div className="flex flex-col items-center justify-center rounded-lg w-full sm:w-2/4">
+                <div className="flex flex-col items-center justify-center rounded-lg w-full">
                     <input
                         required
                         name="URL"
@@ -55,7 +55,7 @@ const UrlForm: React.FC<UrlFormProps> = ({ url, setUrl, onSubmit, error, clearEr
                         value={url}
                         placeholder="Enter the URL"
                         onChange={handleUrlChange}
-                        className={`text-black p-5 rounded-lg focus:outline-none w-7/12 mobile:w-96 h-11 ${
+                        className={`text-black p-5 rounded-lg focus:outline-none w-7/12 sm:w-72 lg:w-96 h-11 ${
                             error ? 'border-2 border-red-500' : ''
                         }`}
                     />
