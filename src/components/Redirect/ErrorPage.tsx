@@ -9,7 +9,7 @@ const ErrorPage = () => {
     };
 
     return (
-        <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-custom-gradient text-white p-4">
+        <section className="w-screen min-h-screen flex flex-col items-center justify-center bg-blue-gradient text-white p-4">
             <CiWarning className="text-[6rem] font-bold" />
             <p className="text-4xl font-bold">Oops!</p>
             <p className="text-lg mt-2 text-center">Something went wrong. Please try again.</p>

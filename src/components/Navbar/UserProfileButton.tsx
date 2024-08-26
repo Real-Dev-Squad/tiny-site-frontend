@@ -11,6 +11,32 @@ interface UserProfileButtonProps {
     setShowLoginModal: (value: boolean) => void;
 }
 
+const NotLoggedInButton = ({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) => (
+    <Button
+        className="flex items-center space-x-2 text-white px-4 py-2 rounded-md cursor-pointer"
+        onClick={() => setShowLoginModal(true)}
+    >
+        <FaRegUser className="mr-2" />
+        Sign in
+    </Button>
+);
+
+const LoggedInButton = ({
+    firstName,
+    lastName,
+    handleProfileClick,
+}: {
+    firstName: string;
+    lastName: string;
+    handleProfileClick: () => void;
+}) => (
+    <Button type="button" onClick={handleProfileClick} className="text-white focus:outline-none">
+        <div className="flex items-center space-x-1">
+            <ProfileIcon firstName={firstName} lastName={lastName} />
+        </div>
+    </Button>
+);
+
 const UserProfileButton = ({
     isLoggedIn,
     firstName,
@@ -18,21 +44,10 @@ const UserProfileButton = ({
     handleProfileClick,
     setShowLoginModal,
 }: UserProfileButtonProps) => {
-    return isLoggedIn ? (
-        <Button type="button" onClick={handleProfileClick} className="text-white focus:outline-none">
-            <div className="flex items-center space-x-1">
-                <ProfileIcon firstName={firstName} lastName={lastName} />
-            </div>
-        </Button>
-    ) : (
-        <Button
-            className="flex items-center space-x-2 text-white px-4 py-2 rounded-md cursor-pointer"
-            onClick={() => setShowLoginModal(true)}
-        >
-            <FaRegUser className="mr-2" />
-            Sign in
-        </Button>
-    );
+    if (!isLoggedIn) {
+        return <NotLoggedInButton setShowLoginModal={setShowLoginModal} />;
+    }
+    return <LoggedInButton firstName={firstName} lastName={lastName} handleProfileClick={handleProfileClick} />;
 };
 
 export default UserProfileButton;

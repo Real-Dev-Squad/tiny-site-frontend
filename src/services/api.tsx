@@ -62,10 +62,10 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
     });
 };
 
-type useShortenUrlMutationArgs = {
+interface useShortenUrlMutationArgs {
     onSuccess?: (data: ShortenUrlResponse) => void;
     onError?: (error: AxiosError<ApiError>) => void;
-};
+}
 
 const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}): UseMutationResult<
     ShortenUrlResponse,

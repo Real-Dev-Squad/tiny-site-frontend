@@ -25,6 +25,16 @@ const Navbar: React.FC = () => {
 
     const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
+    const profileButton = !isLoggedIn ? (
+        <button onClick={handleProfileClick} className="text-white focus:outline-none sm:hidden z-50">
+            <FaRegUser size={24} />
+        </button>
+    ) : (
+        <button onClick={toggleMobileMenu} className="text-white focus:outline-none sm:hidden z-50">
+            {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+    );
+
     return (
         <nav className="p-4 h-[8vh] mt-3.5 flex items-center justify-between">
             <Link href="/" className="flex items-center">
@@ -32,15 +42,7 @@ const Navbar: React.FC = () => {
                 <span className="text-white text-2xl font-bold">RDS</span>
             </Link>
             <div className="flex items-center">
-                {!isLoggedIn ? (
-                    <button onClick={handleProfileClick} className="text-white focus:outline-none sm:hidden z-50">
-                        <FaRegUser size={24} />
-                    </button>
-                ) : (
-                    <button onClick={toggleMobileMenu} className="text-white focus:outline-none sm:hidden z-50">
-                        {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-                    </button>
-                )}
+                {profileButton}
                 <DesktopMenu
                     isLoading={isLoading}
                     isLoggedIn={isLoggedIn}
