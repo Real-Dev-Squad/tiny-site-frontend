@@ -57,7 +57,6 @@ const UrlListItem: React.FC<UrlListItemProps> = ({ url, copyButtonHandler }) => 
             </div>
 
             <hr className="my-3 border-t border-gray-300" />
-
             <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500 flex items-center gap-2">
                     <LiaStopwatchSolid className="text-lg" />
@@ -75,5 +74,4 @@ const UrlListItem: React.FC<UrlListItemProps> = ({ url, copyButtonHandler }) => 
         </li>
     );
 };
-
 export default UrlListItem;

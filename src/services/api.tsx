@@ -4,7 +4,6 @@ import { useMutation, UseMutationResult, useQuery } from 'react-query';
 import { TINY_API_URL, TINY_API_URL_DETAIL } from '@/constants/url';
 import { UrlType } from '@/types/url.types';
 import { User } from '@/types/user.types';
-
 interface ShortenUrlRequest {
     OriginalUrl: string;
     Comment: string;
@@ -41,7 +40,6 @@ const useAuthenticatedQuery = () => {
         staleTime: 60 * 60 * 1000,
     });
 };
-
 const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolean }) => {
     return useQuery({
         queryKey: ['originalUrl', shortUrlCode],
@@ -50,15 +48,12 @@ const useGetOriginalUrlQuery = (shortUrlCode: string, options: { enabled: boolea
         retry: false,
     });
 };
-
 const getUrlsApi = async (): Promise<{ message: string; urls: UrlType[] }> => {
     const { data } = await axios.get(`${TINY_API_URL}/urls/self`, {
         withCredentials: true,
     });
-
     return data;
 };
-
 const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
     return useQuery({
         queryKey: ['urls'],
@@ -67,10 +62,10 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
     });
 };
 
-type useShortenUrlMutationArgs = {
+interface useShortenUrlMutationArgs {
     onSuccess?: (data: ShortenUrlResponse) => void;
     onError?: (error: AxiosError<ApiError>) => void;
-};
+}
 
 const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}): UseMutationResult<
     ShortenUrlResponse,
@@ -100,7 +95,6 @@ const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs
         }
     );
 };
-
 const deleteUrlApi = async ({ id, userId }: { id: number; userId: number }) => {
     const { data } = await axios.delete(`${TINY_API_URL}/urls/${id}`, {
         withCredentials: true,
@@ -108,5 +102,4 @@ const deleteUrlApi = async ({ id, userId }: { id: number; userId: number }) => {
     });
     return data;
 };
-
 export { deleteUrlApi, useAuthenticatedQuery, useGetOriginalUrlQuery, useGetUrlsQuery, useShortenUrlMutation };

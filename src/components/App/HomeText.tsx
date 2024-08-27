@@ -11,7 +11,7 @@ const HomeText: React.FC = () => {
                 Perfect Links Every Time
             </h3>
 
-            <p className="xl:text-xl text-base text-white mt-4">
+            <p className="xl:text-xl text-base text-white mt-4 text-center">
                 Ready to shorten your URL? Enter your
                 <br className="sm:hidden" /> URL below
             </p>
