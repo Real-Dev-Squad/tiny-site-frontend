@@ -34,7 +34,7 @@ describe('UrlListItem', () => {
 
     beforeEach(() => {
         (useAuthenticated as jest.Mock).mockReturnValue({
-            userData: { data: { id: 'user123' } },
+            userData: { data: { id: 123 } },
         });
     });
 
@@ -67,11 +67,11 @@ describe('UrlListItem', () => {
                 <UrlListItem url={url} copyButtonHandler={copyButtonHandler} />
             </QueryClientProvider>
         );
-        const deleteButton = screen.getByTestId('delete-button');
-        fireEvent.click(deleteButton);
+        const deleteButtons = screen.getAllByTestId('delete-button');
+        fireEvent.click(deleteButtons[0]);
 
         await waitFor(() => {
-            expect(deleteUrlApi).toHaveBeenCalledWith({ id: url.id, userId: 'user123' });
+            expect(deleteUrlApi).toHaveBeenCalledWith({ id: url.id, userId: 123 });
         });
     });
 
@@ -84,8 +84,8 @@ describe('UrlListItem', () => {
                 <UrlListItem url={url} copyButtonHandler={copyButtonHandler} />
             </QueryClientProvider>
         );
-        const deleteButton = screen.getByTestId('delete-button');
-        fireEvent.click(deleteButton);
+        const deleteButtons = screen.getAllByTestId('delete-button');
+        fireEvent.click(deleteButtons[0]);
 
         await waitFor(() => {
             expect(alertMock).toHaveBeenCalledWith('Error deleting URL');

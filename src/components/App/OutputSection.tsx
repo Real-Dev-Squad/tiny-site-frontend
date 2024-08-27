@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 import { FaCheck, FaRegCopy } from 'react-icons/fa';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { FaDiscord, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
-import { FaWhatsapp } from 'react-icons/fa6';
-import { FaDiscord, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { PiShareFatBold } from 'react-icons/pi';
 

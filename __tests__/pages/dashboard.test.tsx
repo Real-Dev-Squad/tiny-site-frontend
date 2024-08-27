@@ -109,7 +109,8 @@ describe('Dashboard', () => {
                 <Dashboard />
             </QueryClientProvider>
         );
-        expect(screen.getByText('Oops! We couldn\'t find any URLs.')).toBeInTheDocument();
+        // eslint-disable-next-line quotes
+        expect(screen.getByText("Oops! We couldn't find any URLs.")).toBeInTheDocument();
         expect(screen.getByText('Create a URL')).toBeInTheDocument();
     });
 

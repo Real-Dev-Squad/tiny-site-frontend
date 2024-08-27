@@ -22,7 +22,11 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ isLoading, onDelete 
         }`}
         testId="delete-button"
     >
-        {!isLoading ? <TbTrash className="w-5 h-5" /> : <Loader className="w-5 h-5 text-gray-400" />}
+        {!isLoading ? (
+            <TbTrash className="w-5 h-5" />
+        ) : (
+            <Loader className="w-5 h-5 text-gray-400" data-testid="loader" />
+        )}
     </Button>
 );
 

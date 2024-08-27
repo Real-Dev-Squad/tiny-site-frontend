@@ -1,97 +1,80 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import InputSection from '@/components/App/InputSection';
+import UrlForm from '@/components/App/UrlForm';
 
-describe('InputSection component', () => {
+describe('UrlForm component', () => {
     const testUrl = 'https://stackoverflow.com/questions/26944762/when-to-use-chore-as-type-of-commit-message';
 
-    it('renders InputSection component correctly', () => {
+    it('renders UrlForm component correctly', () => {
         const mockSetUrl = jest.fn();
-        const mockHandleUrl = jest.fn();
+        const mockOnSubmit = jest.fn();
         const mockClearError = jest.fn();
         render(
-            <InputSection
+            <UrlForm
                 url={testUrl}
                 setUrl={mockSetUrl}
-                handleUrl={mockHandleUrl}
+                onSubmit={mockOnSubmit}
                 error={null}
                 clearError={mockClearError}
+                loading={false}
             />
         );
-        expect(screen.getByTestId('url-input')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Enter the URL')).toBeInTheDocument();
         expect(screen.getByTestId('shorten-button')).toBeInTheDocument();
     });
 
     it('calls setUrl function on input change and clearError', () => {
         const mockSetUrl = jest.fn();
-        const mockHandleUrl = jest.fn();
+        const mockOnSubmit = jest.fn();
         const mockClearError = jest.fn();
         render(
-            <InputSection
+            <UrlForm
                 url={testUrl}
                 setUrl={mockSetUrl}
-                handleUrl={mockHandleUrl}
+                onSubmit={mockOnSubmit}
                 error={null}
                 clearError={mockClearError}
+                loading={false}
             />
         );
-        const inputElement = screen.getByTestId('url-input');
+        const inputElement = screen.getByPlaceholderText('Enter the URL');
         fireEvent.change(inputElement, { target: { value: 'https://realdevsquad.com' } });
         expect(mockSetUrl).toHaveBeenCalledWith('https://realdevsquad.com');
         expect(mockClearError).toHaveBeenCalled();
     });
 
-    it('calls handleUrl function on button click', () => {
+    it('calls onSubmit function on button click', () => {
         const mockSetUrl = jest.fn();
-        const mockHandleUrl = jest.fn();
+        const mockOnSubmit = jest.fn();
         const mockClearError = jest.fn();
         render(
-            <InputSection
+            <UrlForm
                 url={testUrl}
                 setUrl={mockSetUrl}
-                handleUrl={mockHandleUrl}
+                onSubmit={mockOnSubmit}
                 error={null}
                 clearError={mockClearError}
+                loading={false}
             />
         );
         const generateButton = screen.getByTestId('shorten-button');
         fireEvent.click(generateButton);
-        expect(mockHandleUrl).toHaveBeenCalled();
-    });
-
-    it('renders the heading correctly', () => {
-        render(
-            <InputSection url={testUrl} setUrl={jest.fn()} handleUrl={jest.fn()} error={null} clearError={jest.fn()} />
-        );
-        expect(screen.getByTestId('heading')).toHaveTextContent('Shorten Your URL');
-    });
-
-    it('renders the subheading correctly', () => {
-        render(
-            <InputSection url={testUrl} setUrl={jest.fn()} handleUrl={jest.fn()} error={null} clearError={jest.fn()} />
-        );
-        expect(screen.getByTestId('subheading')).toHaveTextContent('Perfect Links Every Time');
-    });
-
-    it('renders the paragraph text correctly', () => {
-        render(
-            <InputSection url={testUrl} setUrl={jest.fn()} handleUrl={jest.fn()} error={null} clearError={jest.fn()} />
-        );
-        expect(screen.getByTestId('paragraph')).toHaveTextContent(/Ready to shorten your URL\? Enter your/i);
+        expect(mockOnSubmit).toHaveBeenCalledWith(testUrl);
     });
 
     it('renders error message if error prop is passed', () => {
         const errorMessage = 'Enter a valid URL';
         render(
-            <InputSection
+            <UrlForm
                 url={testUrl}
                 setUrl={jest.fn()}
-                handleUrl={jest.fn()}
+                onSubmit={jest.fn()}
                 error={errorMessage}
                 clearError={jest.fn()}
+                loading={false}
             />
         );
-        const errorElement = screen.getByTestId('error-message');
+        const errorElement = screen.getByText(errorMessage);
         expect(errorElement).toBeInTheDocument();
         expect(errorElement).toHaveTextContent(errorMessage);
     });
