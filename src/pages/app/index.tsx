@@ -1,9 +1,8 @@
 import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import HomeText from '@/components/App/HomeText';
 import OutputSection from '@/components/App/OutputSection';
-import UrlForm from '@/components/App/UrlForm';
+import ShortenUrlForm from '@/components/App/ShortenUrlForm';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import Modal from '@/components/Modal';
@@ -79,8 +78,7 @@ const App = () => {
             classNames={{ container: 'h-screen flex flex-col', main: 'flex-1 grid place-items-center' }}
         >
             <div className="-mt-44 w-full">
-                <HomeText />
-                <UrlForm
+                <ShortenUrlForm
                     url={url}
                     error={error}
                     setUrl={setUrl}

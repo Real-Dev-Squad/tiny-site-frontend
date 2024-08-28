@@ -5,4 +5,5 @@ export interface ButtonProps {
     children: React.ReactNode;
     type?: 'button' | 'submit' | 'reset';
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    loading?: boolean;
 }

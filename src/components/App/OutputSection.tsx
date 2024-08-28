@@ -41,23 +41,23 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
 
     const handleDownload = () => {
         const canvas = document.getElementById('qr-code') as HTMLCanvasElement;
-        if (canvas) {
-            const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-            const downloadLink = document.createElement('a');
-            downloadLink.href = pngUrl;
-            downloadLink.download = `${shortUrl.split('/').pop()}.png`;
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-            setDownloaded(true);
-        }
+        if (!canvas) return;
+
+        const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = `${shortUrl.split('/').pop()}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        setDownloaded(true);
     };
 
     const handleCopyUrl = () => {
-        if (shortUrl) {
-            navigator.clipboard.writeText(shortUrl);
-            setCopied(true);
-        }
+        if (!shortUrl) return;
+
+        navigator.clipboard.writeText(shortUrl);
+        setCopied(true);
     };
 
     return (
