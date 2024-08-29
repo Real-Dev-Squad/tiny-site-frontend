@@ -52,10 +52,10 @@ const App = () => {
             return;
         }
 
-        const validationError = validateUrl(url);
+        const validationResult = validateUrl(url);
 
-        if (validationError) {
-            setError(validationError);
+        if (!validationResult.isValid) {
+            setError(validationResult.errorMessage);
             return;
         }
 

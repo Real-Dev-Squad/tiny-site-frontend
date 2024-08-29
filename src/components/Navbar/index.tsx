@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
     return (
         <nav className="p-4 h-[8vh] mt-3.5 flex items-center justify-between">
             <Link href="/" className="flex items-center">
-                <Image src="/rds.png" alt="logo" width={30} height={30} className="mr-2 w-30" />
+                <Image src="/rds.png" alt="logo" width={40} height={40} className="mr-2 w-30" />
                 <span className="text-white text-2xl font-bold">RDS</span>
             </Link>
             <div className="flex items-center">
