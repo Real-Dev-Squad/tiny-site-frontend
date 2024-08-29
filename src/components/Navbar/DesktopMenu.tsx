@@ -37,7 +37,10 @@ const ProfileButton: React.FC<{
             />
             {showSignOutButton && (
                 <div className="absolute mt-2 bg-white py-1 px-1.5 rounded-lg shadow-lg w-24 h-8 right-1">
-                    <Link href={TINY_API_LOGOUT} className="text-black flex w-full h-full gap-2 text-sm font-medium">
+                    <Link
+                        href={TINY_API_LOGOUT}
+                        className="text-black flex items-center w-full h-full gap-2 text-sm font-medium whitespace-nowrap"
+                    >
                         Sign Out
                         <MdOutlineLogout className="h-5 w-5" />
                     </Link>
