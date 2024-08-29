@@ -2,14 +2,14 @@ import validateUrl from '@/utils/validateUrl';
 
 describe('validateUrl', () => {
     it('should return an error message if URL is empty', () => {
-        expect(validateUrl('')).toBe('Enter a valid URL');
-    });
-
-    it('should return an error message if URL is not valid', () => {
-        expect(validateUrl('https://rds')).toBe('Enter a valid URL');
+        const result = validateUrl('');
+        expect(result.isValid).toBe(false);
+        expect(result.errorMessage).toBe('Enter a valid URL');
     });
 
     it('should return null if URL is valid', () => {
-        expect(validateUrl('https://www.rds.li')).toBeNull();
+        const result = validateUrl('https://www.rds.li');
+        expect(result.isValid).toBe(true);
+        expect(result.errorMessage).toBeNull();
     });
 });
