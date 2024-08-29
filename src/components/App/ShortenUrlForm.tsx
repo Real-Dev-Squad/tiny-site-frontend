@@ -16,7 +16,7 @@ interface ShortenUrlFormProps {
     loading: boolean;
 }
 
-const HomeText: React.FC = () => {
+export const HomeText: React.FC = () => {
     return (
         <div className="pb-2 lg:pb-4 flex flex-col items-center gap-2">
             <h1 className="text-3xl md:text-6xl xl:text-7xl sm:text-5xl text-center text-white font-semibold pb-2 lg:pb-4">
