@@ -131,13 +131,12 @@ describe('OutputSection component', () => {
     });
 
     it('updates the button text on download click', async () => {
-        const handleCreateNew = jest.fn();
         render(
             <OutputSection
                 shortUrl="https://example.com/short-url"
                 originalUrl="https://example.com/original-url"
                 isLoaded={true}
-                handleCreateNew={handleCreateNew}
+                handleCreateNew={mockHandleCreateNew}
             />
         );
         const downloadButton = screen.getByTestId('download-button');
@@ -145,5 +144,54 @@ describe('OutputSection component', () => {
 
         const updatedText = await screen.findByText('Downloaded');
         expect(updatedText).toBeInTheDocument();
+    });
+
+    it('triggers the download process correctly', () => {
+        render(
+            <OutputSection
+                shortUrl={shortUrl}
+                originalUrl={originalUrl}
+                isLoaded={true}
+                handleCreateNew={mockHandleCreateNew}
+            />
+        );
+
+        const downloadButton = screen.getByTestId('download-button');
+        fireEvent.click(downloadButton);
+        expect(HTMLCanvasElement.prototype.toDataURL).toHaveBeenCalled();
+    });
+
+    it('does nothing when canvas is not found during download', () => {
+        document.getElementById = jest.fn().mockReturnValue(null);
+
+        render(
+            <OutputSection
+                shortUrl={shortUrl}
+                originalUrl={originalUrl}
+                isLoaded={true}
+                handleCreateNew={mockHandleCreateNew}
+            />
+        );
+
+        const downloadButton = screen.getByTestId('download-button');
+        fireEvent.click(downloadButton);
+
+        expect(HTMLCanvasElement.prototype.toDataURL).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when shortUrl is empty during copy', () => {
+        render(
+            <OutputSection
+                shortUrl=""
+                originalUrl={originalUrl}
+                isLoaded={true}
+                handleCreateNew={mockHandleCreateNew}
+            />
+        );
+
+        const copyButton = screen.getByTestId('copy-button');
+        fireEvent.click(copyButton);
+
+        expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
     });
 });

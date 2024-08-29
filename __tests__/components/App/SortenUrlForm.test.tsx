@@ -62,6 +62,28 @@ describe('UrlForm component', () => {
         expect(mockOnSubmit).toHaveBeenCalledWith(testUrl);
     });
 
+    it('does not call onSubmit function if URL is empty', () => {
+        const mockSetUrl = jest.fn();
+        const mockOnSubmit = jest.fn();
+        const mockClearError = jest.fn();
+
+        render(
+            <ShortenUrlForm
+                url=""
+                setUrl={mockSetUrl}
+                onSubmit={mockOnSubmit}
+                error={null}
+                clearError={mockClearError}
+                loading={false}
+            />
+        );
+
+        const generateButton = screen.getByTestId('shorten-button');
+        fireEvent.click(generateButton);
+
+        expect(mockOnSubmit).not.toHaveBeenCalled();
+    });
+
     it('renders error message if error prop is passed', () => {
         const errorMessage = 'Enter a valid URL';
         render(
