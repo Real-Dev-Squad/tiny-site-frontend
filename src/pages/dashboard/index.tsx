@@ -79,7 +79,7 @@ const Dashboard = () => {
         <Layout title="Dashboard | URL Shortener">
             <DashboardLayout remainingUrls={urls.length}>
                 <div className="w-full flex flex-col items-center text-white min-h-[86vh]">
-                    <ul className="w-full space-y-4">
+                    <ul className="w-full space-y-4 pb-5">
                         {urls.map((url) => (
                             <UrlListItem key={url.shortUrl} url={url} copyButtonHandler={copyButtonHandler} />
                         ))}
