@@ -69,7 +69,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 value={shortUrl}
                 size={150}
                 imageSettings={{
-                    src: './rds.png',
+                    src: '/rds.png',
                     height: 35,
                     width: 35,
                     excavate: true,
