@@ -7,41 +7,26 @@ import UserProfileButton from '@/components/Navbar/UserProfileButton';
 import UserLoginShimmer from '@/components/ShimmerEffect/UserLoginShimmer';
 import { TINY_API_LOGOUT } from '@/constants/url';
 
-interface DesktopMenuProps {
+const ProfileButton: React.FC<{
     isLoading: boolean;
     isLoggedIn: boolean;
     firstName: string;
     lastName: string;
     handleProfileClick: () => void;
     setShowLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const DesktopMenu: React.FC<DesktopMenuProps> = ({
-    isLoading,
-    isLoggedIn,
-    firstName,
-    lastName,
-    handleProfileClick,
-    setShowLoginModal,
-}) => {
+}> = ({ isLoading, isLoggedIn, firstName, lastName, handleProfileClick, setShowLoginModal }) => {
     const [showSignOutButton, setShowSignOutButton] = useState<boolean>(false);
-    const router = useRouter();
-
-    const isHomePage = router.pathname === '/';
-    const isDashboardPage = router.pathname === '/dashboard';
 
     const handleProfileButtonClick = () => {
         handleProfileClick();
-        toggleSignOutButton();
+        setShowSignOutButton((prev) => !prev);
     };
 
-    const toggleSignOutButton = () => {
-        setShowSignOutButton(!showSignOutButton);
-    };
+    if (isLoading) {
+        return <UserLoginShimmer />;
+    }
 
-    const userProfileSection = isLoading ? (
-        <UserLoginShimmer />
-    ) : (
+    return (
         <>
             <UserProfileButton
                 isLoggedIn={isLoggedIn}
@@ -60,6 +45,29 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({
             )}
         </>
     );
+};
+
+interface DesktopMenuProps {
+    isLoading: boolean;
+    isLoggedIn: boolean;
+    firstName: string;
+    lastName: string;
+    handleProfileClick: () => void;
+    setShowLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const DesktopMenu: React.FC<DesktopMenuProps> = ({
+    isLoading,
+    isLoggedIn,
+    firstName,
+    lastName,
+    handleProfileClick,
+    setShowLoginModal,
+}) => {
+    const router = useRouter();
+
+    const isHomePage = router.pathname === '/';
+    const isDashboardPage = router.pathname === '/dashboard';
 
     return (
         <ul className="hidden sm:flex gap-14 mr-14 items-center">
@@ -73,7 +81,16 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({
                     Dashboard
                 </Link>
             </li>
-            <li className="relative group">{userProfileSection}</li>
+            <li className="relative group">
+                <ProfileButton
+                    isLoading={isLoading}
+                    isLoggedIn={isLoggedIn}
+                    firstName={firstName}
+                    lastName={lastName}
+                    handleProfileClick={handleProfileClick}
+                    setShowLoginModal={setShowLoginModal}
+                />
+            </li>
         </ul>
     );
 };

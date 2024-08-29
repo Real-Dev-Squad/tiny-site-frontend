@@ -3,16 +3,16 @@ import { FC, ReactNode } from 'react';
 
 import Navbar from '@/components/Navbar';
 
-type TClassNames = {
+interface TClassNames {
     main: string;
     container: string;
-};
+}
 
-type LayoutProps = {
+interface LayoutProps {
     title: string;
     children: ReactNode;
     classNames?: Partial<TClassNames>;
-};
+}
 
 const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
     return (
