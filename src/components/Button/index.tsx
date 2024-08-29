@@ -7,7 +7,7 @@ import { Loader } from '../Loader';
 const Button: React.FC<ButtonProps> = ({ type, className, onClick, children, disabled, testId, loading }) => {
     return (
         <button data-testid={testId} type={type} className={className} onClick={onClick} disabled={disabled || loading}>
-            {loading && <Loader className="inline-block w-5 h-5" />}
+            {loading && <Loader data-testid="loader" className="inline-block w-5 h-5" />}
             {children}
         </button>
     );

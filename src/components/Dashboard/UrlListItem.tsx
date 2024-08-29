@@ -13,7 +13,7 @@ import formatDate from '@/utils/formatDate';
 
 import Button from '../Button';
 
-const DeleteButton: React.FC<{ isLoading: boolean; onDelete: () => void }> = ({ isLoading, onDelete }) => (
+export const DeleteButton: React.FC<{ isLoading: boolean; onDelete: () => void }> = ({ isLoading, onDelete }) => (
     <Button
         loading={isLoading}
         onClick={onDelete}
@@ -26,7 +26,7 @@ const DeleteButton: React.FC<{ isLoading: boolean; onDelete: () => void }> = ({ 
     </Button>
 );
 
-const CopyButton: React.FC<{ onCopy: () => void }> = ({ onCopy }) => (
+export const CopyButton: React.FC<{ onCopy: () => void }> = ({ onCopy }) => (
     <Button
         className="rounded-full p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
         onClick={onCopy}
@@ -79,7 +79,11 @@ const UrlListItem: React.FC<UrlListItemProps> = ({ url, copyButtonHandler }) => 
                 </div>
                 <div className="hidden sm:flex flex-shrink-0 gap-2 ml-auto">
                     <CopyButton onCopy={handleCopy} />
-                    <DeleteButton isLoading={deleteMutation.isLoading} onDelete={handleDelete} />
+                    <DeleteButton
+                        isLoading={deleteMutation.isLoading}
+                        onDelete={handleDelete}
+                        data-testid="delete-button"
+                    />
                 </div>
             </div>
 

@@ -1,10 +1,15 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useAuthenticated from '@/hooks/useAuthenticated';
 import App from '@/pages/app';
 
 import { userData } from '../../fixtures/users';
+
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(),
+}));
 
 jest.mock('../../src/hooks/useAuthenticated', () => ({
     __esModule: true,
@@ -14,15 +19,21 @@ jest.mock('../../src/hooks/useAuthenticated', () => ({
 describe('App Component', () => {
     const mockWriteText = jest.fn();
     const mockUseAuthenticated = useAuthenticated as jest.Mock;
+    const mockUseRouter = useRouter as jest.Mock;
     global.navigator.clipboard = { writeText: mockWriteText };
 
     const queryClient = new QueryClient();
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     test('renders the App component with input box and button', () => {
         mockUseAuthenticated.mockReturnValue({
             isLoggedIn: true,
             userData: userData.data,
         });
+        mockUseRouter.mockReturnValue({});
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -36,6 +47,8 @@ describe('App Component', () => {
     });
 
     test('updates input box value when text is entered', () => {
+        mockUseRouter.mockReturnValue({});
+
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -47,6 +60,7 @@ describe('App Component', () => {
     });
 
     test('shows error toast when invalid URL is entered', async () => {
+        mockUseRouter.mockReturnValue({});
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -65,6 +79,7 @@ describe('App Component', () => {
             isLoggedIn: false,
             userData: undefined,
         });
+        mockUseRouter.mockReturnValue({});
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -83,6 +98,8 @@ describe('App Component', () => {
             isLoggedIn: true,
             userData: userData.data,
         });
+        mockUseRouter.mockReturnValue({});
+
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -101,6 +118,8 @@ describe('App Component', () => {
             isLoggedIn: false,
             userData: undefined,
         });
+        mockUseRouter.mockReturnValue({});
+
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -110,7 +129,7 @@ describe('App Component', () => {
         const generateButton = screen.getByText('Shorten');
         fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
         fireEvent.click(generateButton);
-        const closeButton = await screen.findByTestId('close-login-modal');
+        const closeButton = await screen.findByTestId('close-modal');
         fireEvent.click(closeButton);
         const loginModal = screen.queryByText('Log in to generate short links');
         expect(loginModal).not.toBeInTheDocument();
@@ -121,6 +140,8 @@ describe('App Component', () => {
             isLoggedIn: true,
             userData: userData.data,
         });
+        mockUseRouter.mockReturnValue({});
+
         render(
             <QueryClientProvider client={queryClient}>
                 <App />
@@ -133,25 +154,5 @@ describe('App Component', () => {
         const copyButton = await screen.findByTestId('copy-button');
         fireEvent.click(copyButton);
         await waitFor(() => expect(mockWriteText).toBeTruthy());
-    });
-
-    test('shows input section when user clicks on create new button', async () => {
-        mockUseAuthenticated.mockReturnValue({
-            isLoggedIn: true,
-            userData: userData.data,
-        });
-        render(
-            <QueryClientProvider client={queryClient}>
-                <App />
-            </QueryClientProvider>
-        );
-        const urlInput = screen.getByPlaceholderText('Enter the URL');
-        const generateButton = screen.getByText('Shorten');
-        fireEvent.change(urlInput, { target: { value: 'https://www.longurl.com' } });
-        fireEvent.click(generateButton);
-        const createNewButton = await screen.findByTestId('create-new-button');
-        fireEvent.click(createNewButton);
-        const inputSection = screen.queryByTestId('input-section');
-        expect(inputSection).toBeInTheDocument();
     });
 });

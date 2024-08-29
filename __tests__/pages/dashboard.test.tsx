@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -13,6 +14,10 @@ jest.mock('../../src/services/api', () => ({
     useGetUrlsQuery: jest.fn(),
 }));
 
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(),
+}));
+
 jest.mock('../../src/hooks/useAuthenticated', () => ({
     __esModule: true,
     default: jest.fn(),
@@ -23,6 +28,7 @@ describe('Dashboard', () => {
     const mockUseAuthenticated = useAuthenticated as jest.Mock;
     const mockUseGetUrlsQuery = useGetUrlsQuery as jest.Mock;
     const mockCopyToClipboard = jest.fn();
+    const mockUseRouter = useRouter as jest.Mock;
 
     beforeAll(() => {
         Object.assign(navigator, {
@@ -37,6 +43,7 @@ describe('Dashboard', () => {
             isLoggedIn: true,
             userData: userData.data,
         });
+        mockUseRouter.mockReturnValue({});
         mockUseGetUrlsQuery.mockReturnValue({
             data: undefined,
             isLoading: true,
@@ -71,6 +78,7 @@ describe('Dashboard', () => {
             isLoggedIn: false,
             userData: undefined,
         });
+        mockUseRouter.mockReturnValue({});
         mockUseGetUrlsQuery.mockReturnValue({
             data: undefined,
             isLoading: false,
@@ -80,9 +88,9 @@ describe('Dashboard', () => {
                 <Dashboard />
             </QueryClientProvider>
         );
-        expect(screen.getByTestId('login-modal')).toBeInTheDocument();
+        expect(screen.getByTestId('modal')).toBeInTheDocument();
         expect(screen.getByText('Login to view your URLs and create new ones')).toBeInTheDocument();
-        const closeButton = screen.getByTestId('close-login-modal');
+        const closeButton = screen.getByTestId('close-modal');
         closeButton.click();
     });
 

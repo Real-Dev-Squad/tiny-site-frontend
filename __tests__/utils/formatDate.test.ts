@@ -47,13 +47,13 @@ describe('formatDate', () => {
         expect(result).toEqual('1d ago');
     });
 
-    it('should return Aug 5, 2021', () => {
+    it('should return 5 August 2021', () => {
         const result = formatDate({
             inputDate: '2021-08-05T00:00:00.000Z',
             relativeDuration: false,
             fullDate: false,
         });
-        expect(result).toEqual('August 5, 2021');
+        expect(result).toEqual('05 August 2021');
     });
 
     it('should return full date and time', () => {
@@ -64,15 +64,15 @@ describe('formatDate', () => {
         });
 
         const expectedDate = new Date('2021-08-09T17:59:59.000Z');
-        const expectedFormattedDate = expectedDate.toLocaleString('en-US', {
-            year: 'numeric',
+        const expectedFormattedDate = `${expectedDate.toLocaleDateString('en-GB', {
+            day: '2-digit',
             month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            hour12: true,
-        });
+            year: 'numeric',
+        })} ${expectedDate.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        })}`;
 
         expect(result).toEqual(expectedFormattedDate);
     });
