@@ -70,8 +70,8 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 size={150}
                 imageSettings={{
                     src: '/rds.png',
-                    height: 35,
-                    width: 35,
+                    height: 40,
+                    width: 40,
                     excavate: true,
                 }}
                 renderAs="canvas"
