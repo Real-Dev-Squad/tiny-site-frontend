@@ -18,8 +18,6 @@ import {
 
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
 
-const RDSIcon = '_next/image?url=%2Frds.png&w=64&q=75';
-
 interface OutputSectionProps {
     originalUrl: string;
     shortUrl: string;
@@ -71,7 +69,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 value={shortUrl}
                 size={150}
                 imageSettings={{
-                    src: RDSIcon,
+                    src: './rds.png',
                     height: 35,
                     width: 35,
                     excavate: true,

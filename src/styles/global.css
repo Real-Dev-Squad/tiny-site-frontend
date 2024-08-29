@@ -3,5 +3,11 @@
 @tailwind utilities;
 
 body {
-    @apply bg-blue-gradient;
+    background: linear-gradient(
+        to bottom,
+        rgba(30, 66, 159, 1),
+        rgba(26, 86, 219, 1),
+        rgba(118, 169, 250, 1),
+        rgba(142, 194, 250, 1)
+    );
 }
