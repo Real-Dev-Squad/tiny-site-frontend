@@ -5,9 +5,7 @@ const ProfileIcon: React.FC<ProfileIconProps> = ({ firstName, lastName }) => {
 
     return (
         <div
-            className={
-                'w-[46px] h-[46px] rounded-[50%] bg-[#384B6B] flex items-center justify-center text-white text-lg p-4'
-            }
+            className="w-12 h-12 rounded-full bg-custom-blue flex items-center justify-center text-white text-lg"
             data-testid="profile-icon"
         >
             {initials}

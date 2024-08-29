@@ -9,6 +9,7 @@ describe('Toast', () => {
     test('should render the toast component with the message', () => {
         render(
             <Toast
+                id={1}
                 message="This is a toast message"
                 isVisible={true}
                 timeToShow={5000}
@@ -24,6 +25,7 @@ describe('Toast', () => {
     test('should not call onDismiss function when the timeToShow is not completed', () => {
         render(
             <Toast
+                id={1}
                 message="This is a toast message"
                 isVisible={true}
                 timeToShow={5000}
@@ -38,6 +40,7 @@ describe('Toast', () => {
     test('should call onDismiss function when the timeToShow is completed', async () => {
         render(
             <Toast
+                id={1}
                 message="This is a toast message"
                 isVisible={true}
                 timeToShow={0}
@@ -50,7 +53,16 @@ describe('Toast', () => {
     });
 
     test('should render the error toast component with the message', () => {
-        render(<Toast message="Error message" isVisible={true} timeToShow={5000} onDismiss={onDismiss} type="error" />);
+        render(
+            <Toast
+                id={1}
+                message="Error message"
+                isVisible={true}
+                timeToShow={5000}
+                onDismiss={onDismiss}
+                type="error"
+            />
+        );
 
         const toastDiv = screen.getByTestId('toast-div');
 
@@ -60,7 +72,9 @@ describe('Toast', () => {
     });
 
     test('should render the info toast component with the message', () => {
-        render(<Toast message="Info message" isVisible={true} timeToShow={5000} onDismiss={onDismiss} type="info" />);
+        render(
+            <Toast id={1} message="Info message" isVisible={true} timeToShow={5000} onDismiss={onDismiss} type="info" />
+        );
 
         const toastDiv = screen.getByTestId('toast-div');
         expect(screen.getByTestId('toast')).toBeInTheDocument();
@@ -71,6 +85,7 @@ describe('Toast', () => {
     test('should become invisible when isVisible is false', async () => {
         render(
             <Toast
+                id={1}
                 message="This is a toast message"
                 isVisible={false}
                 timeToShow={5000}

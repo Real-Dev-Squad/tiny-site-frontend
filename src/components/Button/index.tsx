@@ -2,9 +2,12 @@ import React from 'react';
 
 import { ButtonProps } from '@/types/button.types';
 
-const Button: React.FC<ButtonProps> = ({ type, className, onClick, children, disabled, testId }) => {
+import { Loader } from '../Loader';
+
+const Button: React.FC<ButtonProps> = ({ type, className, onClick, children, disabled, testId, loading }) => {
     return (
-        <button data-testid={testId} type={type} className={className} onClick={onClick} disabled={disabled}>
+        <button data-testid={testId} type={type} className={className} onClick={onClick} disabled={disabled || loading}>
+            {loading && <Loader data-testid="loader" className="inline-block w-5 h-5" />}
             {children}
         </button>
     );
@@ -13,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({ type, className, onClick, children, dis
 Button.defaultProps = {
     type: 'button',
     className: 'w-full bg-gray-200 hover:bg-gray-300 ',
+    loading: false,
 };
 
 export default Button;

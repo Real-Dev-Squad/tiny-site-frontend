@@ -1,17 +1,22 @@
 import Head from 'next/head';
 import { FC, ReactNode } from 'react';
 
-import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
-type LayoutProps = {
+interface TClassNames {
+    main: string;
+    container: string;
+}
+
+interface LayoutProps {
     title: string;
     children: ReactNode;
-};
+    classNames?: Partial<TClassNames>;
+}
 
-const Layout: FC<LayoutProps> = ({ title, children }) => {
+const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
     return (
-        <>
+        <div className={classNames?.container}>
             <Head>
                 <title>{title}</title>
                 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -29,10 +34,11 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
                 <meta property="og:url" content="https://rds.realdevsquad.com/" />
                 <meta property="og:type" content="website" />
             </Head>
+
             <Navbar />
-            <main className="bg-gray-900 ">{children}</main>
-            <Footer />
-        </>
+
+            <main className={classNames?.main}>{children}</main>
+        </div>
     );
 };
 
