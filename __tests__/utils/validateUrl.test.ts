@@ -1,24 +1,15 @@
 import validateUrl from '@/utils/validateUrl';
 
 describe('validateUrl', () => {
-    const showToast = jest.fn();
-
-    beforeEach(() => {
-        jest.clearAllMocks();
+    it('should return an error message if URL is empty', () => {
+        const result = validateUrl('');
+        expect(result.isValid).toBe(false);
+        expect(result.errorMessage).toBe('Enter a valid URL');
     });
 
-    it('should return false if url is empty', () => {
-        expect(validateUrl('', showToast)).toBe(false);
-        expect(showToast).toHaveBeenCalledWith('Enter the URL', 3000, 'error');
-    });
-
-    it('should return false if url is not valid', () => {
-        expect(validateUrl('https://rds', showToast)).toBe(false);
-        expect(showToast).toHaveBeenCalledWith('Enter a valid URL', 3000, 'info');
-    });
-
-    it('should return true if url is valid', () => {
-        expect(validateUrl('https://www.rds.li', showToast)).toBe(true);
-        expect(showToast).not.toHaveBeenCalled();
+    it('should return null if URL is valid', () => {
+        const result = validateUrl('https://www.rds.li');
+        expect(result.isValid).toBe(true);
+        expect(result.errorMessage).toBeNull();
     });
 });

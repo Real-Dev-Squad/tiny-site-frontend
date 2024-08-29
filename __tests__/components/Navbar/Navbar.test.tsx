@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -8,7 +9,19 @@ import Navbar from '@/components/Navbar/';
 
 import user from '../../../__mocks__/db/user';
 
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(),
+}));
+
 describe('Navbar', () => {
+    const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
+
+    beforeEach(() => {
+        mockUseRouter.mockReturnValue({
+            pathname: '/',
+            push: jest.fn(),
+        } as any);
+    });
     const queryClient = new QueryClient();
 
     it('should render shimmer when loading', () => {

@@ -1,19 +1,15 @@
-import { urlRegex } from '@/constants/constants';
+interface ValidationResult {
+    isValid: boolean;
+    errorMessage: string | null;
+}
 
-const validateUrl = (
-    url: string,
-    showToast: (message: string, duration?: number, type?: 'success' | 'info' | 'error') => void
-) => {
-    if (!url) {
-        showToast('Enter the URL', 3000, 'error');
-        return false;
+const validateUrl = (url: string): ValidationResult => {
+    try {
+        new URL(url);
+        return { isValid: true, errorMessage: null };
+    } catch (error) {
+        return { isValid: false, errorMessage: 'Enter a valid URL' };
     }
-
-    if (!urlRegex.test(url)) {
-        showToast('Enter a valid URL', 3000, 'info');
-        return false;
-    }
-    return true;
 };
 
 export default validateUrl;

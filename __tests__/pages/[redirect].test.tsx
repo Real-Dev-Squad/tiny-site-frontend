@@ -81,7 +81,7 @@ describe('Redirect Component', () => {
             </QueryClientProvider>
         );
 
-        expect(screen.getByTestId('loader')).toHaveTextContent('3');
+        expect(screen.getByTestId('loader')).toHaveTextContent('5');
         jest.advanceTimersByTime(5000);
         await waitFor(() => {
             const redirectUrl = screen.getByText(urlDetails.url.originalUrl);

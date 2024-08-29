@@ -1,12 +1,20 @@
 import Link from 'next/link';
-import React from 'react';
-import { AiOutlineArrowDown } from 'react-icons/ai';
-import { IoIosCopy, IoIosShareAlt } from 'react-icons/io';
-import { LuQrCode } from 'react-icons/lu';
+import QRCode from 'qrcode.react';
+import React, { useState } from 'react';
+import { FaCheck, FaRegCopy } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa6';
+import { FaDiscord, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
+import { HiOutlineDownload } from 'react-icons/hi';
+import { PiShareFatBold } from 'react-icons/pi';
 
 import Button from '@/components/Button';
-import QRCodeModal from '@/components/QRCodeModal';
-import { removeProtocol } from '@/constants/constants';
+import {
+    discordShareUrl,
+    linkedinShareUrl,
+    removeProtocol,
+    twitterShareUrl,
+    whatsappShareUrl,
+} from '@/constants/constants';
 
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
 
@@ -15,83 +23,145 @@ interface OutputSectionProps {
     shortUrl: string;
     isLoaded: boolean;
     handleCreateNew: () => void;
-    handleCopyUrl: () => void;
 }
 
-const OutputSection: React.FC<OutputSectionProps> = ({
-    shortUrl,
-    originalUrl,
-    isLoaded,
-    handleCopyUrl,
-    handleCreateNew,
-}) => {
-    const [showQRCodeModal, setShowQRCodeModal] = React.useState<boolean>(false);
+const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => {
+    const [downloaded, setDownloaded] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const CopyActionIcon = copied ? FaCheck : FaRegCopy;
+    const DownloadActionIcon = downloaded ? FaCheck : HiOutlineDownload;
+    const DownloadButtonText = downloaded ? 'Downloaded' : 'Download';
+
     if (!isLoaded) {
-        return <OutputSectionShimmer />;
+        return <OutputSectionShimmer data-testid="output-section-shimmer" />;
     }
 
+    const handleDownload = () => {
+        const canvas = document.getElementById('qr-code') as HTMLCanvasElement;
+        if (!canvas) return;
+
+        const pngUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = `${shortUrl.split('/').pop()}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        setDownloaded(true);
+    };
+
+    const handleCopyUrl = () => {
+        if (!shortUrl) return;
+
+        navigator.clipboard.writeText(shortUrl);
+        setCopied(true);
+    };
+
     return (
-        <>
-            <section
-                className="flex flex-col justify-between items-center  rounded-2xl mt-5 sm:mt-10 w-[80%] text-gray-400"
-                data-testid="output-section"
+        <section className="flex flex-col items-center rounded-lg w-[80%] relative gap-8" data-testid="output-section">
+            <h1 className="text-lg md:text-xl xl:text-xl text-center font-semibold" data-testid="output-heading">
+                Your shortened URL is ready!
+            </h1>
+            <QRCode
+                data-testid="qrcode"
+                id="qr-code"
+                value={shortUrl}
+                size={150}
+                imageSettings={{
+                    src: '/rds.png',
+                    height: 40,
+                    width: 40,
+                    excavate: true,
+                }}
+                renderAs="canvas"
+                level="M"
+            />
+            <Button
+                className="bg-custom-blue flex items-center gap-1 p-[6px] sm:p-[10px] rounded-lg text-white xl:w-40 md:w-40 justify-center"
+                onClick={handleDownload}
+                testId="download-button"
             >
-                <h1 className="text-2xl md:text-3xl xl:text-3xl text-center mb-2 text-white font-semibold">
-                    Your Tiny URL is ready! 🎉🎉
-                </h1>
-                <span className="ml-2 p-4 text-center w-full sm:w-[60%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {originalUrl}
+                <span className="transition-transform duration-500 ease-in-out transform">
+                    <DownloadActionIcon />
                 </span>
-                <AiOutlineArrowDown style={{ fontSize: '5rem', paddingBottom: '15px' }} />
+                {DownloadButtonText}
+            </Button>
+            <div
+                className="flex justify-between items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12"
+                data-testid="url-container"
+            >
+                <span className="w-[70%] ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
+                    {shortUrl.replace(removeProtocol, '')}
+                </span>
 
-                <div className="text-white flex flex-col md:flex-row justify-center items-center  rounded-2xl w-auto bg-black p-2">
-                    <span className="ml-2 p-4 text-center w-full sm:w-[80%] ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap sm:text-2xl md:text-3xl xl:text-3xl">
-                        {shortUrl.replace(removeProtocol, '')}
-                    </span>
-                    <div className="flex w-full sm:w-[80%] md:w-auto justify-center items-center space-x-2 rounded-2xl px-2">
-                        <Link
-                            type="button"
-                            className="bg-gray-900 p-[6px] sm:p-[10px]  hover:bg-gray-800 w-[50%] rounded-l-2xl after:content-['Visit'] md:after:content-[''] flex justify-center items-center"
-                            href={shortUrl}
-                            target="_blank"
-                            data-testid="share-button"
-                            rel="noopener noreferrer"
-                        >
-                            <IoIosShareAlt className="text-4xl sm:text-[2.5rem] " />
-                            &nbsp;
-                        </Link>
+                <div className="flex w-[30%] justify-end items-center rounded-lg">
+                    <Link
+                        type="button"
+                        className="p-1 sm:p-2.5 flex justify-center items-center"
+                        href={shortUrl}
+                        target="_blank"
+                        data-testid="share-button"
+                        rel="noopener noreferrer"
+                    >
+                        <PiShareFatBold className="text-lg sm:text-xl" />
+                    </Link>
 
-                        <Button
-                            type="button"
-                            className="bg-gray-900  p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%]  md:rounded-none flex justify-center items-center after:content-['Copy'] md:after:content-['']"
-                            testId="copy-button"
-                            onClick={handleCopyUrl}
-                        >
-                            <IoIosCopy className="text-4xl sm:text-[2.5rem] " />
-                            &nbsp;
-                        </Button>
-
-                        <Button
-                            type="button"
-                            className="bg-gray-900 md:rounded-r-2xl p-[6px] sm:p-[10px]  hover:bg-gray-800  w-[50%] rounded-r-2xl md:rounded-none flex justify-center items-center after:content-['QR'] md:after:content-['']"
-                            testId="qr-code-button"
-                            onClick={() => setShowQRCodeModal(!showQRCodeModal)}
-                        >
-                            <LuQrCode className="text-4xl sm:text-[2.5rem] " />
-                            &nbsp;
-                        </Button>
-                    </div>
+                    <Button
+                        type="button"
+                        className="p-1 sm:p-2.5 flex justify-center items-center"
+                        testId="copy-button"
+                        onClick={handleCopyUrl}
+                    >
+                        <span className="transition-transform duration-700 ease-in-out transform">
+                            <CopyActionIcon />
+                        </span>
+                    </Button>
                 </div>
-                <Button
-                    className="mt-10 text-white p-3 rounded-full shadow-lg cursor-pointer hover:underline text-[20px]"
-                    testId="create-new-button"
-                    onClick={handleCreateNew}
+            </div>
+
+            <p className="text-slate-500 text-base" data-testid="share-text">
+                Or share via
+            </p>
+            <div className="flex space-x-4 justify-between w-full" data-testid="social-links">
+                <Link
+                    href={twitterShareUrl(shortUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-custom-blue"
+                    data-testid="twitter-share"
                 >
-                    Create New
-                </Button>
-            </section>
-            {showQRCodeModal && <QRCodeModal shortUrl={shortUrl} onClose={() => setShowQRCodeModal(false)} />}
-        </>
+                    <FaXTwitter className="text-5xl" />
+                </Link>
+                <Link
+                    href={discordShareUrl(shortUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-custom-blue"
+                    data-testid="discord-share"
+                >
+                    <FaDiscord className="text-5xl" />
+                </Link>
+                <Link
+                    href={linkedinShareUrl(shortUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-custom-blue"
+                    data-testid="linkedin-share"
+                >
+                    <FaLinkedin className="text-5xl" />
+                </Link>
+                <Link
+                    href={whatsappShareUrl(shortUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-custom-blue"
+                    data-testid="whatsapp-share"
+                >
+                    <FaWhatsapp className="text-5xl" />
+                </Link>
+            </div>
+        </section>
     );
 };
 

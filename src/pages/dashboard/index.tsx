@@ -29,12 +29,9 @@ const Dashboard = () => {
         return (
             <Layout title="Dashboard | URL Shortener">
                 <div className="min-h-[calc(100vh-145px)]">
-                    <LoginModal
-                        onClose={() => void 0}
-                        children={
-                            <p className="text-white text-center mb-4">Login to view your URLs and create new ones</p>
-                        }
-                    />
+                    <LoginModal onClose={() => void 0}>
+                        <p className="text-black text-center mb-4">Login to view your URLs and create new ones</p>
+                    </LoginModal>
                 </div>
             </Layout>
         );
@@ -53,7 +50,7 @@ const Dashboard = () => {
     if (isError) {
         return (
             <Layout title="Dashboard | URL Shortener">
-                <div className="h-full min-h-[calc(100vh-140px)] flex flex-col items-center justify-center">
+                <div className="min-h-screen flex flex-col items-center justify-center">
                     <h5 className="text-gray-50 text-2xl pb-4 font-bold">
                         Oops, we're unable to get your links at this time.
                     </h5>
@@ -81,8 +78,8 @@ const Dashboard = () => {
     return (
         <Layout title="Dashboard | URL Shortener">
             <DashboardLayout remainingUrls={urls.length}>
-                <div className="w-full flex flex-col items-center p-4 text-white bg-gray-900 min-h-[86vh]">
-                    <ul className="w-full space-y-3">
+                <div className="w-full flex flex-col items-center text-white min-h-[86vh]">
+                    <ul className="w-full space-y-4">
                         {urls.map((url) => (
                             <UrlListItem key={url.shortUrl} url={url} copyButtonHandler={copyButtonHandler} />
                         ))}
