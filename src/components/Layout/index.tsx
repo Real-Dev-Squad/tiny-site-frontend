@@ -33,6 +33,7 @@ const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
                 />
                 <meta property="og:url" content="https://rds.realdevsquad.com/" />
                 <meta property="og:type" content="website" />
+                <meta property="og:image" content="/rds.png" />
             </Head>
 
             <Navbar />
