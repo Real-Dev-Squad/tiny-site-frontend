@@ -60,7 +60,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
     };
 
     const inputErrorClass = error ? 'border-2 border-red-500 text-red-500' : 'text-black';
-    const buttonErrorClass = error ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95';
+    const buttonErrorClass = error || !url ? 'opacity-70 cursor-not-allowed' : 'hover:scale-105 active:scale-95';
 
     return (
         <>
@@ -79,8 +79,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                             value={url}
                             placeholder="Enter the URL"
                             onChange={handleUrlChange}
-                            className={`p-5 rounded-lg focus:outline-none w-72 sm:w-80 lg:w-96 h-12 text-lg
-                            ${inputErrorClass}`}
+                            className={`p-5 rounded-lg focus:outline-none w-72 sm:w-80 lg:w-96 h-12 text-lg ${inputErrorClass}`}
                         />
                         <div className="h-6 w-full mb-1">{error && <ErrorMessage message={error} />}</div>
                     </div>
@@ -89,7 +88,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                         testId="shorten-button"
                         className={`bg-white text-black text-lg rounded-lg h-10 w-32 flex items-center justify-center space-x-2 transform transition-transform duration-300 ease-in-out ${buttonErrorClass}`}
                         loading={loading}
-                        disabled={!!error || loading}
+                        disabled={!!error || loading || !url}
                     >
                         {!loading && <FaLink />}
                         <span className="font-medium">Shorten</span>
