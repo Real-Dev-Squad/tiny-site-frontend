@@ -52,14 +52,14 @@ const App = () => {
             return;
         }
 
-        const validationResult = validateUrl(url);
+        const formattedUrl = formatUrl(originalUrl);
+
+        const validationResult = validateUrl(formattedUrl);
 
         if (!validationResult.isValid) {
             setError(validationResult.errorMessage);
             return;
         }
-
-        const formattedUrl = formatUrl(url);
         mutation.mutate({ originalUrl: formattedUrl, userData });
     };
 

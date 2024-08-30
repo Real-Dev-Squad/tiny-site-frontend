@@ -68,7 +68,7 @@ const Redirect = () => {
                 </p>
                 <LoaderTimer timer={timer} goButtonClickHandler={handleGoButtonClick} />
 
-                <p className="mt-4 text-lg">
+                <p className="mt-4 text-lg text-center">
                     If you are not redirected within a few seconds, please{' '}
                     <button
                         onClick={handleManualRedirect}

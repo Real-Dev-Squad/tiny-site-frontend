@@ -59,7 +59,8 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
         clearError();
     };
 
-    const inputBorderClass = error ? 'border-2 border-red-500' : '';
+    const inputErrorClass = error ? 'border-2 border-red-500 text-red-500' : 'text-black';
+    const buttonErrorClass = error ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95';
 
     return (
         <>
@@ -69,7 +70,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                 data-testid="url-form"
                 className="flex flex-col items-center rounded-2xl w-full text-gray-400 text-center gap-3"
             >
-                <div className="flex flex-col items-center justify-center mt-5 sm:mt-6 gap-5">
+                <div className="flex flex-col items-center justify-center mt-5 sm:mt-6">
                     <div className="flex flex-col items-center justify-center rounded-lg w-full">
                         <input
                             required
@@ -78,16 +79,17 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                             value={url}
                             placeholder="Enter the URL"
                             onChange={handleUrlChange}
-                            className={`text-black p-5 rounded-lg focus:outline-none w-11/12 sm:w-72 lg:w-96 h-11 ${inputBorderClass}`}
+                            className={`p-5 rounded-lg focus:outline-none w-72 sm:w-80 lg:w-96 h-12 text-lg
+                            ${inputErrorClass}`}
                         />
-                        {error && <ErrorMessage message={error} />}
+                        <div className="h-6 w-full mb-1">{error && <ErrorMessage message={error} />}</div>
                     </div>
-
                     <Button
                         type="submit"
                         testId="shorten-button"
-                        className="bg-white text-black text-lg rounded-lg mt-2 h-10 w-32 flex items-center justify-center space-x-2 transform transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+                        className={`bg-white text-black text-lg rounded-lg h-10 w-32 flex items-center justify-center space-x-2 transform transition-transform duration-300 ease-in-out ${buttonErrorClass}`}
                         loading={loading}
+                        disabled={!!error || loading}
                     >
                         {!loading && <FaLink />}
                         <span className="font-medium">Shorten</span>
