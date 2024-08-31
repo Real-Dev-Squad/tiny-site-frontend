@@ -84,7 +84,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 className="flex justify-between items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12"
                 data-testid="url-container"
             >
-                <span className="w-full ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
+                <span className="w-full text-ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
                     {shortUrl.replace(removeProtocol, '')}
                 </span>
 
