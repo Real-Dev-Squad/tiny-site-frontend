@@ -3,18 +3,11 @@ import QRCode from 'qrcode.react';
 import React, { useState } from 'react';
 import { FaCheck, FaRegCopy } from 'react-icons/fa';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { FaDiscord, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
+import { FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDownload } from 'react-icons/hi';
-import { PiShareFatBold } from 'react-icons/pi';
 
 import Button from '@/components/Button';
-import {
-    discordShareUrl,
-    linkedinShareUrl,
-    removeProtocol,
-    twitterShareUrl,
-    whatsappShareUrl,
-} from '@/constants/constants';
+import { linkedinShareUrl, removeProtocol, twitterShareUrl, whatsappShareUrl } from '@/constants/constants';
 
 import OutputSectionShimmer from '../ShimmerEffect/OutputSectionShimmer';
 
@@ -91,25 +84,14 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                 className="flex justify-between items-center rounded-lg p-2 border-2 border-gray-500 h-11 w-10/12"
                 data-testid="url-container"
             >
-                <span className="w-[70%] ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
+                <span className="w-full text-ellipsis overflow-hidden whitespace-nowrap text-sm xl:text-base font-semibold">
                     {shortUrl.replace(removeProtocol, '')}
                 </span>
 
-                <div className="flex w-[30%] justify-end items-center rounded-lg">
-                    <Link
-                        type="button"
-                        className="p-1 sm:p-2.5 flex justify-center items-center"
-                        href={shortUrl}
-                        target="_blank"
-                        data-testid="share-button"
-                        rel="noopener noreferrer"
-                    >
-                        <PiShareFatBold className="text-lg sm:text-xl" />
-                    </Link>
-
+                <div className="flex justify-end items-center rounded-lg">
                     <Button
                         type="button"
-                        className="p-1 sm:p-2.5 flex justify-center items-center"
+                        className="p-1 text-lg flex justify-center items-center"
                         testId="copy-button"
                         onClick={handleCopyUrl}
                     >
@@ -123,7 +105,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
             <p className="text-slate-500 text-base" data-testid="share-text">
                 Or share via
             </p>
-            <div className="flex space-x-4 justify-between w-full" data-testid="social-links">
+            <div className="flex space-x-4 justify-around w-full" data-testid="social-links">
                 <Link
                     href={twitterShareUrl(shortUrl)}
                     target="_blank"
@@ -132,15 +114,6 @@ const OutputSection: React.FC<OutputSectionProps> = ({ shortUrl, isLoaded }) => 
                     data-testid="twitter-share"
                 >
                     <FaXTwitter className="text-5xl" />
-                </Link>
-                <Link
-                    href={discordShareUrl(shortUrl)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-custom-blue"
-                    data-testid="discord-share"
-                >
-                    <FaDiscord className="text-5xl" />
                 </Link>
                 <Link
                     href={linkedinShareUrl(shortUrl)}

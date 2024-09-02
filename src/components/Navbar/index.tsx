@@ -41,13 +41,14 @@ const Navbar: React.FC = () => {
         );
     };
 
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.realdevsquad.com';
+
     return (
         <nav className="p-4 h-[8vh] mt-3.5 flex items-center justify-between">
-            <Link href="/" className="flex items-center">
-                <Image src="/rds.png" alt="logo" width={50} height={50} className="mr-2 w-30" />
+            <Link href={baseUrl} className="flex items-center">
+                <Image src="/rds.png" alt="logo" width={50} height={50} className="mx-4 w-30" />
             </Link>
-            <div className="flex items-center">
-                <ProfileButton />
+            <div className="hidden sm:flex flex-grow items-center justify-between">
                 <DesktopMenu
                     isLoading={isLoading}
                     isLoggedIn={isLoggedIn}
@@ -56,6 +57,9 @@ const Navbar: React.FC = () => {
                     handleProfileClick={handleProfileClick}
                     setShowLoginModal={setShowLoginModal}
                 />
+            </div>
+            <div className="flex sm:hidden items-center">
+                <ProfileButton />
             </div>
             <MobileMenu
                 isMobileMenuOpen={isMobileMenuOpen}

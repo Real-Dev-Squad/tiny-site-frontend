@@ -65,7 +65,6 @@ describe('OutputSection component', () => {
         );
 
         expect(screen.getByTestId('copy-button')).toBeInTheDocument();
-        expect(screen.getByTestId('share-button')).toBeInTheDocument();
         expect(screen.getByTestId('output-heading')).toHaveTextContent('Your shortened URL is ready!');
     });
 
@@ -85,21 +84,6 @@ describe('OutputSection component', () => {
         expect(navigator.clipboard.writeText).toHaveBeenCalledWith(shortUrl);
     });
 
-    it('opens a new tab when share button is clicked', () => {
-        render(
-            <OutputSection
-                shortUrl={shortUrl}
-                originalUrl={originalUrl}
-                isLoaded={true}
-                handleCreateNew={mockHandleCreateNew}
-            />
-        );
-
-        const shareButton = screen.getByTestId('share-button');
-        fireEvent.click(shareButton);
-        expect(shareButton).toHaveAttribute('target', '_blank');
-    });
-
     it('renders social media share links', () => {
         render(
             <OutputSection
@@ -111,7 +95,6 @@ describe('OutputSection component', () => {
         );
 
         expect(screen.getByTestId('twitter-share')).toBeInTheDocument();
-        expect(screen.getByTestId('discord-share')).toBeInTheDocument();
         expect(screen.getByTestId('linkedin-share')).toBeInTheDocument();
         expect(screen.getByTestId('whatsapp-share')).toBeInTheDocument();
     });
