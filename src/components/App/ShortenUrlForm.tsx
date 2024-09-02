@@ -19,15 +19,15 @@ interface ShortenUrlFormProps {
 export const HomeText: React.FC = () => {
     return (
         <div className="pb-2 lg:pb-4 flex flex-col items-center gap-2">
-            <h1 className="text-3xl md:text-6xl xl:text-7xl sm:text-5xl text-center text-white font-semibold pb-2 lg:pb-4">
+            <h1 className="text-4xl md:text-6xl xl:text-7xl sm:text-5xl text-center text-white font-semibold pb-2 lg:pb-4">
                 Shorten Your URL
             </h1>
 
-            <h3 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-center text-white font-semibold">
+            <h3 className="text-3xl sm:text-3xl md:text-4xl xl:text-5xl text-center text-white font-semibold">
                 Perfect Links Every Time
             </h3>
 
-            <p className="xl:text-xl text-base text-white mt-4 text-center">
+            <p className="xl:text-xl text-lg text-white mt-4 text-center md:w-[28rem] sm:w-96 w-80">
                 Ready to shorten your URL? Enter your
                 <br className="sm:hidden" /> URL below
             </p>
@@ -60,7 +60,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
     };
 
     const inputErrorClass = error ? 'border-2 border-red-500 text-red-500' : 'text-black';
-    const buttonErrorClass = error ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95';
+    const buttonErrorClass = error || !url ? 'opacity-70 cursor-not-allowed' : 'hover:scale-105 active:scale-95';
 
     return (
         <>
@@ -79,8 +79,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                             value={url}
                             placeholder="Enter the URL"
                             onChange={handleUrlChange}
-                            className={`p-5 rounded-lg focus:outline-none w-72 sm:w-80 lg:w-96 h-12 text-lg
-                            ${inputErrorClass}`}
+                            className={`p-5 rounded-lg focus:outline-none h-12 text-lg ${inputErrorClass} w-80 sm:w-96 lg:w-[28rem]`}
                         />
                         <div className="h-6 w-full mb-1">{error && <ErrorMessage message={error} />}</div>
                     </div>
@@ -89,7 +88,7 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                         testId="shorten-button"
                         className={`bg-white text-black text-lg rounded-lg h-10 w-32 flex items-center justify-center space-x-2 transform transition-transform duration-300 ease-in-out ${buttonErrorClass}`}
                         loading={loading}
-                        disabled={!!error || loading}
+                        disabled={!!error || loading || !url}
                     >
                         {!loading && <FaLink />}
                         <span className="font-medium">Shorten</span>
