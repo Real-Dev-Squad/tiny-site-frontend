@@ -41,9 +41,11 @@ const Navbar: React.FC = () => {
         );
     };
 
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.realdevsquad.com';
+
     return (
         <nav className="p-4 h-[8vh] mt-3.5 flex items-center justify-between">
-            <Link href="https://www.realdevsquad.com" className="flex items-center">
+            <Link href={baseUrl} className="flex items-center">
                 <Image src="/rds.png" alt="logo" width={50} height={50} className="mx-4 w-30" />
             </Link>
             <div className="hidden sm:flex flex-grow items-center justify-between">
