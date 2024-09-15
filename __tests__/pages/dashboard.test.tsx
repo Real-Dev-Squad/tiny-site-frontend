@@ -74,11 +74,12 @@ describe('Dashboard', () => {
     });
 
     it('shows login modal if not logged in', () => {
+        const push = jest.fn();
+        mockUseRouter.mockReturnValue({ push });
         mockUseAuthenticated.mockReturnValue({
             isLoggedIn: false,
             userData: undefined,
         });
-        mockUseRouter.mockReturnValue({});
         mockUseGetUrlsQuery.mockReturnValue({
             data: undefined,
             isLoading: false,
@@ -92,6 +93,7 @@ describe('Dashboard', () => {
         expect(screen.getByText('Login to view your URLs and create new ones')).toBeInTheDocument();
         const closeButton = screen.getByTestId('close-modal');
         closeButton.click();
+        expect(push).toHaveBeenCalledWith('/');
     });
 
     it('shows no urls found message if no urls found', () => {
