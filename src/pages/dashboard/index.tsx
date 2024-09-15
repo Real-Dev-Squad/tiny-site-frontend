@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import Button from '@/components/Button';
 import { DashboardLayout } from '@/components/Dashboard/dashboard-layout';
 import NoUrlFound from '@/components/Dashboard/NoUrlFound';
@@ -11,6 +13,7 @@ import useToast from '@/hooks/useToast';
 import { useGetUrlsQuery } from '@/services/api';
 
 const Dashboard = () => {
+    const router = useRouter();
     const { showToast, toasts } = useToast();
     const { isLoggedIn, userData } = useAuthenticated();
     const { data, isLoading, isError } = useGetUrlsQuery({ enabled: !!userData?.data?.id });
@@ -25,11 +28,15 @@ const Dashboard = () => {
         window.location.reload();
     };
 
+    const handleLoginModalClose = () => {
+        router.push('/');
+    };
+
     if (!isLoggedIn) {
         return (
             <Layout title="Dashboard | URL Shortener">
                 <div className="min-h-[calc(100vh-145px)]">
-                    <LoginModal onClose={() => void 0}>
+                    <LoginModal onClose={handleLoginModalClose}>
                         <p className="text-black text-center mb-4">Login to view your URLs and create new ones</p>
                     </LoginModal>
                 </div>
