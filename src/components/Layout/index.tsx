@@ -31,9 +31,9 @@ const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
                     property="og:description"
                     content="Shorten and share URLs with Real Dev Squad, a simple and efficient URL shortener."
                 />
-                <meta property="og:url" content="https://rds.realdevsquad.com/" />
+                <meta property="og:url" content="https://tiny.realdevsquad.com/" />
                 <meta property="og:type" content="website" />
-                <meta property="og:image" content="/rds.png" />
+                <meta property="og:image" content="https://tiny.realdevsquad.com/rds.png" />
             </Head>
 
             <Navbar />
