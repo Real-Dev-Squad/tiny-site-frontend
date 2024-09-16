@@ -42,6 +42,8 @@ const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
                 />
                 <meta property="twitter:image" content="https://tiny.realdevsquad.com/rds.png" />
                 <meta name="twitter:creator" content="@RealDevSquad" />
+                <meta name="twitter:image:width" content="1200" />
+                <meta name="twitter:image:height" content="630" />
             </Head>
 
             <Navbar />
