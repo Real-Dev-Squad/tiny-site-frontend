@@ -9,6 +9,7 @@ interface ShortenUrlRequest {
     Comment: string;
     CreatedBy: string;
     UserId: number;
+    ShortUrl?: string;
 }
 
 interface ShortenUrlResponse {
@@ -18,6 +19,7 @@ interface ShortenUrlResponse {
 interface MutationParams {
     originalUrl: string;
     userData: User;
+    shortUrl?: string;
 }
 
 export interface ApiError {
@@ -73,7 +75,7 @@ const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs
     MutationParams
 > => {
     return useMutation(
-        async ({ originalUrl, userData }: MutationParams) => {
+        async ({ originalUrl, userData, shortUrl }: MutationParams) => {
             const response = await axios.post(
                 `${TINY_API_URL}/tinyurl`,
                 {
@@ -81,6 +83,7 @@ const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs
                     Comment: '',
                     CreatedBy: userData?.data?.userName,
                     UserId: userData?.data?.id,
+                    ShortUrl: shortUrl,
                 } as ShortenUrlRequest,
                 {
                     withCredentials: true,
