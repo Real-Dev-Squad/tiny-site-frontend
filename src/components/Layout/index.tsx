@@ -34,6 +34,14 @@ const Layout: FC<LayoutProps> = ({ title, children, classNames }) => {
                 <meta property="og:url" content="https://tiny.realdevsquad.com/" />
                 <meta property="og:type" content="website" />
                 <meta property="og:image" content="https://tiny.realdevsquad.com/rds.png" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Real Dev Squad - URL Shortener" />
+                <meta
+                    name="twitter:description"
+                    content="Shorten and share URLs with Real Dev Squad, a simple and efficient URL shortener"
+                />
+                <meta property="twitter:image" content="https://tiny.realdevsquad.com/rds.png" />
+                <meta name="twitter:creator" content="@RealDevSquad" />
             </Head>
 
             <Navbar />
