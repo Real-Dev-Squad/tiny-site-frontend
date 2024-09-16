@@ -9,10 +9,12 @@ interface ErrorMessageProps {
 
 interface ShortenUrlFormProps {
     url: string;
+    alias: string;
     error: string | null;
     clearError: () => void;
     setUrl: (url: string) => void;
-    onSubmit: (url: string) => void;
+    setAlias: (alias: string) => void;
+    onSubmit: (url: string, alias: string) => void;
     loading: boolean;
 }
 
@@ -43,7 +45,16 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
     );
 };
 
-const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, error, clearError, loading }) => {
+const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({
+    url,
+    alias,
+    setUrl,
+    setAlias,
+    onSubmit,
+    error,
+    clearError,
+    loading,
+}) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -51,11 +62,16 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
 
         if (!url) return;
 
-        onSubmit(url);
+        onSubmit(url, alias || '');
     };
 
     const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value);
+        clearError();
+    };
+
+    const handleAliasChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setAlias(e.target.value);
         clearError();
     };
 
@@ -80,6 +96,15 @@ const ShortenUrlForm: React.FC<ShortenUrlFormProps> = ({ url, setUrl, onSubmit, 
                             placeholder="Enter the URL"
                             onChange={handleUrlChange}
                             className={`p-5 rounded-lg focus:outline-none h-12 text-lg ${inputErrorClass} w-80 sm:w-96 lg:w-[28rem]`}
+                        />
+
+                        <input
+                            name="Alias"
+                            type="text"
+                            value={alias}
+                            placeholder="Enter Alias (Optional)"
+                            onChange={handleAliasChange}
+                            className="p-5 rounded-lg focus:outline-none h-12 text-lg w-80 sm:w-96 lg:w-[28rem]"
                         />
                         <div className="h-6 w-full mb-1">{error && <ErrorMessage message={error} />}</div>
                     </div>

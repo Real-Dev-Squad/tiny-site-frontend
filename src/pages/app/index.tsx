@@ -14,6 +14,7 @@ import validateUrl from '@/utils/validateUrl';
 
 const App = () => {
     const [url, setUrl] = useState<string>('');
+    const [alias, setAlias] = useState<string>('');
     const [shortUrl, setShortUrl] = useState<string>('');
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [showOutputModal, setShowOutputModal] = useState<boolean>(false);
@@ -40,12 +41,13 @@ const App = () => {
 
     const createNewHandler = () => {
         setUrl('');
+        setAlias('');
         setShortUrl('');
         setShowOutputModal(false);
         setError(null);
     };
 
-    const createShortenedUrl = (originalUrl: string) => {
+    const createShortenedUrl = (originalUrl: string, customAlias: string) => {
         if (!isLoggedIn) {
             setShowLoginModal(true);
             localStorage.setItem('url', originalUrl);
@@ -60,7 +62,7 @@ const App = () => {
             setError(validationResult.errorMessage);
             return;
         }
-        mutation.mutate({ originalUrl: formattedUrl, userData });
+        mutation.mutate({ originalUrl: formattedUrl, userData, shortUrl: customAlias });
     };
 
     const clearError = () => setError(null);
@@ -80,10 +82,12 @@ const App = () => {
             <div className="-mt-44 w-full">
                 <ShortenUrlForm
                     url={url}
+                    alias={alias}
                     error={error}
                     setUrl={setUrl}
+                    setAlias={setAlias}
                     clearError={clearError}
-                    onSubmit={createShortenedUrl}
+                    onSubmit={(url, alias) => createShortenedUrl(url, alias)}
                     loading={mutation.status === 'loading'}
                 />
             </div>
