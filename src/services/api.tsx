@@ -10,22 +10,18 @@ interface ShortenUrlRequest {
     CreatedBy: string;
     UserId: number;
 }
-
 interface ShortenUrlResponse {
     shortUrl: string;
 }
-
 interface MutationParams {
     originalUrl: string;
     userData: User;
 }
-
 export interface ApiError {
     message: string;
     statusCode: number;
     details?: string;
 }
-
 const useAuthenticatedQuery = () => {
     return useQuery({
         queryKey: ['useAuthenticatedQuery'],
@@ -61,24 +57,24 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
         queryFn: getUrlsApi,
     });
 };
-
 interface useShortenUrlMutationArgs {
     onSuccess?: (data: ShortenUrlResponse) => void;
     onError?: (error: AxiosError<ApiError>) => void;
 }
-
 const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}): UseMutationResult<
     ShortenUrlResponse,
     AxiosError<ApiError>,
     MutationParams
 > => {
     return useMutation(
-        async ({ originalUrl }: MutationParams) => {
+        async ({ originalUrl, userData }: MutationParams) => {
             const response = await axios.post(
                 `${TINY_API_URL}/tinyurl`,
                 {
                     OriginalUrl: originalUrl,
                     Comment: '',
+                    CreatedBy: userData?.data?.userName,
+                    UserId: userData?.data?.id,
                 } as ShortenUrlRequest,
                 {
                     withCredentials: true,
@@ -93,9 +89,10 @@ const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs
         }
     );
 };
-const deleteUrlApi = async ({ id }: { id: number; userId: number }) => {
+const deleteUrlApi = async ({ id, userId }: { id: number; userId: number }) => {
     const { data } = await axios.delete(`${TINY_API_URL}/urls/${id}`, {
         withCredentials: true,
+        data: { user_id: userId },
     });
     return data;
 };
