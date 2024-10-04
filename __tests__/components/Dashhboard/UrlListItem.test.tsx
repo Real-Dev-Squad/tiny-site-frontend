@@ -56,7 +56,7 @@ describe('UrlListItem', () => {
         );
         const copyButton = screen.getAllByTestId('copy-button')[0];
         fireEvent.click(copyButton);
-        expect(mockWriteText).toHaveBeenCalledWith(`https://staging-tinysite.realdevsquad.com/${url.shortUrl}`);
+        expect(mockWriteText).toHaveBeenCalledWith(`https://staging-tiny.realdevsquad.com/${url.shortUrl}`);
     });
 
     test('delete button works', async () => {
