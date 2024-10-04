@@ -73,14 +73,12 @@ const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs
     MutationParams
 > => {
     return useMutation(
-        async ({ originalUrl, userData }: MutationParams) => {
+        async ({ originalUrl }: MutationParams) => {
             const response = await axios.post(
                 `${TINY_API_URL}/tinyurl`,
                 {
                     OriginalUrl: originalUrl,
                     Comment: '',
-                    CreatedBy: userData?.data?.userName,
-                    UserId: userData?.data?.id,
                 } as ShortenUrlRequest,
                 {
                     withCredentials: true,
@@ -95,10 +93,9 @@ const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs
         }
     );
 };
-const deleteUrlApi = async ({ id, userId }: { id: number; userId: number }) => {
+const deleteUrlApi = async ({ id }: { id: number }) => {
     const { data } = await axios.delete(`${TINY_API_URL}/urls/${id}`, {
         withCredentials: true,
-        data: { user_id: userId },
     });
     return data;
 };

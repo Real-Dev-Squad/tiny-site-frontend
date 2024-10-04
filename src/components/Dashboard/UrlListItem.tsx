@@ -5,7 +5,6 @@ import { TbTrash } from 'react-icons/tb';
 import { useMutation } from 'react-query';
 
 import { TINY_SITE } from '@/constants/url';
-import useAuthenticated from '@/hooks/useAuthenticated';
 import { queryClient } from '@/pages/_app';
 import { deleteUrlApi } from '@/services/api';
 import { UrlType } from '@/types/url.types';
@@ -42,7 +41,6 @@ interface UrlListItemProps {
 }
 
 const UrlListItem: React.FC<UrlListItemProps> = ({ url, copyButtonHandler }) => {
-    const { userData } = useAuthenticated();
     const deleteMutation = useMutation({
         mutationFn: deleteUrlApi,
         onSuccess: () => queryClient.invalidateQueries(['urls']),
@@ -53,7 +51,7 @@ const UrlListItem: React.FC<UrlListItemProps> = ({ url, copyButtonHandler }) => 
     });
 
     const handleCopy = () => copyButtonHandler(`${TINY_SITE}/${url.shortUrl}`);
-    const handleDelete = () => deleteMutation.mutate({ id: url.id, userId: Number(userData?.data?.id) });
+    const handleDelete = () => deleteMutation.mutate({ id: url.id });
 
     return (
         <div className="rounded-xl bg-white px-2 py-2 sm:pl-4 sm:py-4 flex flex-col overflow-hidden">
