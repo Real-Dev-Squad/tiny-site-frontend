@@ -10,22 +10,18 @@ interface ShortenUrlRequest {
     CreatedBy: string;
     UserId: number;
 }
-
 interface ShortenUrlResponse {
     shortUrl: string;
 }
-
 interface MutationParams {
     originalUrl: string;
     userData: User;
 }
-
 export interface ApiError {
     message: string;
     statusCode: number;
     details?: string;
 }
-
 const useAuthenticatedQuery = () => {
     return useQuery({
         queryKey: ['useAuthenticatedQuery'],
@@ -61,12 +57,10 @@ const useGetUrlsQuery = ({ enabled = true }: { enabled?: boolean }) => {
         queryFn: getUrlsApi,
     });
 };
-
 interface useShortenUrlMutationArgs {
     onSuccess?: (data: ShortenUrlResponse) => void;
     onError?: (error: AxiosError<ApiError>) => void;
 }
-
 const useShortenUrlMutation = ({ onSuccess, onError }: useShortenUrlMutationArgs = {}): UseMutationResult<
     ShortenUrlResponse,
     AxiosError<ApiError>,
