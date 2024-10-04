@@ -71,7 +71,7 @@ describe('UrlListItem', () => {
         fireEvent.click(deleteButtons[0]);
 
         await waitFor(() => {
-            expect(deleteUrlApi).toHaveBeenCalledWith({ id: url.id, userId: 123 });
+            expect(deleteUrlApi).toHaveBeenCalledWith({ id: url.id });
         });
     });
 
